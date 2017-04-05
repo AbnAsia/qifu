@@ -116,7 +116,18 @@ public interface ISimpleService<E extends java.io.Serializable, PK extends java.
 	public long countByParams(Map<String, Object> params) throws ServiceException, Exception;
 	public List<E> findListByParams(Map<String, Object> params) throws ServiceException, Exception;
 	
+	public DefaultResult<E> saveEntityIgnoreUK(E object) throws ServiceException, Exception;
+	public DefaultResult<E> mergeEntityIgnoreUK(E object) throws ServiceException, Exception;		
+	public DefaultResult<E> findEntityByOid(E object) throws ServiceException, Exception;	
+	
+	public DefaultResult<E> saveEntity(E object) throws ServiceException, Exception;
+	public DefaultResult<E> updateEntity(E object) throws ServiceException, Exception;
+	public DefaultResult<E> mergeEntity(E object) throws ServiceException, Exception;
+	public DefaultResult<Boolean> deleteEntity(E object) throws ServiceException, Exception;	
+	
 	public void hibernateSessionClear() throws Exception;
+	
+	public DefaultResult<E> findEntityByUK(E object) throws ServiceException, Exception;
 	
 	public E findByEntityUK(E entityObject) throws ServiceException, Exception;
 	public int countByEntityUK(E entityObject) throws ServiceException, Exception;

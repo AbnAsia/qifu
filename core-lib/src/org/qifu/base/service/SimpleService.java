@@ -163,8 +163,174 @@ public abstract class SimpleService<E extends java.io.Serializable, PK extends j
 	
 	protected abstract IBaseDAO<E, String> getBaseDataAccessObject();
 	
-	public abstract String getMapperIdPo2Vo();
-	public abstract String getMapperIdVo2Po();
+	
+	@ServiceMethodAuthority(type={ServiceMethodType.INSERT})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )	
+	public DefaultResult<E> saveEntityIgnoreUK(E object) throws ServiceException, Exception {
+		
+		return this.saveOrMergeEntity("save", false, object);
+	}
+	
+	@ServiceMethodAuthority(type={ServiceMethodType.INSERT, ServiceMethodType.UPDATE})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )		
+	public DefaultResult<E> mergeEntityIgnoreUK(E object) throws ServiceException, Exception {
+		
+		return this.saveOrMergeEntity("merge", false, object);
+	}
+	
+	@ServiceMethodAuthority(type={ServiceMethodType.INSERT, ServiceMethodType.UPDATE})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private DefaultResult<E> saveOrMergeEntity(String type, boolean checkUK, E object) throws ServiceException, Exception {
+		if (object==null || !(object instanceof BaseEntity) ) {
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.OBJ_NULL));
+		}
+		DefaultResult<E> result=new DefaultResult<E>();
+		if (checkUK) {
+			int countByUK=1;
+			try {
+				countByUK=this.getBaseDataAccessObject().countByUK(object);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (countByUK>0) {
+				throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_IS_EXIST));
+			}			
+		}
+		((BaseEntity)object).setOid(this.generateOid());
+		((BaseEntity)object).setCuserid(this.getAccountId());
+		((BaseEntity)object).setCdate(this.generateDate());
+		E insertEntity=null;
+		try {
+			if ("save".equals(type)) {
+				insertEntity=this.getBaseDataAccessObject().save(object);
+			} else {
+				insertEntity=this.getBaseDataAccessObject().merge(object);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (insertEntity!=null && ((BaseEntity)insertEntity).getOid()!=null ) {
+			result.setValue(insertEntity);
+			result.setSystemMessage(
+					new SystemMessage(SysMessageUtil.get(SysMsgConstants.INSERT_SUCCESS)));
+		} else {
+			result.setSystemMessage(
+					new SystemMessage(SysMessageUtil.get(SysMsgConstants.INSERT_FAIL)));
+		}
+		return result;		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@ServiceMethodAuthority(type={ServiceMethodType.SELECT})
+	@Transactional(
+			propagation=Propagation.REQUIRES_NEW, 
+			isolation=Isolation.READ_COMMITTED, timeout=25, readOnly=true)
+	public DefaultResult<E> findEntityByOid(E object) throws ServiceException, Exception {		
+		if (object==null || !(object instanceof BaseEntity) ) {
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.OBJ_NULL));
+		}
+		DefaultResult<E> result=new DefaultResult<E>();
+		try {			
+			E entityObject=this.findByOid(object);	
+			if (entityObject!=null && !StringUtils.isBlank( ((BaseEntity<String>)entityObject).getOid() ) ) {
+				result.setValue(entityObject);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (result.getValue() == null) {
+			result.setSystemMessage(new SystemMessage(SysMessageUtil.get(SysMsgConstants.SEARCH_NO_DATA)));
+		}
+		return result;
+	}
+	
+	@ServiceMethodAuthority(type={ServiceMethodType.INSERT})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )	
+	public DefaultResult<E> saveEntity(E object) throws ServiceException, Exception {
+		
+		return this.saveOrMergeEntity("save", true, object);
+	}
+	
+	@SuppressWarnings({ "rawtypes" })
+	@ServiceMethodAuthority(type={ServiceMethodType.UPDATE})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )		
+	public DefaultResult<E> updateEntity(E object) throws ServiceException, Exception {
+		
+		if (object==null || !(object instanceof BaseEntity) ) {
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.OBJ_NULL));
+		}
+		DefaultResult<E> result=new DefaultResult<E>();	
+		try {
+			((BaseEntity)object).setUuserid(this.getAccountId());
+			((BaseEntity)object).setUdate(this.generateDate());
+			object=this.getBaseDataAccessObject().update(object);
+			if (object!=null && ((BaseEntity)object).getOid()!=null ) {
+				result.setValue(object);
+				result.setSystemMessage(
+						new SystemMessage(SysMessageUtil.get(SysMsgConstants.UPDATE_SUCCESS)));				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (result.getValue() == null) {
+			result.setSystemMessage(
+					new SystemMessage(SysMessageUtil.get(SysMsgConstants.UPDATE_FAIL)));			
+		}
+		return result;
+	}
+	
+	@ServiceMethodAuthority(type={ServiceMethodType.INSERT, ServiceMethodType.UPDATE})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )		
+	public DefaultResult<E> mergeEntity(E object) throws ServiceException, Exception {
+		
+		return this.saveOrMergeEntity("merge", true, object);
+	}
+	
+	@ServiceMethodAuthority(type={ServiceMethodType.DELETE})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )	
+	public DefaultResult<Boolean> deleteEntity(E object) throws ServiceException, Exception {
+		
+		if (object==null || !(object instanceof BaseEntity) ) {
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.OBJ_NULL));
+		}
+		DefaultResult<Boolean> result=new DefaultResult<Boolean>();
+		boolean status=false;
+		if (this.countByOid(object)>0) {
+			this.delete(object);
+			status=true;
+		} 
+		result.setValue(status);
+		if (status) {
+			result.setSystemMessage(
+					new SystemMessage(SysMessageUtil.get(SysMsgConstants.DELETE_SUCCESS)));
+		} else {
+			result.setSystemMessage(
+					new SystemMessage(SysMessageUtil.get(SysMsgConstants.DELETE_FAIL)));
+		}
+		return result;
+	}	
 	
 	public void hibernateSessionClear() throws Exception {
 		this.getBaseDataAccessObject().clear();
@@ -507,6 +673,30 @@ public abstract class SimpleService<E extends java.io.Serializable, PK extends j
 		
 		return this.getBaseDataAccessObject().findListByParams2(params, likeParams, customOperParams, orderParams);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@ServiceMethodAuthority(type={ServiceMethodType.SELECT})
+	@Transactional(
+			propagation=Propagation.REQUIRES_NEW, 
+			isolation=Isolation.READ_COMMITTED, timeout=25, readOnly=true)	
+	public DefaultResult<E> findEntityByUK(E object) throws ServiceException, Exception {
+		if (object==null || !(object instanceof BaseEntity) ) {
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.OBJ_NULL));
+		}
+		DefaultResult<E> result=new DefaultResult<E>();
+		try {			
+			E entityByUK=this.getBaseDataAccessObject().findByUK(object);
+			if (entityByUK != null && !StringUtils.isBlank( ((BaseEntity<String>)entityByUK).getOid() ) ) {
+				result.setValue(entityByUK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		if ( result.getValue() == null ) {
+			result.setSystemMessage(new SystemMessage(SysMessageUtil.get(SysMsgConstants.SEARCH_NO_DATA)));
+		}
+		return result;
+	}	
 	
 	@ServiceMethodAuthority(type={ServiceMethodType.SELECT})
 	@Transactional(isolation=Isolation.READ_COMMITTED, timeout=25, readOnly=true)
