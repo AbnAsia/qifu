@@ -65,8 +65,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * @param <E>	E is PO
  * @param <E>	PK 
  */
-public abstract class SimpleService<E extends java.io.Serializable, PK extends java.io.Serializable> 
-	implements ISimpleService<E, PK> {
+public abstract class SimpleService<E extends java.io.Serializable, PK extends java.io.Serializable> implements ISimpleService<E, PK> {
 	
 	protected PlatformTransactionManager platformTransactionManager;
 	protected TransactionTemplate transactionTemplate;
