@@ -52,7 +52,7 @@ public class RoleDAOImpl extends BaseDAO<TbRole, String> implements IRoleDAO<TbR
 	@Override
 	public List<RoleVO> findForAccount(String account) throws Exception {
 		return this.getCurrentSession().createQuery(
-				"SELECT new com.netsteadfast.greenstep.vo.RoleVO(r.oid, r.role, r.description) " +
+				"SELECT new org.qifu.vo.RoleVO(r.oid, r.role, r.description) " +
 				"FROM TbRole r WHERE r.role IN ( " +
 				"	SELECT ur.role FROM TbUserRole ur WHERE ur.account = :account ) ")
 				.setString("account", account)
@@ -68,7 +68,7 @@ public class RoleDAOImpl extends BaseDAO<TbRole, String> implements IRoleDAO<TbR
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<RoleVO> findForAll() throws Exception {		
-		return this.getCurrentSession().createQuery("SELECT new com.netsteadfast.greenstep.vo.RoleVO(r.oid, r.role, r.description) FROM TbRole r ").list();
+		return this.getCurrentSession().createQuery("SELECT new org.qifu.vo.RoleVO(r.oid, r.role, r.description) FROM TbRole r ").list();
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class RoleDAOImpl extends BaseDAO<TbRole, String> implements IRoleDAO<TbR
 	@Override
 	public List<RoleVO> findForProgram(String progId) throws Exception {
 		return this.getCurrentSession().createQuery(
-				"SELECT new com.netsteadfast.greenstep.vo.RoleVO(r.oid, r.role, r.description) FROM TbRole r WHERE r.role IN ( SELECT smr.role FROM TbSysMenuRole smr WHERE smr.progId = :progId ) ")
+				"SELECT new org.qifu.vo.RoleVO(r.oid, r.role, r.description) FROM TbRole r WHERE r.role IN ( SELECT smr.role FROM TbSysMenuRole smr WHERE smr.progId = :progId ) ")
 				.setString("progId", progId)
 				.list();
 	}

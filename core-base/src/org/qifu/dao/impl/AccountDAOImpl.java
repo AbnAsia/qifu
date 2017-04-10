@@ -40,7 +40,7 @@ public class AccountDAOImpl extends BaseDAO<TbAccount, String> implements IAccou
 	@Override
 	public List<AccountVO> findForAll() throws Exception {
 		return this.getCurrentSession().createQuery(
-				"SELECT new com.netsteadfast.greenstep.vo.AccountVO(a.oid, a.account) FROM TbAccount a ORDER BY a.account ASC ")
+				"SELECT new org.qifu.vo.AccountVO(a.oid, a.account) FROM TbAccount a ORDER BY a.account ASC ")
 				.list();
 	}
 	
