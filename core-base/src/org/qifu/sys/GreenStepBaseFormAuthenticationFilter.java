@@ -57,7 +57,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 public class GreenStepBaseFormAuthenticationFilter extends FormAuthenticationFilter {
 	protected static Logger logger = Logger.getLogger(GreenStepBaseFormAuthenticationFilter.class);
-	public static final String CREATE_USER_DATA_LDAP_MODE_SCRIPT = "META-INF/create-user-data-ldap-mode.groovy";	
+	public static final String CREATE_USER_DATA_LDAP_MODE_SCRIPT = "META-INF/resource/create-user-data-ldap-mode.groovy";	
 	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
 	private static String createUserDataLdapModeScript = "";
 	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
