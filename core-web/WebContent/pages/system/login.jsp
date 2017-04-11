@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pine</title>
+<title>qifu</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -79,7 +79,7 @@ function submitLoginForm() {
 <div class="container">   
 <form class="form-signin" name="loginForm" id="loginForm" action="./login.do" method="post">
 
-    <div><img src="./images/pine2.png" />&nbsp;<b><font color="#75ca5b">Pine WEB console</font></b></div>
+    <div><img src="./images/logo.png" />&nbsp;<b><font color="#75ca5b">qifu web admin</font></b></div>
    
     <br/>
    
