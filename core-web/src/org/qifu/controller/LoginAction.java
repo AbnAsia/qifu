@@ -27,12 +27,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.qifu.base.Constants;
+import org.qifu.base.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class LoginAction {
+public class LoginAction extends BaseController {
 	
 	private void fillErrorMessage(HttpServletRequest request, HttpServletResponse response) {
 		Object errObj = request.getAttribute(org.apache.shiro.web.filter.authc.FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
@@ -42,7 +43,7 @@ public class LoginAction {
 		if ("org.apache.shiro.authc.IncorrectCredentialsException".equals(errObj)
 				|| "org.apache.shiro.authc.UnknownAccountException".equals(errObj)
 				|| "org.apache.shiro.authc.AuthenticationException".equals(errObj)) {
-			request.setAttribute(Constants.PAGE_MESSAGE, "Login fail.");
+			this.setPageMessage(request, "Login fail.");
 		}		
 	}
 	
@@ -50,20 +51,20 @@ public class LoginAction {
 	public String login(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			if (SecurityUtils.getSubject().isAuthenticated()) {
-				return "redirect:/index.do";
+				return REDIRECT_INDEX;
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			this.fillErrorMessage(request, response);
 		}
-		return "system/login";
+		return PAGE_SYS_LOGIN;
 	}
 	
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET )
 	public String logout(HttpSession session) {
 		SecurityUtils.getSubject().logout();
-		return "system/login";
+		return PAGE_SYS_LOGIN;
 	}
 	
 }
