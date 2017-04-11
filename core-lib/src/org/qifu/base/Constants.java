@@ -69,9 +69,9 @@ public class Constants {
 	public static final String SESS_LANG = "SESSION_QIFU_LANG";
 	public static final String SESS_SYSCURRENT_ID = "SESSION_QIFU_SYSCURRENT_ID";
 	
-	public static final String APP_SITE_CURRENTID_COOKIE_NAME = "QIFUSYSTEMCURRENTID"; // 跨站 cookie 要用的名稱
+	public static final String APP_SITE_CURRENTID_COOKIE_NAME = "QIFU_SYSCURRENT_ID"; // 跨站 cookie 要用的名稱
 	
-	public static final String IS_TAB_CONTENT_LOAD = "isPageChange";
+	public static final String IS_TAB_CONTENT_LOAD = "isQifuPageChange";
 	
 	/**
 	 * GreenStepBaseFormAuthenticationFilter 要用的
