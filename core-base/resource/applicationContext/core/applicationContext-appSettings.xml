@@ -16,12 +16,9 @@
 				<entry key="base.mainSystem" 							value="${base.mainSystem}" />				
 				<entry key="base.encryptorKey1" 						value="${base.encryptorKey1}" />
 				<entry key="base.encryptorKey2" 						value="${base.encryptorKey2}" />				
-				<entry key="baseSupperAction.errorContent" 				value="${base.page.errorContent}" />
-				<entry key="baseSupperAction.dojoLocal"					value="${base.page.dojoLocal}" />
-				<entry key="baseSupperAction.dojoAjaxTimeout"			value="${base.page.dojoAjaxTimeout}" />
-				<entry key="baseSupperAction.dojoAjaxSync"				value="${base.page.dojoAjaxSync}" />					
-				<entry key="baseSupperAction.verMsg"					value="${base.page.verMsg}" />
-				<entry key="baseSupperAction.jsVerBuild"				value="${base.page.jsVerBuild}" />		
+				<entry key="basePage.errorContact" 						value="${base.page.errorContact}" />
+				<entry key="basePage.verMsg"							value="${base.page.verMsg}" />
+				<entry key="basePage.jsVerBuild"						value="${base.page.jsVerBuild}" />		
 				<entry key="base.uploadDir"								value="${base.uploadDir}" />
 				<entry key="base.deployJasperReportDir"					value="${base.deployJasperReportDir}" />
 				<entry key="cxf.JAXRSServerFactoryBean.address"			value="${cxf.JAXRSServerFactoryBean.address}" />

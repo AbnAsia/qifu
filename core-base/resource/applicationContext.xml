@@ -37,31 +37,38 @@
     <import resource="classpath*:applicationContext/core/applicationContext-appSettings.xml" />
     <import resource="classpath*:applicationContext/core/applicationContext-mail.xml" />     
     <import resource="classpath*:applicationContext/core/applicationContext-shiro.xml" />
+    <!--  
     <import resource="classpath*:applicationContext/core/applicationContext-activiti.xml" /> 
     <import resource="classpath*:applicationContext/core/applicationContext-hessian.xml" />
-    
+    -->
         
     <!-- BEANS -->
+    <!-- 
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-BEANS.xml" />
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-EXT-BEANS.xml" />
     <import resource="classpath*:applicationContext/applicationContext-AspectComponent.xml" />
     <import resource="classpath*:applicationContext/applicationContext-QueryParamInspect.xml" />
+    -->
     
                 
     <!-- another lib -->
+    <!-- 
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-EXPAND-BEANS.xml" />     
-    
+    -->
                 
     <!-- WEB -->
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-WEB.xml" />
     
           
-    <!-- JMS MQ -->  
+    <!-- JMS MQ -->
+    <!--    
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-JMS.xml" />
+    -->
     
-    <!-- Quartz -->    
+    <!-- Quartz -->
+    <!--    
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-QUARTZ-JOB.xml" />
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-QUARTZ.xml" />      
-
+	-->
 
 </beans>
