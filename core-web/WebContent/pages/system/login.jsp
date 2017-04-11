@@ -79,7 +79,7 @@ function submitLoginForm() {
 <div class="container">   
 <form class="form-signin" name="loginForm" id="loginForm" action="./login.do" method="post">
 
-    <div><img src="./images/logo.png" />&nbsp;<b><font color="#75ca5b">qifu web admin</font></b></div>
+    <div><img src="./images/logo2.png" width="48" height="48" border="0"/>&nbsp;&nbsp;&nbsp;<b><font color="#041431">qifu web admin</font></b></div>
    
     <br/>
    
@@ -101,7 +101,7 @@ function submitLoginForm() {
    
     <br/>
     
-    <label>Pine 0.1 version</label>
+    <label>qifu 0.1 version</label>
 
 </form>
 </div>
