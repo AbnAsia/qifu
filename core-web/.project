@@ -3,6 +3,8 @@
 	<name>core-web</name>
 	<comment></comment>
 	<projects>
+		<project>core-lib</project>
+		<project>core-base</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
