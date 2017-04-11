@@ -385,7 +385,7 @@ $('#myTab').bind('show', function(e) {
 });
 
 // for TEST
-addTab('CORE_PROG001', null);
+//addTab('CORE_PROG001', null);
 
 </script>	
 
