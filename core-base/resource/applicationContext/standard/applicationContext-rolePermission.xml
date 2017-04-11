@@ -12,7 +12,7 @@
     
     <context:annotation-config />
     
-	<bean id="core.dao.RolePermissionDAO" class="com.netsteadfast.greenstep.dao.impl.RolePermissionDAOImpl" />
-	<bean id="core.service.RolePermissionService" class="com.netsteadfast.greenstep.service.impl.RolePermissionServiceImpl" />
+	<bean id="core.dao.RolePermissionDAO" class="org.qifu.dao.impl.RolePermissionDAOImpl" />
+	<bean id="core.service.RolePermissionService" class="org.qifu.service.impl.RolePermissionServiceImpl" />
 	     		
 </beans>

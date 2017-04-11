@@ -12,6 +12,6 @@
     
     <context:annotation-config />
     
-	<bean id="core.service.logic.ApplicationSystemLogicService" class="com.netsteadfast.greenstep.service.logic.impl.ApplicationSystemLogicServiceImpl" />
+	<bean id="core.service.logic.ApplicationSystemLogicService" class="org.qifu.service.logic.impl.ApplicationSystemLogicServiceImpl" />
 		     		
 </beans>

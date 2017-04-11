@@ -1,0 +1,89 @@
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	
+  	<context-param>
+   		<param-name>contextConfigLocation</param-name>
+   		<param-value>classpath*:applicationContext.xml</param-value>
+  	</context-param>  	
+
+  	<listener>
+   		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
+
+  	<listener>
+   		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  	</listener>
+
+  	<listener>
+   		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  	</listener>
+  	
+  	
+	<!-- lazy loading enabled in spring -->
+	<filter>
+		<filter-name>OpenSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>sessionFactoryBeanName</param-name>
+			<param-value>sessionFactory</param-value>      
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>OpenSessionInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern><!-- <url-pattern>*.action</url-pattern> -->
+	</filter-mapping>	
+	
+	<!-- spring security or shiro-->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>
+	    <dispatcher>FORWARD</dispatcher>
+	    <dispatcher>INCLUDE</dispatcher>
+	    <dispatcher>ERROR</dispatcher>		
+	</filter-mapping>	
+	
+ 	
+  	<filter>
+  		<filter-name>CharsetFilter</filter-name>
+  		<filter-class>org.qifu.base.filter.CharsetFilter</filter-class>
+  		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>  	
+		<init-param>
+			<param-name>contentType</param-name>
+			<param-value>text/html; charset=UTF-8</param-value>
+		</init-param>  				
+ 	</filter>	    
+ 	<filter-mapping>
+  		<filter-name>CharsetFilter</filter-name>
+  		<url-pattern>*.do</url-pattern>
+  		<url-pattern>*.html</url-pattern>
+  		<url-pattern>*.htm</url-pattern>
+  		<url-pattern>*.js</url-pattern>
+  		<url-pattern>*.css</url-pattern>
+ 	</filter-mapping>   
+ 	
+
+    <servlet>
+        <servlet-name>spring-mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>spring-mvc</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping> 	  
+
+    
+</web-app>

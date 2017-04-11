@@ -37,12 +37,12 @@
 	
 	
 	<!-- example sample -->
-	<bean id="core.webservice.HelloService" class="com.netsteadfast.greenstep.webservice.impl.HelloServiceImpl" />
+	<bean id="core.webservice.HelloService" class="org.qifu.webservice.impl.HelloServiceImpl" />
 	
 	<!-- send mail webService -->
-	<bean id="core.webservice.SendMailService" class="com.netsteadfast.greenstep.webservice.impl.SendMailServiceImpl" />
+	<bean id="core.webservice.SendMailService" class="org.qifu.webservice.impl.SendMailServiceImpl" />
 	
 	<!-- expression Job manual webService -->
-	<bean id="core.webservice.ManualJobService" class="com.netsteadfast.greenstep.webservice.impl.ManualJobServiceImpl" />
+	<bean id="core.webservice.ManualJobService" class="org.qifu.webservice.impl.ManualJobServiceImpl" />
 	                
 </beans>

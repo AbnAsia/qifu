@@ -12,6 +12,6 @@
     
     <context:annotation-config />
     
-	<bean id="core.service.logic.RoleLogicService" class="com.netsteadfast.greenstep.service.logic.impl.RoleLogicServiceImpl" />
+	<bean id="core.service.logic.RoleLogicService" class="org.qifu.service.logic.impl.RoleLogicServiceImpl" />
 		     		
 </beans>

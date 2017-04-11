@@ -28,17 +28,17 @@
     <!-- Scheduler job -->        
 	<bean name="core.job.SendMailHelperJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="durability" value="true" />
-		<property name="jobClass" value="com.netsteadfast.greenstep.job.impl.SendMailHelperJobImpl" />
+		<property name="jobClass" value="org.qifu.job.impl.SendMailHelperJobImpl" />
 	</bean>    
 
 	<bean name="core.job.ClearTempDataJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="durability" value="true" />
-		<property name="jobClass" value="com.netsteadfast.greenstep.job.impl.ClearTempDataJobImpl" />
+		<property name="jobClass" value="org.qifu.job.impl.ClearTempDataJobImpl" />
 	</bean>		
 
 	<bean name="core.job.SysExpressionJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="durability" value="true" />
-		<property name="jobClass" value="com.netsteadfast.greenstep.job.impl.SysExpressionJobImpl" />
+		<property name="jobClass" value="org.qifu.job.impl.SysExpressionJobImpl" />
 	</bean>		
 	
 	<!-- Cron Trigger -->

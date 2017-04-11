@@ -12,7 +12,7 @@
     
     <context:annotation-config />
     
-	<bean id="core.dao.AccountDAO" class="com.netsteadfast.greenstep.dao.impl.AccountDAOImpl" />
-	<bean id="core.service.AccountService" class="com.netsteadfast.greenstep.service.impl.AccountServiceImpl" />
+	<bean id="core.dao.AccountDAO" class="org.qifu.dao.impl.AccountDAOImpl" />
+	<bean id="core.service.AccountService" class="org.qifu.service.impl.AccountServiceImpl" />
 		     		
 </beans>

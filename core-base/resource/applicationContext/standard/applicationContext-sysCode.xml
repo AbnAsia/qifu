@@ -12,7 +12,7 @@
     
     <context:annotation-config />
     
-	<bean id="core.dao.SysCodeDAO" class="com.netsteadfast.greenstep.dao.impl.SysCodeDAOImpl" />
-	<bean id="core.service.SysCodeService" class="com.netsteadfast.greenstep.service.impl.SysCodeServiceImpl" />
+	<bean id="core.dao.SysCodeDAO" class="org.qifu.dao.impl.SysCodeDAOImpl" />
+	<bean id="core.service.SysCodeService" class="org.qifu.service.impl.SysCodeServiceImpl" />
 	     		
 </beans>

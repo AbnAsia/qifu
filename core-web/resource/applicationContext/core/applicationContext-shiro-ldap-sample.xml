@@ -19,7 +19,7 @@
     	<property name="url" value="ldap://127.0.0.1:389" />       
 	</bean>
 	
-	<bean id="greenStepBaseAuthorizingLdapRealm" class="com.netsteadfast.greenstep.sys.GreenStepBaseAuthorizingLdapRealm">
+	<bean id="greenStepBaseAuthorizingLdapRealm" class="org.qifu.sys.GreenStepBaseAuthorizingLdapRealm">
    		<property name="userRoleService" ref="core.service.UserRoleService"/>
    		<property name="rolePermissionService" ref="core.service.RolePermissionService"/>	
 		<property name="cacheManager" ref="shiroCacheManager"/>
@@ -62,7 +62,7 @@
 	    <property name="securityManager" ref="securityManager"/>
 	</bean>	
 	
-	<bean id="greenStepBaseFormAuthenticationFilter" class="com.netsteadfast.greenstep.sys.GreenStepBaseFormAuthenticationFilter">
+	<bean id="greenStepBaseFormAuthenticationFilter" class="org.qifu.sys.GreenStepBaseFormAuthenticationFilter">
 		<property name="usernameParam" value="username"/>
 		<property name="passwordParam" value="password"/>
 		<property name="captchaParam" value="captcha"/>

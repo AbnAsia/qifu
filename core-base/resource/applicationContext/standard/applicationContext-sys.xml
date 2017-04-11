@@ -12,7 +12,7 @@
     
     <context:annotation-config />
     
-	<bean id="core.dao.SysDAO" class="com.netsteadfast.greenstep.dao.impl.SysDAOImpl" />
-	<bean id="core.service.SysService" class="com.netsteadfast.greenstep.service.impl.SysServiceImpl" />
+	<bean id="core.dao.SysDAO" class="org.qifu.dao.impl.SysDAOImpl" />
+	<bean id="core.service.SysService" class="org.qifu.service.impl.SysServiceImpl" />
 	     		
 </beans>

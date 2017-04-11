@@ -14,7 +14,7 @@
     
     <!-- 
     <camel:camelContext id="esb.CORE-SystemCamelContext">
-    	<camel:package>com.netsteadfast.greenstep.esb.router</camel:package>
+    	<camel:package>org.qifu.esb.router</camel:package>
     </camel:camelContext>    
     -->
     

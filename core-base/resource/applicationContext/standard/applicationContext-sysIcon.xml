@@ -12,7 +12,7 @@
     
     <context:annotation-config />
     
-	<bean id="core.dao.SysIconDAO" class="com.netsteadfast.greenstep.dao.impl.SysIconDAOImpl" />
-	<bean id="core.service.SysIconService" class="com.netsteadfast.greenstep.service.impl.SysIconServiceImpl" />
+	<bean id="core.dao.SysIconDAO" class="org.qifu.dao.impl.SysIconDAOImpl" />
+	<bean id="core.service.SysIconService" class="org.qifu.service.impl.SysIconServiceImpl" />
 	     		
 </beans>
