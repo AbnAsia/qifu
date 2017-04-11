@@ -74,8 +74,8 @@
 	
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"> 
 		<property name="securityManager" ref="securityManager"/> 
-		<property name="loginUrl" value="/login.action"/>
-		<property name="successUrl" value="/index.action"/>
+		<property name="loginUrl" value="/login.do"/>
+		<property name="successUrl" value="/index.do"/>
 		<property name="unauthorizedUrl" value="/pages/system/auth1.jsp"/>
 		<property name="filters">
 			<util:map>
@@ -86,25 +86,10 @@
 			<value> 
          		/=anon 
          		
-         		/login.action*=authc
-         		/logout.action*=anon 
-         		/index.action*=authc
-         		/core.generateMenu.action*=anon
-         		/core.generateMenuJs.action*=anon
-				/core.printContentAction.action*=anon
-				/bsc.printContentAction.action*=anon
-				/qcharts.printContentAction.action*=anon        
-				/core.commonMeterChartAction.action*=anon
-				/bsc.commonMeterChartAction.action*=anon
-				/charts.commonMeterChartAction.action*=anon
-				/bsc.mobile.commonMeterChartAction.action*=anon
-				/core.commonBarChartAction.action*=anon
-				/bsc.commonBarChartAction.action*=anon
-				/charts.commonBarChartAction.action*=anon
-				/core.commonPieChartAction.action*=anon
-				/bsc.commonPieChartAction.action*=anon
-				/charts.commonPieChartAction.action*=anon								
-         		/*.action=authc
+         		/login.do*=authc
+         		/logout.do*=anon 
+         		/index.do*=authc			
+         		/*.do=authc         		
          		
          		/publish/**=anon		
          		

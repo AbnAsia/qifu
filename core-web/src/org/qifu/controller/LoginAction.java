@@ -36,7 +36,7 @@ public class LoginAction {
 	
 	private void fillErrorMessage(HttpServletRequest request, HttpServletResponse response) {
 		Object errObj = request.getAttribute(org.apache.shiro.web.filter.authc.FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-		if ("com.netsteadfast.pine.sys.IncorrectCaptchaException".equals(errObj)) {
+		if ("org.qifu.sys.IncorrectCaptchaException".equals(errObj)) {
 			request.setAttribute(Constants.PAGE_MESSAGE, "Captcha code incorrect.");
 		}		
 		if ("org.apache.shiro.authc.IncorrectCredentialsException".equals(errObj)
