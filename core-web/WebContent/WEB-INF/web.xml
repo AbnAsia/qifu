@@ -20,6 +20,15 @@
   	</listener>
   	
   	
+  	<!-- Custom -->  
+	<listener>
+		<listener-class>org.qifu.base.sys.WebSystemServletContextListener</listener-class>
+	</listener>  		
+	<listener>
+		<listener-class>org.qifu.base.sys.WebSystemHttpSessionListener</listener-class>
+	</listener>    	
+  	
+  	
 	<!-- lazy loading enabled in spring -->
 	<filter>
 		<filter-name>OpenSessionInViewFilter</filter-name>

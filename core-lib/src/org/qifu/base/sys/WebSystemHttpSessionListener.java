@@ -48,7 +48,7 @@ public class WebSystemHttpSessionListener implements HttpSessionListener, HttpSe
 	
 	static {
 		try {
-			props.load(WebSystemHttpSessionListener.class.getClassLoader().getResource("META-INF/webSystemHttpSessionListener.properties").openStream());
+			props.load(WebSystemHttpSessionListener.class.getClassLoader().getResource("META-INF/resource/webSystemHttpSessionListener.properties").openStream());
 			invalidateSameAccountSession=SimpleUtils.getStr(props.getProperty("INVALIDATE_SAME_ACCOUNT_SESSION"), "Y");
 		} catch (IOException e) {
 			e.printStackTrace();

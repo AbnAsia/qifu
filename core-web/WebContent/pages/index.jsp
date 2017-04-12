@@ -117,7 +117,7 @@ var _prog = [];
 
 _prog.push({"id" : "CORE_PROGD01", "folder" : "Y", "name" : "A. Report", "icon" : "./icons/report.png", "url" : ""});
 _prog.push({"id" : "CORE_PROG001", "folder" : "N", "name" : "Settings", "icon" : "./icons/system-run.png", "url" : "./e.html"});
-_prog.push({"id" : "CORE_PROG999", "folder" : "N", "name" : "About", "icon" : "./icons/help-about.png", "url" : "./about.html"});
+_prog.push({"id" : "CORE_PROG999", "folder" : "N", "name" : "About", "icon" : "./icons/help-about.png", "url" : "./pages/about.html"});
 _prog.push({"id" : "CORE_PROG002", "folder" : "N", "name" : "01. Analytics", "icon" : "./icons/chart-graph-2d-1.png", "url" : "./f.html"});
 
 var _tabData = [];
@@ -302,13 +302,13 @@ function logoutEvent() {
 			</div>
 		  </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="addTab('CORE_PROG001', null);">Settings</a>
+            <a class="nav-link" href="#" onclick="addTab('CORE_PROG001', null);"><b>Settings</b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="addTab('CORE_PROG999', null);">About</a>
+            <a class="nav-link" href="#" onclick="addTab('CORE_PROG999', null);"><b>About</b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="logoutEvent();">Logout</a>
+            <a class="nav-link" href="#" onclick="logoutEvent();"><b>Logout</b></a>
           </li>		  
         </ul>
         <form class="form-inline mt-2 mt-md-0">
