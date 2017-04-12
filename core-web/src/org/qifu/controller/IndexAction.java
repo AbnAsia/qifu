@@ -22,17 +22,15 @@
 package org.qifu.controller;
 
 import org.qifu.base.controller.BaseController;
-import org.qifu.base.model.ControllerAuthority;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@ControllerAuthority(check = false)
 @Controller
 public class IndexAction extends BaseController {
 	
-	@ControllerMethodAuthority(programId = "PROG_CORE_COMMON_001")
+	@ControllerMethodAuthority(check = true, programId = "PROG_CORE_COMMON_001")
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public String index() {
 		

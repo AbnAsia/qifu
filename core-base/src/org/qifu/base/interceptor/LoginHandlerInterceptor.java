@@ -47,7 +47,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginHandlerInterceptor implements HandlerInterceptor {
 	protected static Logger logger = Logger.getLogger(LoginHandlerInterceptor.class);
 	private IUSessLogHelper uSessLogHelper;
-	private AccountObj accountObj = null;
 	
 	public LoginHandlerInterceptor() {
 		super();
@@ -67,11 +66,11 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		Map<String, String> currentData = UserCurrentCookie.getCurrentData(request);
-		this.accountObj = UserAccountHttpSessionSupport.get(request);
+		AccountObj accountObj = UserAccountHttpSessionSupport.get(request);
 		String accountId = null;
 		String currentId = null;
-		if ( null != this.accountObj ) {
-			accountId = this.accountObj.getAccount();
+		if ( null != accountObj ) {
+			accountId = accountObj.getAccount();
 		}
 		if ( null != currentData ) {
 			currentId = currentData.get("currentId");
@@ -103,7 +102,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 			}			
 		}		
 		String header = request.getHeader("X-Requested-With");
-		String isQifuPageChange = request.getParameter(Constants.IS_TAB_CONTENT_LOAD);	
+		String isQifuPageChange = request.getParameter(Constants.QIFU_PAGE_IN_TAB_IFRAME);	
 		if ("XMLHttpRequest".equalsIgnoreCase(header) && !YesNo.YES.equals(isQifuPageChange) ) {
 			response.getWriter().print(Constants.NO_LOGIN_JSON_DATA);
 			response.getWriter().flush();

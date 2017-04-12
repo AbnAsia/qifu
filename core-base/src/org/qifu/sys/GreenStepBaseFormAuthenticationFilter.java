@@ -269,8 +269,8 @@ public class GreenStepBaseFormAuthenticationFilter extends FormAuthenticationFil
     }	
     
     private boolean isTabPage(HttpServletRequest request) {
-    	String isDojoxContentPane = request.getParameter(Constants.IS_TAB_CONTENT_LOAD);
-    	if (YesNo.YES.equals(isDojoxContentPane)) { // 是否為tab頁面的載入
+    	String isQifuPageChange = request.getParameter(Constants.QIFU_PAGE_IN_TAB_IFRAME);
+    	if (YesNo.YES.equals(isQifuPageChange)) { // 是否為tab頁面的載入
     		return true;
     	}
     	return false;

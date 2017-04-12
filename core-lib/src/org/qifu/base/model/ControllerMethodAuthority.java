@@ -34,4 +34,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ControllerMethodAuthority {
 	public String programId() default "";
+	public boolean check() default true;
 }

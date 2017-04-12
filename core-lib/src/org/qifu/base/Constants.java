@@ -71,7 +71,8 @@ public class Constants {
 	
 	public static final String APP_SITE_CURRENTID_COOKIE_NAME = "QIFU_SYSCURRENT_ID"; // 跨站 cookie 要用的名稱
 	
-	public static final String IS_TAB_CONTENT_LOAD = "isQifuPageChange";
+	public static final String QIFU_PAGE_IN_TAB_IFRAME = "isQifuPageChange";
+	public static final String QIFU_PAGE_PROG_PARAM = "qifuProgId";
 	
 	/**
 	 * GreenStepBaseFormAuthenticationFilter 要用的
