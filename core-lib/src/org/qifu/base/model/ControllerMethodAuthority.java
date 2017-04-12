@@ -19,24 +19,19 @@
  * contact: chen.xin.nien@gmail.com
  * 
  */
-package org.qifu.controller;
+package org.qifu.base.model;
 
-import org.qifu.base.controller.BaseController;
-import org.qifu.base.model.ControllerAuthority;
-import org.qifu.base.model.ControllerMethodAuthority;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@ControllerAuthority(check = false)
-@Controller
-public class IndexAction extends BaseController {
-	
-	@ControllerMethodAuthority(programId = "PROG_CORE_COMMON_001")
-	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String index() {
-		
-		return "index";
-	}
-	
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+public @interface ControllerMethodAuthority {
+	public String programId() default "";
 }

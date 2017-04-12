@@ -21,8 +21,6 @@
  */
 package org.qifu.base.sys;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -62,9 +60,5 @@ public class UserAccountHttpSessionSupport {
 	public static String getSysCurrentId(HttpServletRequest request) {
 		return (String)request.getSession().getAttribute(Constants.SESS_SYSCURRENT_ID);
 	}
-
-	public static String getSysCurrentId(Map<String, Object> session) {
-		return (String)session.get(Constants.SESS_SYSCURRENT_ID);
-	}	
 	
 }

@@ -24,6 +24,12 @@
 		</property>
 	</bean>    
 	
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>  
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>   	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/> 
+	
+	
 	<mvc:interceptors>
     	<mvc:interceptor>  
         	<mvc:mapping path="/**"/>
