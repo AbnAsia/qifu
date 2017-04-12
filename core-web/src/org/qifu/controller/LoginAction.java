@@ -51,7 +51,7 @@ public class LoginAction extends BaseController {
 	public String login(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			if (SecurityUtils.getSubject().isAuthenticated()) {
-				return REDIRECT_INDEX;
+				return this.getPageRedirect( REDIRECT_INDEX );
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -35,7 +35,11 @@ public abstract class BaseController {
 	protected static final String PAGE_SYS_LOGIN_AGAIN = "system/login_again";
 	protected static final String PAGE_SYS_NO_AUTH = "system/auth1";
 	
-	protected static final String REDIRECT_INDEX = "redirect:/index.do";
+	protected static final String REDIRECT_INDEX = "index.do";
+	
+	public String getPageRedirect(String url) {
+		return "redirect:/" + url;
+	}
 	
 	public String getErrorContact() {
 		return String.valueOf( Constants.getSettingsMap().get("basePage.errorContact") );
