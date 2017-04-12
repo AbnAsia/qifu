@@ -66,10 +66,6 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		HandlerMethod handlerMethod = (HandlerMethod) handler;
-		Method method = handlerMethod.getMethod();
-		
-		
 		Map<String, String> currentData = UserCurrentCookie.getCurrentData(request);
 		this.accountObj = UserAccountHttpSessionSupport.get(request);
 		String accountId = null;
@@ -87,14 +83,14 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 			String sessSysCurrentId = UserAccountHttpSessionSupport.getSysCurrentId(request);
 			if ( !currentId.equals(sessSysCurrentId) ) {
 				logger.warn( "currentId: " + currentId + " not equals session variable currentId: " + sessSysCurrentId );
-				return this.redirectLogin(request, response, method, sessSysCurrentId, accountId);
+				return this.redirectLogin(request, response, ((HandlerMethod) handler).getMethod(), sessSysCurrentId, accountId);
 			}
 			if (uSessLogHelper.countByCurrent(accountObj.getAccount(), currentId)<1) {
-				return this.redirectLogin(request, response, method, sessSysCurrentId, accountId);
+				return this.redirectLogin(request, response, ((HandlerMethod) handler).getMethod(), sessSysCurrentId, accountId);
 			}
 			return true;
 		} 
-		return this.redirectLogin(request, response, method, currentId, accountId);
+		return this.redirectLogin(request, response, ((HandlerMethod) handler).getMethod(), currentId, accountId);
 	}
 	
 	private boolean redirectLogin(HttpServletRequest request, HttpServletResponse response, Method method, String currentId, String accountId) throws Exception {
