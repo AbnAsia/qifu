@@ -126,7 +126,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 				Annotation[] actionMethodAnnotations = method.getAnnotations();						
 				String progId = this.getProgramId( request, actionMethodAnnotations );				
 				if ( !StringUtils.isBlank(progId) ) {
-					request.setAttribute("progId", progId);
+					//request.setAttribute("progId", progId);
 					logger.warn("do page call refresTab event = " + progId);					
 					//return "refreshDojoContentPane"; // 重新調用 url , 讓 shiroFilter 重導
 					response.sendRedirect("/pages/system/refresPage.jsp?progId=" + progId + "&n=" + java.util.UUID.randomUUID());
