@@ -17,7 +17,10 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-userRole.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-rolePermission.xml" />    
     <import resource="classpath*:applicationContext/standard/applicationContext-sys.xml" />    
-    <import resource="classpath*:applicationContext/standard/applicationContext-sysIcon.xml" />    
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysIcon.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysProg.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysMenu.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysMenuRole.xml" />    
     
     
     <!-- common util -->

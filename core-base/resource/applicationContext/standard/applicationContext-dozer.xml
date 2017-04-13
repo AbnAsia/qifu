@@ -27,7 +27,10 @@
 				<value>classpath*:dozer/dozerBeanMapping-rolePermission.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sys.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysIcon.xml</value>
-
+				<value>classpath*:dozer/dozerBeanMapping-sysProg.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysMenu.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysMenuRole.xml</value>
+				
 			</list> 
 		</property> 
 	</bean>
