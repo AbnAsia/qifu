@@ -27,6 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.qifu.base.Constants;
+import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.YesNo;
 import org.qifu.util.SimpleUtils;
 
 public abstract class BaseController {
@@ -97,6 +99,10 @@ public abstract class BaseController {
 		return false;
 	}
 	
+	public Subject getSubject() {
+		return SecurityUtils.getSubject();
+	}
+	
 	public String getAccountId() {		
 		Subject subject = SecurityUtils.getSubject();		
 		return this.defaultString((String)subject.getPrincipal());		
@@ -124,5 +130,25 @@ public abstract class BaseController {
 	protected String getNowDate2() {
 		return SimpleUtils.getStrYMD("-");
 	}		
+	
+	protected <T> DefaultControllerJsonResultObj<T> getDefaultJsonResult(String progId) {
+		DefaultControllerJsonResultObj<T> result = DefaultControllerJsonResultObj.build();
+		if (!StringUtils.isBlank(this.getAccountId())) {
+			result.setLogin( YesNo.YES );
+			Subject subject = this.getSubject();
+			if (subject.hasRole(Constants.SUPER_ROLE_ALL) || subject.hasRole(Constants.SUPER_ROLE_ADMIN)) {
+				result.setIsAuthorize( YesNo.YES );
+			}
+			if (subject.isPermitted(progId)) {
+				result.setIsAuthorize( YesNo.YES );
+			}
+			if (!YesNo.YES.equals(result.getIsAuthorize())) {
+				result.setMessage( "no authorize!" );
+			}
+		} else {
+			result.setMessage( "Please login!" );
+		}
+		return result;
+	}
 	
 }

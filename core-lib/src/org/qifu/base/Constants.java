@@ -65,6 +65,8 @@ public class Constants {
 	public static final String SYSTEM_BACKGROUND_USER = "system"; // 背景程式要用 , 配 SubjectBuilderForBackground.java 與 shiro.ini
 	public static final String SYSTEM_BACKGROUND_PASSWORD = "password99"; // 背景程式要用 , 配 SubjectBuilderForBackground.java 與 shiro.ini
 	
+	public static final String SERVICE_ID_TYPE_DISTINGUISH_SYMBOL = "#"; // logic service 用來組 service id 與 ServiceMethodType 成字串, 查有沒有權限
+	
 	public static final String SESS_ACCOUNT="SESSION_PINE_ACCOUNT"; // 登入 account id 放到 session 變數名
 	public static final String SESS_LANG = "SESSION_QIFU_LANG";
 	public static final String SESS_SYSCURRENT_ID = "SESSION_QIFU_SYSCURRENT_ID";
