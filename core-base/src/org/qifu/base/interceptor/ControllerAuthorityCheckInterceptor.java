@@ -41,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 	protected static Logger logger = Logger.getLogger(ControllerAuthorityCheckInterceptor.class);
+	private static final String NO_AUTH_PAGE = "/pages/system/auth1.jsp";
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
@@ -76,7 +77,7 @@ public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 		String isQifuPageChange = request.getParameter(Constants.QIFU_PAGE_IN_TAB_IFRAME);
 		if (YesNo.YES.equals(isQifuPageChange)) { // dojox.layout.ContentPane 它的 X-Requested-With 是 XMLHttpRequest
 			SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
-			response.sendRedirect("/pages/system/auth1.jsp");
+			response.sendRedirect( NO_AUTH_PAGE );
 			return false;
 		}
 		String header = request.getHeader("X-Requested-With");
@@ -88,7 +89,7 @@ public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
-		response.sendRedirect("/pages/system/auth1.jsp");
+		response.sendRedirect( NO_AUTH_PAGE );
 		return false;
 	}
 	
