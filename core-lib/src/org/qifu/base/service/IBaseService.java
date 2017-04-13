@@ -21,6 +21,9 @@
  */
 package org.qifu.base.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.DefaultResult;
 
@@ -42,6 +45,8 @@ public interface IBaseService<T extends java.io.Serializable, E extends java.io.
 	public DefaultResult<T> updateObject(T object) throws ServiceException, Exception;
 	public DefaultResult<T> mergeObject(T object) throws ServiceException, Exception;
 	public DefaultResult<Boolean> deleteObject(T object) throws ServiceException, Exception;
+	
+	public List<T> findListVOByParams(Map<String, Object> params) throws ServiceException, Exception;
 	
 	public DefaultResult<T> findByUK(T object) throws ServiceException, Exception;
 	public int countByUK(T object) throws ServiceException, Exception;
