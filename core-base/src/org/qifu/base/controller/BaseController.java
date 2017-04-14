@@ -28,6 +28,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.qifu.base.Constants;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.PageOf;
+import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.util.SimpleUtils;
 
@@ -149,6 +151,16 @@ public abstract class BaseController {
 			result.setMessage( "Please login!" );
 		}
 		return result;
+	}
+	
+	protected PageOf getPageOf() {
+		PageOf pageOf = new PageOf();
+		return pageOf;
+	}
+	
+	protected SearchValue getSearchValue() {
+		SearchValue searchValue = new SearchValue();
+		return searchValue;
 	}
 	
 }
