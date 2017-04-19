@@ -21,20 +21,36 @@
  */
 package org.qifu.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.model.MenuResultObj;
+import org.qifu.util.MenuSupportUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "PROG_CORE_COMMON_001")
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String index() {
-		
-		return "index";
+	public ModelAndView index(HttpServletRequest request) {
+		String viewName = PAGE_SYS_SEARCH_NO_DATA;
+		ModelAndView mv = new ModelAndView();
+		try {
+			mv.addObject("firstLoadJavascript", MenuSupportUtils.getFirstLoadJavascript());
+			MenuResultObj menuResult = MenuSupportUtils.getMenuData(this.getBasePath(request));
+			mv.addObject("menuJavascriptData", menuResult.getJavascriptData());
+			viewName = "index";
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
 	}
 	
 }

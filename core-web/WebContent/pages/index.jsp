@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html>
 <head>
-<title>TEST</title>
+<title>qifu</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -111,14 +111,11 @@ h1 {
 
 <script type="text/javascript">
 
-var _m_PAGE_CHANGE_URL_PARAM = 'isPageChange';
+var _m_PAGE_CHANGE_URL_PARAM = 'isQifuPageChange';
 
-var _prog = [];
-
-_prog.push({"id" : "CORE_PROGD01", "folder" : "Y", "name" : "A. Report", "icon" : "./icons/report.png", "url" : ""});
-_prog.push({"id" : "CORE_PROG001", "folder" : "N", "name" : "Settings", "icon" : "./icons/system-run.png", "url" : "./e.html"});
-_prog.push({"id" : "CORE_PROG999", "folder" : "N", "name" : "About", "icon" : "./icons/help-about.png", "url" : "./pages/about.html"});
-_prog.push({"id" : "CORE_PROG002", "folder" : "N", "name" : "01. Analytics", "icon" : "./icons/chart-graph-2d-1.png", "url" : "./f.html"});
+// =====================================================================
+${menuJavascriptData}
+//=====================================================================
 
 var _tabData = [];
 
@@ -139,10 +136,8 @@ function getPageUrl(url) {
 function addTab( tabId, srcUrl ) {
 	for (var i=0; _tabData != null && i< _tabData.length; i++) {
 		if ( _tabData[i].tabId == tabId ) {
-			//alert(123);
 			activaTab(tabId);
 			return;
-			//closeTab(tabId);
 		}
 	}
 	var progName = 'unknown';
@@ -384,8 +379,8 @@ $('#myTab').bind('show', function(e) {
     }
 });
 
-// for TEST
-//addTab('CORE_PROG001', null);
+// first load on config
+${firstLoadJavascript}
 
 </script>	
 

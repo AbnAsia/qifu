@@ -21,12 +21,18 @@
  */
 package org.qifu.util;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.qifu.base.AppContext;
 import org.qifu.base.Constants;
 import org.qifu.base.SysMessageUtil;
 import org.qifu.base.SysMsgConstants;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.YesNo;
+import org.qifu.model.MenuResultObj;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysMenu;
 import org.qifu.po.TbSysProg;
@@ -61,6 +67,9 @@ public class MenuSupportUtils {
 	
 	public static String getUrl(String basePath, TbSys sys, TbSysProg sysProg) throws Exception {
 		String url = "";
+		if (StringUtils.isBlank(sysProg.getUrl())) {
+			return url;
+		}
 		if (YesNo.YES.equals(sys.getIsLocal())) {
 			url = basePath + "/" + sysProg.getUrl() + ( (sysProg.getUrl().indexOf("?")>0 || sysProg.getUrl().indexOf("&")>0) ? "&" : "?" ) + Constants.QIFU_PAGE_IN_TAB_IFRAME + "=" + YesNo.YES;
 		} else {
@@ -77,5 +86,33 @@ public class MenuSupportUtils {
 	public static String getFirstLoadJavascript() throws ServiceException, Exception {		
 		return SystemSettingConfigureUtils.getFirstLoadJavascriptValue();
 	}	
+	
+	public static MenuResultObj getMenuData(String basePath) throws ServiceException, Exception {
+		Map<String, String> orderParams = new HashMap<String, String>();
+		orderParams.put("name", "asc");
+		List<TbSys> sysList = sysService.findListByParams(null, null, orderParams);
+		if (sysList==null || sysList.size()<1) { // 必需要有 TB_SYS 資料
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_ERRORS));
+		}
+		MenuResultObj resultObj = new MenuResultObj();
+		StringBuilder jsSb = new StringBuilder();
+		StringBuilder dropdownHtmlSb = new StringBuilder();
+		StringBuilder navHtmlSb = new StringBuilder();
+		jsSb.append("var _prog = []; ").append("\n");
+		for (TbSys sys : sysList) {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("progSystem", sys.getSysId());
+			List<TbSysProg> sysProgList = sysProgService.findListByParams(params);
+			for (int i=0; sysProgList!=null && i<sysProgList.size(); i++) {
+				TbSysProg sysProg = sysProgList.get(i);
+				jsSb.append("_prog.push({\"id\" : \"" + sysProg.getProgId() + "\", \"itemType\" : \"" + sysProg.getItemType() + "\", \"name\" : \"" + sysProg.getName() + "\", \"icon\" : \"" + IconUtils.getMenuIcon(basePath, sysProg.getIcon()) + "\", \"url\" : \"" + getUrl(basePath, sys, sysProg) + "\"});").append("\n");
+			}			
+		}
+		
+		resultObj.setDropdownHtmlData(dropdownHtmlSb.toString());
+		resultObj.setNavItemHtmlData(navHtmlSb.toString());
+		resultObj.setJavascriptData(jsSb.toString());
+		return resultObj;
+	}
 	
 }

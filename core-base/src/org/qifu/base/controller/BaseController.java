@@ -114,6 +114,10 @@ public abstract class BaseController {
 		return SimpleUtils.getUUIDStr();
 	}	
 	
+	public String getBasePath(HttpServletRequest request) {
+		return request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+	}
+	
 	protected String defaultString(String str) {
 		return StringUtils.defaultString(str);
 	}
