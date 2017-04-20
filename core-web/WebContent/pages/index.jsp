@@ -277,25 +277,6 @@ function logoutEvent() {
 			  
 			  ${dropdownHtmlData}
 			  
-			  <!-- 
-			  <img src="./icons/chart-pie.png" broder="0">&nbsp;<font color="#848484"><b>A. Reports</b></font>
-			  
-			  
-			  <a class="dropdown-item" href="#" onclick="addTab('CORE_PROG002', null);"><img src="./icons/chart-graph-2d-1.png" broder="0">&nbsp;&nbsp;01. Analytics</a>
-			  <a class="dropdown-item" href="#"><img src="./icons/document-export.png" broder="0">&nbsp;&nbsp;02. Export</a>
-			  
-			  <div class="dropdown-divider"></div>
-			  
-			  <img src="./icons/computer.png" broder="0">&nbsp;<font color="#848484"><b>B. CORE</b></font>
-			  	  
-			  
-			  <a class="dropdown-item" href="#"><img src="./icons/emblem-people.png" broder="0">&nbsp;&nbsp;01. Account</a>
-			  <a class="dropdown-item" href="#"><img src="./icons/star.png" broder="0">&nbsp;&nbsp;02. TEST</a>
-			  <a class="dropdown-item" href="#"><img src="./icons/star.png" broder="0">&nbsp;&nbsp;03. CCC</a>
-			  
-			  <div class="dropdown-divider"></div>
-			  -->
-			  
 			  <a class="dropdown-item" href="./index.do"><img src="./icons/view-refresh.png" broder="0">&nbsp;&nbsp;<b>Refresh</b></a>
 			  
 			</div>
@@ -322,38 +303,6 @@ function logoutEvent() {
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
 		
 			${navItemHtmlData}
-			
-		<!--  
-          <ul class="nav nav-pills flex-column">
-
-            <li class="nav-item">
-              <img src="./icons/chart-pie.png" broder="0">&nbsp;<font color="#848484"><b>A. Reports</b></font>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" onclick="addTab('CORE_PROG002', null);"><img src="./icons/chart-graph-2d-1.png" broder="0">&nbsp;&nbsp;01. Analytics</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><img src="./icons/document-export.png" broder="0">&nbsp;&nbsp;02. Export</a>
-            </li>
-          </ul>
-
-          <ul class="nav nav-pills flex-column">
-
-            <li class="nav-item">
-              <img src="./icons/computer.png" broder="0">&nbsp;<font color="#848484"><b>B. CORE</b></font>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><img src="./icons/emblem-people.png" broder="0">&nbsp;&nbsp;01. Account</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><img src="./icons/star.png" broder="0">&nbsp;&nbsp;02. TEST</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><img src="./icons/star.png" broder="0">&nbsp;&nbsp;03. CCC</a>
-            </li>		
-
-          </ul>
-		 --> 
 		  
         </nav>
 
