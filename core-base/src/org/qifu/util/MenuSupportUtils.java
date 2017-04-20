@@ -21,17 +21,22 @@
  */
 package org.qifu.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.qifu.base.AppContext;
 import org.qifu.base.Constants;
 import org.qifu.base.SysMessageUtil;
 import org.qifu.base.SysMsgConstants;
 import org.qifu.base.exception.ServiceException;
+import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.YesNo;
+import org.qifu.model.MenuItemType;
 import org.qifu.model.MenuResultObj;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysMenu;
@@ -106,7 +111,44 @@ public class MenuSupportUtils {
 			for (int i=0; sysProgList!=null && i<sysProgList.size(); i++) {
 				TbSysProg sysProg = sysProgList.get(i);
 				jsSb.append("_prog.push({\"id\" : \"" + sysProg.getProgId() + "\", \"itemType\" : \"" + sysProg.getItemType() + "\", \"name\" : \"" + sysProg.getName() + "\", \"icon\" : \"" + IconUtils.getUrl(basePath, sysProg.getIcon()) + "\", \"url\" : \"" + getUrl(basePath, sys, sysProg) + "\"});").append("\n");
-			}			
+			}
+			
+			Subject subject = SecurityUtils.getSubject();
+			String account = (String) subject.getPrincipal();
+			if (subject.hasRole(Constants.SUPER_ROLE_ADMIN) || subject.hasRole(Constants.SUPER_ROLE_ALL)) {
+				account = null;
+			} 			
+			DefaultResult<List<SysMenuVO>> menuResult = sysMenuService.findForMenuGenerator(sys.getSysId(), account);
+			if (menuResult.getValue() == null) {
+				continue;
+			}
+			List<SysMenuVO> menuList = menuResult.getValue();
+			List<SysMenuVO> parentSysMenuList = searchFolder(menuList);
+			for (SysMenuVO pMenu : parentSysMenuList) {
+				List<SysMenuVO> childSysMenuList = searchItem(pMenu.getOid(), menuList);
+				if (childSysMenuList==null || childSysMenuList.size()<1) {
+					continue;
+				}		
+				TbSysProg pSysProg = searchProg(pMenu, sysProgList);
+				if (null == pSysProg) {
+					throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_ERRORS));
+				}
+				
+				dropdownHtmlSb.append(IconUtils.getHtmlImg(basePath, pSysProg.getIcon()) + "&nbsp;<font color=\"#848484\"><b>" + pSysProg.getName() + "</b></font>");
+				
+				for (SysMenuVO cMenu : childSysMenuList) {
+					TbSysProg cSysProg = searchProg(cMenu, sysProgList);
+					if (null == cSysProg) {
+						throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_ERRORS));
+					}
+					dropdownHtmlSb.append("<a class=\"dropdown-item\" href=\"#\" onclick=\"addTab('" + cSysProg.getProgId() + "', null);\">" + IconUtils.getHtmlImg(basePath, cSysProg.getIcon()) + "&nbsp;&nbsp;" + cSysProg.getName() + "</a>");
+					
+				}
+				
+				dropdownHtmlSb.append("<div class=\"dropdown-divider\"></div>");
+				
+			}
+			
 		}
 		
 		resultObj.setDropdownHtmlData(dropdownHtmlSb.toString());
@@ -114,5 +156,52 @@ public class MenuSupportUtils {
 		resultObj.setJavascriptData(jsSb.toString());
 		return resultObj;
 	}
+	
+	protected static TbSysProg searchProg(SysMenuVO menu, List<TbSysProg> sysProgList) throws Exception {
+		TbSysProg prog = null;
+		for (int i=0; i<sysProgList.size() && prog == null; i++) {
+			if ( sysProgList.get(i).getProgId().equals(menu.getProgId()) ) {
+				prog = sysProgList.get(i);
+				i = sysProgList.size();
+			}
+		}
+		return prog;
+	}
+	
+	/**
+	 * 取是目錄選單的資料
+	 * 
+	 * @param sysMenuList
+	 * @return
+	 * @throws Exception
+	 */
+	protected static List<SysMenuVO> searchFolder(List<SysMenuVO> sysMenuList) throws Exception {
+		List<SysMenuVO> folderList = new ArrayList<SysMenuVO>();
+		for (SysMenuVO sysMenu : sysMenuList) {
+			if (MenuItemType.FOLDER.equals(sysMenu.getItemType()) && YesNo.YES.equals(sysMenu.getEnableFlag()) ) {
+				folderList.add(sysMenu);
+			}
+		}
+		return folderList;
+	}
+	
+	/**
+	 * 取目錄下的選單項目
+	 * 
+	 * @param parentOid
+	 * @param sysMenuList
+	 * @return
+	 * @throws Exception
+	 */
+	protected static List<SysMenuVO> searchItem(String parentOid, List<SysMenuVO> sysMenuList) throws Exception {
+		List<SysMenuVO> folderList = new ArrayList<SysMenuVO>();
+		for (SysMenuVO sysMenu : sysMenuList) {
+			if (MenuItemType.ITEM.equals(sysMenu.getItemType()) && parentOid.equals(sysMenu.getParentOid())
+					&& YesNo.YES.equals(sysMenu.getEnableFlag()) ) {
+				folderList.add(sysMenu);
+			}
+		}
+		return folderList;		
+	}	
 	
 }

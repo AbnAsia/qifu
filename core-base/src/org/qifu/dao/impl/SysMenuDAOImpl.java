@@ -62,7 +62,7 @@ public class SysMenuDAOImpl extends BaseDAO<TbSysMenu, String> implements ISysMe
 	public List<SysMenuVO> findForMenuGenerator(String progSystem, String account) throws Exception {
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT	new com.netsteadfast.greenstep.vo.SysMenuVO(	");
+		sb.append("SELECT	new org.qifu.vo.SysMenuVO(	");
 		sb.append("		sm.oid, sm.progId, sm.parentOid, sm.enableFlag,	");
 		sb.append("		tsp.name, tsp.url, tsp.progSystem, tsp.itemType, tsp.icon	");
 		sb.append(")	");

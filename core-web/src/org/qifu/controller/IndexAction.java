@@ -38,16 +38,18 @@ public class IndexAction extends BaseController {
 	@ControllerMethodAuthority(check = false, programId = "CORE_PROGCOMM0001Q")
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public ModelAndView index(HttpServletRequest request) {
-		String viewName = PAGE_SYS_SEARCH_NO_DATA;
+		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = new ModelAndView();
 		try {
 			mv.addObject("firstLoadJavascript", MenuSupportUtils.getFirstLoadJavascript());
 			MenuResultObj menuResult = MenuSupportUtils.getMenuData(this.getBasePath(request));
 			mv.addObject("menuJavascriptData", menuResult.getJavascriptData());
+			mv.addObject("dropdownHtmlData", menuResult.getDropdownHtmlData());
 			viewName = "index";
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.setPageMessage(request, e.getMessage().toString());
+			this.setPageErrorContact(request);
 		}
 		mv.setViewName(viewName);
 		return mv;

@@ -275,6 +275,9 @@ function logoutEvent() {
 			</a>
 			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 			  
+			  ${dropdownHtmlData}
+			  
+			  <!-- 
 			  <img src="./icons/chart-pie.png" broder="0">&nbsp;<font color="#848484"><b>A. Reports</b></font>
 			  
 			  
@@ -291,6 +294,7 @@ function logoutEvent() {
 			  <a class="dropdown-item" href="#"><img src="./icons/star.png" broder="0">&nbsp;&nbsp;03. CCC</a>
 			  
 			  <div class="dropdown-divider"></div>
+			  -->
 			  
 			  <a class="dropdown-item" href="./index.do"><img src="./icons/view-refresh.png" broder="0">&nbsp;&nbsp;<b>Refresh</b></a>
 			  

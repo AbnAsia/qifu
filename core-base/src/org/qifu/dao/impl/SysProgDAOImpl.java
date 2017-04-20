@@ -42,7 +42,7 @@ public class SysProgDAOImpl extends BaseDAO<TbSysProg, String> implements ISysPr
 	@Override
 	public SysProgVO findNameForProgId(String progId) throws Exception {
 		return (SysProgVO) this.getCurrentSession().createQuery(
-				"SELECT new com.netsteadfast.greenstep.vo.SysProgVO(tsp.name) FROM TbSysProg tsp WHERE tsp.progId = :progId ")
+				"SELECT new org.qifu.vo.SysProgVO(tsp.name) FROM TbSysProg tsp WHERE tsp.progId = :progId ")
 				.setString("progId", progId)
 				.uniqueResult();
 	}
@@ -69,7 +69,7 @@ public class SysProgDAOImpl extends BaseDAO<TbSysProg, String> implements ISysPr
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SysProgVO> findForInTheFolderMenuItems(String progSystem, String menuParentOid, String itemType) throws Exception {
-		String hqlStr = "SELECT new com.netsteadfast.greenstep.vo.SysProgVO(tsp.oid, tsp.progId, tsp.name, tsp.progSystem, tsp.icon) "; 
+		String hqlStr = "SELECT new org.qifu.vo.SysProgVO(tsp.oid, tsp.progId, tsp.name, tsp.progSystem, tsp.icon) "; 
 		hqlStr += "FROM TbSysProg tsp WHERE tsp.progId IN ( " ;
 		if (!StringUtils.isBlank(menuParentOid)) {
 			hqlStr += "	SELECT tsm.progId from TbSysMenu tsm WHERE tsm.parentOid = :parentOid ";
@@ -111,7 +111,7 @@ public class SysProgDAOImpl extends BaseDAO<TbSysProg, String> implements ISysPr
 	public List<SysProgVO> findForSystemItems(String progSystem) throws Exception {
 		
 		return this.getCurrentSession().createQuery(
-				"SELECT new com.netsteadfast.greenstep.vo.SysProgVO(tsp.oid, tsp.progId, tsp.name, tsp.progSystem, tsp.icon) " +
+				"SELECT new org.qifu.vo.SysProgVO(tsp.oid, tsp.progId, tsp.name, tsp.progSystem, tsp.icon) " +
 				"FROM TbSysProg tsp WHERE tsp.progSystem = :progSystem AND tsp.editMode='N' AND tsp.itemType='" + MenuItemType.ITEM + "' ORDER BY tsp.progId ASC ")
 		.setString("progSystem", progSystem)
 		.list();
