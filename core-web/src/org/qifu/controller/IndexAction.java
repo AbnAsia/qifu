@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexAction extends BaseController {
 	
-	@ControllerMethodAuthority(check = true, programId = "PROG_CORE_COMMON_001")
+	@ControllerMethodAuthority(check = false, programId = "CORE_PROGCOMM0001Q")
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public ModelAndView index(HttpServletRequest request) {
 		String viewName = PAGE_SYS_SEARCH_NO_DATA;
