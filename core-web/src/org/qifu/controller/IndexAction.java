@@ -45,6 +45,7 @@ public class IndexAction extends BaseController {
 			MenuResultObj menuResult = MenuSupportUtils.getMenuData(this.getBasePath(request));
 			mv.addObject("menuJavascriptData", menuResult.getJavascriptData());
 			mv.addObject("dropdownHtmlData", menuResult.getDropdownHtmlData());
+			mv.addObject("navItemHtmlData",  menuResult.getNavItemHtmlData());
 			viewName = "index";
 		} catch (Exception e) {
 			e.printStackTrace();

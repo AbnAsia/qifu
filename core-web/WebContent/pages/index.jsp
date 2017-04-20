@@ -321,6 +321,9 @@ function logoutEvent() {
       <div class="row">
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
 		
+			${navItemHtmlData}
+			
+		<!--  
           <ul class="nav nav-pills flex-column">
 
             <li class="nav-item">
@@ -350,7 +353,7 @@ function logoutEvent() {
             </li>		
 
           </ul>
-		  
+		 --> 
 		  
         </nav>
 

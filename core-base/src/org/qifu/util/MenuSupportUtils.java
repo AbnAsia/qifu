@@ -136,6 +136,11 @@ public class MenuSupportUtils {
 				
 				dropdownHtmlSb.append(IconUtils.getHtmlImg(basePath, pSysProg.getIcon()) + "&nbsp;<font color=\"#848484\"><b>" + pSysProg.getName() + "</b></font>");
 				
+				navHtmlSb.append("<ul class=\"nav nav-pills flex-column\">");
+				navHtmlSb.append("<li class=\"nav-item\">");
+				navHtmlSb.append(IconUtils.getHtmlImg(basePath, pSysProg.getIcon()) + "&nbsp;<font color=\"#848484\"><b>" + pSysProg.getName() + "</b></font>");
+				navHtmlSb.append("</li>");
+				
 				for (SysMenuVO cMenu : childSysMenuList) {
 					TbSysProg cSysProg = searchProg(cMenu, sysProgList);
 					if (null == cSysProg) {
@@ -143,9 +148,15 @@ public class MenuSupportUtils {
 					}
 					dropdownHtmlSb.append("<a class=\"dropdown-item\" href=\"#\" onclick=\"addTab('" + cSysProg.getProgId() + "', null);\">" + IconUtils.getHtmlImg(basePath, cSysProg.getIcon()) + "&nbsp;&nbsp;" + cSysProg.getName() + "</a>");
 					
+					navHtmlSb.append("<li class=\"nav-item\">");
+					navHtmlSb.append("<a class=\"nav-link\" href=\"#\" onclick=\"addTab('" + cSysProg.getProgId() + "', null);\">" + IconUtils.getHtmlImg(basePath, cSysProg.getIcon()) + "&nbsp;&nbsp;" + cSysProg.getName() + "</a>");
+					navHtmlSb.append("</li>");
+					
 				}
 				
 				dropdownHtmlSb.append("<div class=\"dropdown-divider\"></div>");
+				
+				navHtmlSb.append("</ul>");
 				
 			}
 			
