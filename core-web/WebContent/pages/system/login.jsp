@@ -83,6 +83,14 @@ function submitLoginForm() {
    
     <br/>
    
+   
+    <c:if test="${ \"Y\" == loginCaptchaCodeEnable }">    
+    <div class="form-group">
+          <label for="captcha">Captcha code <img src="./kaptcha.jpg?n=<%=System.currentTimeMillis()%>"/></label>
+          <input class="form-control" type="text" id="captcha" name="captcha">
+    </div>       
+    </c:if>
+    
     <div class="form-group">
           <label for="username">Username</label>
           <input class="form-control" type="text" id="username" name="username" maxlength="12">

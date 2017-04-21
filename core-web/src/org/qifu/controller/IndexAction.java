@@ -39,7 +39,7 @@ public class IndexAction extends BaseController {
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public ModelAndView index(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = this.getDefaultModelAndView();
 		try {
 			mv.addObject("firstLoadJavascript", MenuSupportUtils.getFirstLoadJavascript());
 			MenuResultObj menuResult = MenuSupportUtils.getMenuData(this.getBasePath(request));

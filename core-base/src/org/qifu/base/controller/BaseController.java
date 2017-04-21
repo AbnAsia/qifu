@@ -32,6 +32,7 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.util.SimpleUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 public abstract class BaseController {
 	protected static final String PAGE_SYS_LOGIN = "system/login";
@@ -44,6 +45,24 @@ public abstract class BaseController {
 	
 	public String getPageRedirect(String url) {
 		return "redirect:/" + url;
+	}
+	
+	public ModelAndView getDefaultModelAndView() {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("errorContact", this.getErrorContact());
+		mv.addObject("verMsg", this.getVerMsg());
+		mv.addObject("jsVerBuild", this.getJsVerBuild());
+		mv.addObject("loginCaptchaCodeEnable", this.getLoginCaptchaCodeEnable());
+		mv.addObject("googleMapEnable", this.getGoogleMapEnable());
+		mv.addObject("googleMapUrl", this.getGoogleMapUrl());
+		mv.addObject("googleMapKey", this.getGoogleMapKey());
+		mv.addObject("googleMapDefaultLat", this.getGoogleMapDefaultLat());
+		mv.addObject("googleMapDefaultLng", this.getGoogleMapDefaultLng());
+		mv.addObject("googleMapLanguage", this.getGoogleMapLanguage());
+		mv.addObject("googleMapClientLocationEnable", this.getGoogleMapClientLocationEnable());
+		mv.addObject("twitterEnable", this.getTwitterEnable());
+		mv.addObject("isSuperRole", this.isSuperRole());
+		return mv;
 	}
 	
 	public String getErrorContact() {

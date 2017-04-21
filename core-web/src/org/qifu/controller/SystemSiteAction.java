@@ -37,7 +37,7 @@ public class SystemSiteAction extends BaseController {
 	@RequestMapping(value = "/core.sysSiteManagement.do", method = RequestMethod.GET)
 	public ModelAndView sysSiteManagement(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = this.getDefaultModelAndView();
 		try {
 			
 			viewName = "syssite/syssite-management";

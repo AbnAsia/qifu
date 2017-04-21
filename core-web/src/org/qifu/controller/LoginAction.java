@@ -49,6 +49,7 @@ public class LoginAction extends BaseController {
 	
 	@RequestMapping(value = "/login.do", method = {RequestMethod.GET, RequestMethod.POST} )
 	public String login(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("loginCaptchaCodeEnable", this.getLoginCaptchaCodeEnable());
 		try {
 			if (SecurityUtils.getSubject().isAuthenticated()) {
 				return this.getPageRedirect( REDIRECT_INDEX );
@@ -62,7 +63,8 @@ public class LoginAction extends BaseController {
 	}
 	
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET )
-	public String logout(HttpSession session) {
+	public String logout(HttpServletRequest request, HttpSession session) {
+		request.setAttribute("loginCaptchaCodeEnable", this.getLoginCaptchaCodeEnable());
 		SecurityUtils.getSubject().logout();
 		return PAGE_SYS_LOGIN;
 	}
