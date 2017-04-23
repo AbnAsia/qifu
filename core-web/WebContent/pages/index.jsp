@@ -133,6 +133,17 @@ function getPageUrl(url) {
 }
 
 
+function getProgUrl(progId) {
+	var pUrl = '';
+	for (var i=0; pUrl == '' && i< _prog.length; i++) {
+		if ( _prog[i].id == progId ) {
+			pUrl = _prog[i].url;
+		}
+	}	
+	return getPageUrl(pUrl);
+}
+
+
 function addTab( tabId, srcUrl ) {
 	for (var i=0; _tabData != null && i< _tabData.length; i++) {
 		if ( _tabData[i].tabId == tabId ) {

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="q" uri="http://www.qifu.org/controller/tag" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -37,7 +38,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body>
 
-Xxxxxxxxxxxxxxxxxxxxxxx
+<q:toolBar 
+	id="CORE_PROG001D0001Q_toolbar" 
+	refreshEnable="Y"
+	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG001D0001Q');" 
+	createNewEnable="Y"
+	createNewJsMethod="parent.addTab('CORE_PROG001D0001A', null);"
+	saveEnabel="N" 
+	saveJsMethod="" 	
+	cancelEnable="Y" 
+	cancelJsMethod="parent.closeTab('CORE_PROG001D0001Q');" >
+</q:toolBar>
 
 
 </body>
