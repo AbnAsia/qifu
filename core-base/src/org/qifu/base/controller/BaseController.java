@@ -31,6 +31,7 @@ import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
+import org.qifu.util.MenuSupportUtils;
 import org.qifu.util.SimpleUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,6 +65,16 @@ public abstract class BaseController {
 		mv.addObject("isSuperRole", this.isSuperRole());
 		return mv;
 	}
+	
+	public ModelAndView getDefaultModelAndView(String progId) {
+		ModelAndView mv = this.getDefaultModelAndView();
+		if (StringUtils.isBlank(progId)) {
+			return mv;
+		}
+		mv.addObject("programId", progId);
+		mv.addObject("programName", MenuSupportUtils.getProgramName(progId));
+		return mv;
+	}	
 	
 	public String getErrorContact() {
 		return String.valueOf( Constants.getSettingsMap().get("basePage.errorContact") );

@@ -128,7 +128,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 					//request.setAttribute("progId", progId);
 					logger.warn("do page call refresTab event = " + progId);					
 					//return "refreshDojoContentPane"; // 重新調用 url , 讓 shiroFilter 重導
-					response.sendRedirect("/pages/system/refresPage.jsp?progId=" + progId + "&n=" + java.util.UUID.randomUUID());
+					response.sendRedirect("./pages/system/refresPage.jsp?progId=" + progId + "&n=" + java.util.UUID.randomUUID());
 					return false;
 				} else {
 					String url = SimpleUtils.getHttpRequestUrl( request );
@@ -140,7 +140,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 			}
 		}		
 		if (YesNo.YES.equals(isQifuPageChange)) {						
-			response.sendRedirect("/pages/system/login_again.jsp");
+			response.sendRedirect("./pages/system/login_again.jsp");
 			return false;
 		}
 		response.sendRedirect("logout.do");; // 導向logout , 讓 logout action 執行 SecurityUtils.getSubject().logout()

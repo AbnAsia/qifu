@@ -168,6 +168,19 @@ public class MenuSupportUtils {
 		return resultObj;
 	}
 	
+	public static String getProgramName(String progId) {
+		String name = "unknown-program";
+		if (StringUtils.isBlank(progId)) {
+			return name;
+		}
+		try {
+			name = sysProgService.findNameForProgId(progId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return name;
+	}	
+	
 	protected static TbSysProg searchProg(SysMenuVO menu, List<TbSysProg> sysProgList) throws Exception {
 		TbSysProg prog = null;
 		for (int i=0; i<sysProgList.size() && prog == null; i++) {

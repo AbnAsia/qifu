@@ -15,11 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-<script type="text/javascript" src="./jquery/jquery-1.11.1.min.js"></script>
-<link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css" crossorigin="anonymous">
-<script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js" crossorigin="anonymous"></script>
-<script src="./bootbox/bootbox.js" crossorigin="anonymous"></script>
+<jsp:include page="../common-f-inc.jsp"></jsp:include>
 
 <style type="text/css">
 
@@ -49,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	cancelEnable="Y" 
 	cancelJsMethod="parent.closeTab('CORE_PROG001D0001Q');" >
 </q:toolBar>
-
+<jsp:include page="../common-f-head.jsp"></jsp:include>
 
 </body>
   
