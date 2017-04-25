@@ -180,26 +180,17 @@ public abstract class BaseController {
 	
 	protected <T> DefaultControllerJsonResultObj<T> getDefaultJsonResult(String progId) {
 		DefaultControllerJsonResultObj<T> result = DefaultControllerJsonResultObj.build();
-		if (!StringUtils.isBlank(this.getAccountId())) {
-			result.setLogin( YesNo.YES );
-			Subject subject = this.getSubject();
-			if (subject.hasRole(Constants.SUPER_ROLE_ALL) || subject.hasRole(Constants.SUPER_ROLE_ADMIN)) {
-				result.setIsAuthorize( YesNo.YES );
-			}
-			if (subject.isPermitted(progId)) {
-				result.setIsAuthorize( YesNo.YES );
-			}
-			if (!YesNo.YES.equals(result.getIsAuthorize())) {
-				result.setMessage( "no authorize!" );
-			}
-		} else {
-			result.setMessage( "Please login!" );
-		}
+		this.setResultDefaultValue(result, progId);
 		return result;
 	}
 	
 	protected <T> QueryControllerJsonResultObj<T> getQueryJsonResult(String progId) {
 		QueryControllerJsonResultObj<T> result = QueryControllerJsonResultObj.build();
+		this.setResultDefaultValue(result, progId);
+		return result;
+	}	
+	
+	private void setResultDefaultValue(DefaultControllerJsonResultObj<?> result, String progId) {
 		if (!StringUtils.isBlank(this.getAccountId())) {
 			result.setLogin( YesNo.YES );
 			Subject subject = this.getSubject();
@@ -214,9 +205,8 @@ public abstract class BaseController {
 			}
 		} else {
 			result.setMessage( "Please login!" );
-		}
-		return result;
-	}	
+		}		
+	}
 	
 	protected void fillObjectFromRequest(HttpServletRequest request, Object root) {
 		Enumeration<String> pNames = request.getParameterNames();
