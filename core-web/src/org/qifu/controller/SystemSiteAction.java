@@ -71,5 +71,24 @@ public class SystemSiteAction extends BaseController {
 		}
 		return result;
 	}	
-
+	
+	/*
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
+	@RequestMapping(value = "/core.sysSiteQueryGridTestJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj<SysVO> queryGrid2(HttpServletRequest request) {
+		QueryControllerJsonResultObj<SysVO> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
+		SearchValue searchValue = this.getSearchValue(request);
+		PageOf pageOf = this.getPageOf(request);
+		try {
+			//http://127.0.0.1:8080/core-web/core.sysSiteQueryGridTestJson.do?parameter.name=BBB&parameter.id=123&&select=1&showRow=10&sortType=ASC&orderBy=NAME
+			result.setSuccess(YesNo.YES);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess( YesNo.NO );
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
+	*/
+	
 }

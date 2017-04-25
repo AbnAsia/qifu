@@ -21,6 +21,8 @@
  */
 package org.qifu.base.controller;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +37,9 @@ import org.qifu.base.model.YesNo;
 import org.qifu.util.MenuSupportUtils;
 import org.qifu.util.SimpleUtils;
 import org.springframework.web.servlet.ModelAndView;
+
+import ognl.Ognl;
+import ognl.OgnlException;
 
 public abstract class BaseController {
 	protected static final String PAGE_SYS_LOGIN = "system/login";
@@ -213,14 +218,29 @@ public abstract class BaseController {
 		return result;
 	}	
 	
-	protected PageOf getPageOf() {
+	protected void fillObjectFromRequest(HttpServletRequest request, Object root) {
+		Enumeration<String> pNames = request.getParameterNames();
+		while (pNames.hasMoreElements()) {
+			String key = pNames.nextElement();
+			Object value = request.getParameter(key);
+			try {
+				Ognl.setValue(key, root, value);
+			} catch (OgnlException e) {
+				//e.printStackTrace();
+			}
+		}
+	}
+	
+	protected PageOf getPageOf(HttpServletRequest request) {
 		PageOf pageOf = new PageOf();
+		fillObjectFromRequest(request, pageOf);
 		return pageOf;
 	}
 	
-	protected SearchValue getSearchValue() {
+	protected SearchValue getSearchValue(HttpServletRequest request) {
 		SearchValue searchValue = new SearchValue();
+		fillObjectFromRequest(request, searchValue);
 		return searchValue;
-	}
+	}	
 	
 }
