@@ -25,11 +25,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.PageOf;
+import org.qifu.base.model.QueryControllerJsonResultObj;
+import org.qifu.base.model.SearchValue;
+import org.qifu.base.model.YesNo;
+import org.qifu.vo.SysVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+@EnableWebMvc
 @Controller
 public class SystemSiteAction extends BaseController {
 	
@@ -47,6 +55,21 @@ public class SystemSiteAction extends BaseController {
 		}
 		mv.setViewName(viewName);
 		return mv;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
+	@RequestMapping(value = "/core.sysSiteQueryGridJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj<SysVO> queryGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj<SysVO> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
+		try {
+			
+			result.setSuccess(YesNo.YES);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess( YesNo.NO );
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
 	}	
 
 }

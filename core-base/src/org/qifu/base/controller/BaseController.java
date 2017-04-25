@@ -29,6 +29,7 @@ import org.apache.shiro.subject.Subject;
 import org.qifu.base.Constants;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
+import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.util.MenuSupportUtils;
@@ -191,6 +192,26 @@ public abstract class BaseController {
 		}
 		return result;
 	}
+	
+	protected <T> QueryControllerJsonResultObj<T> getQueryJsonResult(String progId) {
+		QueryControllerJsonResultObj<T> result = QueryControllerJsonResultObj.build();
+		if (!StringUtils.isBlank(this.getAccountId())) {
+			result.setLogin( YesNo.YES );
+			Subject subject = this.getSubject();
+			if (subject.hasRole(Constants.SUPER_ROLE_ALL) || subject.hasRole(Constants.SUPER_ROLE_ADMIN)) {
+				result.setIsAuthorize( YesNo.YES );
+			}
+			if (subject.isPermitted(progId)) {
+				result.setIsAuthorize( YesNo.YES );
+			}
+			if (!YesNo.YES.equals(result.getIsAuthorize())) {
+				result.setMessage( "no authorize!" );
+			}
+		} else {
+			result.setMessage( "Please login!" );
+		}
+		return result;
+	}	
 	
 	protected PageOf getPageOf() {
 		PageOf pageOf = new PageOf();
