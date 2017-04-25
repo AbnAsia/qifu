@@ -25,9 +25,9 @@ public class QueryControllerJsonResultObj<T> extends DefaultControllerJsonResult
 	private static final long serialVersionUID = 3754125684960027639L;
 	
 	private int pageOfShowRow = PageOf.Rows[0];
-	private int pageOfSelect = 0;
+	private int pageOfSelect = 1;
 	private int pageOfCountSize = 0;
-	private int pageOfSize = 0;
+	private int pageOfSize = 1;
 	
 	public static <T> QueryControllerJsonResultObj<T> build() {
 		QueryControllerJsonResultObj<T> obj = new QueryControllerJsonResultObj<T>();

@@ -26,34 +26,10 @@ import java.util.Map;
 
 public class SearchValue implements java.io.Serializable {
 	private static final long serialVersionUID = 8848320628029045810L;
-	private String type="";
-	private String text="";
 	private Map<String, String> parameter=new HashMap<String, String>();
 	
 	public SearchValue() {
 		
-	}
-	
-	public SearchValue(String type, String text, Map<String, String> parameter){
-		this.type=type;
-		this.text=text;
-		this.parameter=parameter;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public Map<String, String> getParameter() {

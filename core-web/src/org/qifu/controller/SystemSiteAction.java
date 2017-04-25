@@ -62,7 +62,7 @@ public class SystemSiteAction extends BaseController {
 	public @ResponseBody QueryControllerJsonResultObj<SysVO> queryGrid(SearchValue searchValue, PageOf pageOf) {
 		QueryControllerJsonResultObj<SysVO> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
 		try {
-			
+			//http://127.0.0.1:8080/core-web/core.sysSiteQueryGridJson.do?parameter[name]=BBB&parameter[id]=123&&select=1&showRow=10&sortType=ASC&orderBy=NAME
 			result.setSuccess(YesNo.YES);
 		} catch (Exception e) {
 			e.printStackTrace();
