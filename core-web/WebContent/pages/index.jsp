@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css" crossorigin="anonymous">
 <script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js" crossorigin="anonymous"></script>
 <script src="./bootbox/bootbox.js" crossorigin="anonymous"></script>
+<script src="./configJs.do" crossorigin="anonymous"></script>
 
 <style type="text/css">
 

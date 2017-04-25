@@ -37,6 +37,7 @@
         	<mvc:exclude-mapping path="/"/>  
         	<mvc:exclude-mapping path="/login.do"/>
         	<mvc:exclude-mapping path="/logout.do"/>
+        	<mvc:exclude-mapping path="/configJs.do"/>
         	<mvc:exclude-mapping path="/bootbox*"/>
         	<mvc:exclude-mapping path="/bootstrap-4.0.0-alpha.6*"/>
         	<mvc:exclude-mapping path="/images*"/>
@@ -54,6 +55,7 @@
         	<mvc:exclude-mapping path="/"/>  
         	<mvc:exclude-mapping path="/login.do"/>
         	<mvc:exclude-mapping path="/logout.do"/>
+        	<mvc:exclude-mapping path="/configJs.do"/>
         	<mvc:exclude-mapping path="/bootbox*"/>
         	<mvc:exclude-mapping path="/bootstrap-4.0.0-alpha.6*"/>
         	<mvc:exclude-mapping path="/images*"/>
