@@ -82,5 +82,36 @@
 		</attribute>																	
 	</tag>		
 	
+	<!-- Grid -->
+	<tag>
+		<name>grid</name>
+		<tag-class>org.qifu.tag.GridTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>xhrUrl</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>xhrParameter</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+		<attribute>
+			<name>gridFieldStructure</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>queryFunction</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>						
+	</tag>		
 	
 </taglib>	
