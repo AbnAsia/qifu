@@ -102,7 +102,7 @@ function getQueryGridHeader() {
     	<!-- pageOf.select -->
 		<input id="select" name="select" maxlength="6" type="text" value="1" style="width: 60px;" onChange="changeQueryGridPageOfSelect();"></input>	
 			
-    	&nbsp;/&nbsp;<span id="sizeShow"/>
+    	<font size="2">&nbsp;/&nbsp;<span id="sizeShow"/></font>
     </td>    
     <td width="20px" style="background: linear-gradient(to top, #f1eee5 , #fafafa);" align="left"><a href="javascript:changeQueryGridToNext();"><img src="./icons/stock_right.png" border="0" alt="N" title="Next"/></a></td>
     <td width="20px" style="background: linear-gradient(to top, #f1eee5 , #fafafa);" align="left"><a href="javascript:changeQueryGridToLast();"><img src="./icons/stock_last.png" border="0" alt="L" title="Last page"/></a></td>
@@ -129,6 +129,17 @@ function getQueryGridHeader() {
 <script>
 
 var _before_select_page = 1;
+
+function clearQueryGridTable() {
+	$("#rowCount").html( '0' );
+	$("#sizeShow").html( '1' );
+	$("#pageSize").val( '1' );
+	$("#showRow").val( '10' );
+	$("#select").val( '1' );
+	_before_select_page = 1;
+	hiddenQueryGridToolBarTable();
+	$("#queryGridTable").html( '' );	
+}
 
 /**
  * 不顯示換頁TABLE
@@ -224,9 +235,13 @@ function queryGrid() {
 			}, 
 			function(data) {
 				if ( _qifu_success_flag != data.success) {
+					
+					clearQueryGridTable();
+					
 					parent.toastrInfo( data.message ); //parent.toastrWarning( data.message );
 					return;
 				}
+				
 				var str = '<table class="table">';
 				str += '<thead class="thead-inverse">';
 				str += '<tr>';
@@ -283,14 +298,7 @@ function queryClear() {
 	$("#id").val('');
 	$("#name").val('');
 	
-	
-	$("#rowCount").html( '0' );
-	$("#sizeShow").html( '1' );
-	$("#pageSize").val( '1' );
-	_before_select_page = 1;
-	hiddenQueryGridToolBarTable();
-	$("#queryGridTable").html( '' );
-	
+	clearQueryGridTable();
 	
 }      	
 
