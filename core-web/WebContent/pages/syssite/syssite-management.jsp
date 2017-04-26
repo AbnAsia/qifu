@@ -65,6 +65,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <button type="button" class="btn btn-primary" id="btnQuery" onclick="queryGrid();">Query</button>
 <button type="button" class="btn btn-primary" id="btnClear" onclick="queryClear();">Clear</button>
 
+<br>
+<br>
+
+
+<div id="queryGridTable">
+</div>
 <script>
 
 function getQueryGridFormatter(value) {
@@ -150,12 +156,6 @@ function queryClear() {
 }      	
 
 </script>
-
-<br>
-<br>
-
-<div id="queryGridTable">
-</div>
 
 
 </body>
