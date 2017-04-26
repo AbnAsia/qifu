@@ -25,6 +25,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -32,6 +33,7 @@ import org.qifu.base.Constants;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
+import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.util.MenuSupportUtils;
@@ -232,5 +234,19 @@ public abstract class BaseController {
 		fillObjectFromRequest(request, searchValue);
 		return searchValue;
 	}	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	protected void setQueryGridJsonResult(QueryControllerJsonResultObj jsonResult, QueryResult queryResult, PageOf pageOf) {
+		if (queryResult.getValue() != null) {
+			jsonResult.setValue( queryResult.getValue() );
+			jsonResult.setPageOfCountSize( queryResult.getRowCount() );
+			jsonResult.setPageOfSelect( NumberUtils.toInt(pageOf.getSelect(), 1) );
+			jsonResult.setPageOfShowRow( NumberUtils.toInt(pageOf.getShowRow(), PageOf.Rows[0]) );
+			jsonResult.setPageOfSize( NumberUtils.toInt(pageOf.getSize(), 1) );
+			jsonResult.setSuccess(YesNo.YES);
+		} else {
+			jsonResult.setMessage( queryResult.getSystemMessage().getValue() );
+		}		
+	}
 	
 }

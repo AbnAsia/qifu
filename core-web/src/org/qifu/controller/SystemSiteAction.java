@@ -21,15 +21,23 @@
  */
 package org.qifu.controller;
 
+import java.util.List;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
+import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
+import org.qifu.po.TbSys;
+import org.qifu.service.ISysService;
 import org.qifu.vo.SysVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +49,19 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Controller
 public class SystemSiteAction extends BaseController {
 	
+	private ISysService<SysVO, TbSys, String> sysService;
+	
+	public ISysService<SysVO, TbSys, String> getSysService() {
+		return sysService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysService")
+	@Required
+	public void setSysService(ISysService<SysVO, TbSys, String> sysService) {
+		this.sysService = sysService;
+	}
+
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
 	@RequestMapping(value = "/core.sysSiteManagement.do", method = RequestMethod.GET)
 	public ModelAndView sysSiteManagement(HttpServletRequest request) {
@@ -57,13 +78,14 @@ public class SystemSiteAction extends BaseController {
 		return mv;
 	}
 	
+	//http://127.0.0.1:8080/core-web/core.sysSiteQueryGridJson.do?parameter[name]=BBB&parameter[id]=123&&select=1&showRow=10&sortType=ASC&orderBy=NAME
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
 	@RequestMapping(value = "/core.sysSiteQueryGridJson.do", produces = "application/json")	
-	public @ResponseBody QueryControllerJsonResultObj<SysVO> queryGrid(SearchValue searchValue, PageOf pageOf) {
-		QueryControllerJsonResultObj<SysVO> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
+	public @ResponseBody QueryControllerJsonResultObj<List<SysVO>> queryGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj<List<SysVO>> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
 		try {
-			//http://127.0.0.1:8080/core-web/core.sysSiteQueryGridJson.do?parameter[name]=BBB&parameter[id]=123&&select=1&showRow=10&sortType=ASC&orderBy=NAME
-			result.setSuccess(YesNo.YES);
+			QueryResult<List<SysVO>> queryResult = this.sysService.findGridResult(searchValue, pageOf);
+			this.setQueryGridJsonResult(result, queryResult, pageOf);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setSuccess( YesNo.NO );

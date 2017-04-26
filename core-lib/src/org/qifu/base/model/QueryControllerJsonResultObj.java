@@ -26,7 +26,7 @@ public class QueryControllerJsonResultObj<T> extends DefaultControllerJsonResult
 	
 	private int pageOfShowRow = PageOf.Rows[0];
 	private int pageOfSelect = 1;
-	private int pageOfCountSize = 0;
+	private long pageOfCountSize = 0;
 	private int pageOfSize = 1;
 	
 	public static <T> QueryControllerJsonResultObj<T> build() {
@@ -50,11 +50,11 @@ public class QueryControllerJsonResultObj<T> extends DefaultControllerJsonResult
 		this.pageOfSelect = pageOfSelect;
 	}
 
-	public int getPageOfCountSize() {
+	public long getPageOfCountSize() {
 		return pageOfCountSize;
 	}
 
-	public void setPageOfCountSize(int pageOfCountSize) {
+	public void setPageOfCountSize(long pageOfCountSize) {
 		this.pageOfCountSize = pageOfCountSize;
 	}
 

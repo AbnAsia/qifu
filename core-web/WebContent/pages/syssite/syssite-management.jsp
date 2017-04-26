@@ -65,12 +65,84 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <button type="button" class="btn btn-primary" id="btnQuery" onclick="queryGrid();">Query</button>
 <button type="button" class="btn btn-primary" id="btnClear" onclick="queryClear();">Clear</button>
 <script>
+function queryGridKeyField() {
+	return "oid";
+}
+function queryGridHeader() {
+	return [
+		{ name: "#", 	field: "oid"},
+		{ name: "Id", 	field: "sysId"},
+		{ name: "Name", field: "name"},
+		{ name: "Host", field: "host"},
+		{ name: "Context path", field: "contextPath"},
+		{ name: "Local", field: "isLocal"}
+	];
+}
+function getQueryGridHeaderOnly() {
+	var str = '<table class="table">';
+	str += '<thead class="thead-inverse">';
+	str += '<tr>';
+	var girdHead = queryGridHeader();
+	for (var i=0; i<girdHead.length; i++) {
+		str += '<th>' + girdHead[i].name + '</th>';
+	}
+	str += '</tr>';
+	str += '</thead>';
+	str += '</table>';
+	return str;
+}
 function queryGrid() {
-	
+	xhrSendParameter(
+			'./core.sysSiteQueryGridJson.do', 
+			{
+				'parameter[sysId]'	: $("#id").val(),
+				'parameter[name]'	: $("#name").val(),
+				'select'			: 1,
+				'showRow'			: 10
+			}, 
+			function(data) {
+				if ( _qifu_success_flag != data.success) {
+					parent.toastrInfo( data.message ); //parent.toastrWarning( data.message );
+					return;
+				}
+				var str = '<table class="table">';
+				str += '<thead class="thead-inverse">';
+				str += '<tr>';
+				var girdHead = queryGridHeader();
+				for (var i=0; i<girdHead.length; i++) {
+					str += '<th>' + girdHead[i].name + '</th>';
+				}
+				str += '</tr>';
+				str += '</thead>';
+				str += '<tbody>';
+				
+				for (var n=0; n<data.value.length; n++) {
+					str += '<tr>';
+					for (var i=0; i<girdHead.length; i++) {
+						var f = girdHead[i].field;
+						var val = data.value[n][f];
+						if($.type(val) === "string") {
+							str += '<td>' + val.replace(/</g, "&lt;").replace(/>/g, "&gt;"); + '</td>';
+						} else {
+							str += '<td>' + val + '</td>';
+						}
+					}			
+					str += '</tr>';
+				}
+				
+				str += '</tbody>';
+				str += '</table>';
+				$("#queryGridTable").html( str );
+			}, 
+			function(){
+				
+			}
+	);
 }
 function queryClear() {
 	$("#id").val('');
 	$("#name").val('');
+	$("#queryGridTable").html( getQueryGridHeaderOnly() );
 }      	
 </script>
 
@@ -78,36 +150,6 @@ function queryClear() {
 <br>
 
 <div id="queryGridTable">
-<table class="table">
-  <thead class="thead-inverse">
-    <tr>
-      <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Username</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
 </div>
 
 
