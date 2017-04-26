@@ -1,13 +1,13 @@
 function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
 	parent.showPleaseWait();
 	$.ajax({
-		type : 'POST',
+		type : _qifu_jqXhrType,
 	    url : xhrUrl,
-	    timeout: 300000,
+	    timeout: _qifu_jqXhrTimeout,
 	    dataType : 'json',
 	    data : jsonParam,
-	    cache: false,
-	    async: true,
+	    cache: _qifu_jqXhrCache,
+	    async: _qifu_jqXhrAsync,
 	    success : function(data, textStatus) {
 	    	parent.hidePleaseWait();  	    	
 			if (data==null || (typeof data=='undefined') ) {
@@ -35,13 +35,13 @@ function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
 function xhrSendForm(xhrUrl, formId, successFn, errorFn) {
 	parent.showPleaseWait();
 	$.ajax({
-		type : 'POST',
+		type : _qifu_jqXhrType,
 	    url : xhrUrl,
-	    timeout: 300000,
+	    timeout: _qifu_jqXhrTimeout,
 	    dataType : 'json',
 	    data : $("#"+formId).serialize(),
-	    cache: false,
-	    async: true,
+	    cache: _qifu_jqXhrCache,
+	    async: _qifu_jqXhrAsync,
 	    success : function(data, textStatus) {
 	    	parent.hidePleaseWait();  	    	
 			if (data==null || (typeof data=='undefined') ) {
