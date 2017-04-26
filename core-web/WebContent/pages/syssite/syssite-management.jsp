@@ -62,12 +62,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
 <br>
       
-      	<button type="button" class="btn btn-primary">Query</button>
-      	<button type="button" class="btn btn-primary">Clear</button>
+<button type="button" class="btn btn-primary" id="btnQuery" onclick="queryGrid();">Query</button>
+<button type="button" class="btn btn-primary" id="btnClear" onclick="queryClear();">Clear</button>
+<script>
+function queryGrid() {
+	
+}
+function queryClear() {
+	$("#id").val('');
+	$("#name").val('');
+}      	
+</script>
 
 <br>
 <br>
 
+<div id="queryGridTable">
 <table class="table">
   <thead class="thead-inverse">
     <tr>
@@ -98,6 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </tr>
   </tbody>
 </table>
+</div>
 
 
 </body>

@@ -5,3 +5,4 @@
 <script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js" crossorigin="anonymous"></script>
 <script src="./bootbox/bootbox.js" crossorigin="anonymous"></script>
 <script src="./configJs.do" crossorigin="anonymous"></script>
+<script src="./js/f.js" crossorigin="anonymous"></script>

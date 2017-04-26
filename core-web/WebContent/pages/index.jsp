@@ -19,6 +19,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css" crossorigin="anonymous">
 <script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js" crossorigin="anonymous"></script>
 <script src="./bootbox/bootbox.js" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="./toastr/toastr.min.css" crossorigin="anonymous">
+<script src="./toastr/toastr.min.js" crossorigin="anonymous"></script>
+
 <script src="./configJs.do" crossorigin="anonymous"></script>
 
 <style type="text/css">
@@ -265,6 +269,22 @@ function logoutEvent() {
 }
 
 
+function showPleaseWait() {
+	$('#myPleaseWait').modal('show');
+}
+function hidePleaseWait() {
+	$('#myPleaseWait').modal('hide');
+}
+
+
+function toastrInfo(message) {
+	toastr.info( message );
+}
+function toastrWarning(message) {
+	toastr.warning( message );
+}
+
+
 </script>
 
 
@@ -272,6 +292,24 @@ function logoutEvent() {
 
 
 <body>
+
+
+<!-- Modal Start here-->
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="myPleaseWait">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="mySmallModalLabel">Please wait!</h4>
+      </div>
+      <div class="modal-body">
+        <img alt="loading" src="./images/loadingAnimation.gif" border="0">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal ends Here -->
+
+
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
