@@ -43,6 +43,14 @@ function getQueryGridHeader() {
 	];
 }
 
+function queryClear() {
+	$("#id").val('');
+	$("#name").val('');
+	
+	clearQueryGridTable();
+	
+}  
+
 </script>
 
 
@@ -293,14 +301,7 @@ function queryGrid() {
 				
 			}
 	);
-}
-function queryClear() {
-	$("#id").val('');
-	$("#name").val('');
-	
-	clearQueryGridTable();
-	
-}      	
+}    	
 
 </script>
 
