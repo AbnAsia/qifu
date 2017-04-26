@@ -38,6 +38,7 @@ public class Grid implements UIComponent {
 	private String xhrParameter = "";
 	private String gridFieldStructure = "";
 	private String queryFunction = "";
+	private String clearFunction = "";
 	private StringBuilder htmlOut=new StringBuilder();
 	private StringBuilder jsOut=new StringBuilder();
 	
@@ -49,6 +50,7 @@ public class Grid implements UIComponent {
 			paramMap.put("xhrParameter", this.xhrParameter);
 			paramMap.put("gridFieldStructure", this.gridFieldStructure);
 			paramMap.put("queryFunction", this.queryFunction);
+			paramMap.put("clearFunction", this.clearFunction);
 		}
 		return paramMap;
 	}
@@ -139,6 +141,14 @@ public class Grid implements UIComponent {
 
 	public void setQueryFunction(String queryFunction) {
 		this.queryFunction = queryFunction;
+	}
+
+	public String getClearFunction() {
+		return clearFunction;
+	}
+
+	public void setClearFunction(String clearFunction) {
+		this.clearFunction = clearFunction;
 	}
 
 }

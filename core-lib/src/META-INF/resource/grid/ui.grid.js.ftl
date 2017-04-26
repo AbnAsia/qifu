@@ -2,7 +2,7 @@
 
 var _before_select_page = 1;
 
-function clearQueryGridTable() {
+function ${clearFunction}() {
 	$("#rowCount").html( '0' );
 	$("#sizeShow").html( '1' );
 	$("#pageSize").val( '1' );
@@ -103,7 +103,7 @@ function ${queryFunction}() {
 			function(data) {
 				if ( _qifu_success_flag != data.success) {
 					
-					clearQueryGridTable();
+					${clearFunction}();
 					
 					parent.toastrInfo( data.message ); //parent.toastrWarning( data.message );
 					return;

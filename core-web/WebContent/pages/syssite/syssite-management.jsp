@@ -104,7 +104,8 @@ function queryClear() {
 	"
 	xhrUrl="./core.sysSiteQueryGridJson.do" 
 	id="CORE_PROG001D0001Q_grid"
-	queryFunction="queryGrid()">
+	queryFunction="queryGrid()"
+	clearFunction="clearQueryGridTable()">
 </q:grid>
 	
 </body>

@@ -38,6 +38,7 @@ public class GridTag implements Tag {
 	private String xhrParameter = "";
 	private String gridFieldStructure = "";
 	private String queryFunction = "";
+	private String clearFunction = "";
 	
 	private Grid handler() {
 		Grid grid = new Grid();
@@ -46,6 +47,7 @@ public class GridTag implements Tag {
 		grid.setXhrParameter(this.xhrParameter);
 		grid.setGridFieldStructure(this.gridFieldStructure);
 		grid.setQueryFunction(this.queryFunction.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
+		grid.setClearFunction(this.clearFunction.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
 		return grid;
 	}
 
@@ -127,6 +129,14 @@ public class GridTag implements Tag {
 
 	public void setQueryFunction(String queryFunction) {
 		this.queryFunction = queryFunction;
+	}
+
+	public String getClearFunction() {
+		return clearFunction;
+	}
+
+	public void setClearFunction(String clearFunction) {
+		this.clearFunction = clearFunction;
 	}
 
 }
