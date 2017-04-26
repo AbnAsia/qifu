@@ -27,43 +27,44 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.qifu.ui.impl.Grid;
+import org.qifu.ui.impl.TextBox;
 
-public class GridTag implements Tag {
+public class TextBoxTag implements Tag {
 	private PageContext pageContext=null;
 	private Tag parent=null;	
 	
 	private String id = "";
-	private String xhrUrl = "";
-	private String xhrParameter = "";
-	private String gridFieldStructure = "";
-	private String queryFunction = "";
-	private String clearFunction = "";
-	
-	private Grid handler() {
-		Grid grid = new Grid();
-		grid.setPageContext(this.pageContext);
-		grid.setId(this.id);
-		grid.setXhrUrl(this.xhrUrl);
-		grid.setXhrParameter(this.xhrParameter);
-		grid.setGridFieldStructure(this.gridFieldStructure);
-		grid.setQueryFunction(this.queryFunction.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
-		grid.setClearFunction(this.clearFunction.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
-		return grid;
+	private String name = "";
+	private String value  = "";
+	private String readonly = "N";
+	private String placeholder = "";
+	private String label = "";
+	private String cssClass = "form-control mb-2 mr-sm-2 mb-sm-0";	
+
+	private TextBox handler() {
+		TextBox textBox = new TextBox();
+		textBox.setPageContext(this.pageContext);
+		textBox.setId(this.id);
+		textBox.setName(this.name);
+		textBox.setValue(this.value);
+		textBox.setReadonly(this.readonly);
+		textBox.setPlaceholder(this.placeholder);
+		textBox.setLabel(this.label);
+		textBox.setCssClass(this.cssClass);
+		return textBox;
 	}
 
 	@Override
 	public int doEndTag() throws JspException {
-		Grid grid = this.handler();
+		TextBox textBox = this.handler();
 		try {
-			this.pageContext.getOut().write( grid.getHtml() );
-			this.pageContext.getOut().write( grid.getScript() );
+			this.pageContext.getOut().write( textBox.getHtml() );
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		grid = null;
+		textBox = null;
 		return 0;
 	}
 
@@ -100,44 +101,52 @@ public class GridTag implements Tag {
 		this.id = id;
 	}
 
-	public String getXhrUrl() {
-		return xhrUrl;
+	public String getName() {
+		return name;
 	}
 
-	public void setXhrUrl(String xhrUrl) {
-		this.xhrUrl = xhrUrl;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getXhrParameter() {
-		return xhrParameter;
+	public String getValue() {
+		return value;
 	}
 
-	public void setXhrParameter(String xhrParameter) {
-		this.xhrParameter = xhrParameter;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	public String getGridFieldStructure() {
-		return gridFieldStructure;
+	public String getReadonly() {
+		return readonly;
 	}
 
-	public void setGridFieldStructure(String gridFieldStructure) {
-		this.gridFieldStructure = gridFieldStructure;
+	public void setReadonly(String readonly) {
+		this.readonly = readonly;
 	}
 
-	public String getQueryFunction() {
-		return queryFunction;
+	public String getPlaceholder() {
+		return placeholder;
 	}
 
-	public void setQueryFunction(String queryFunction) {
-		this.queryFunction = queryFunction;
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
 	}
 
-	public String getClearFunction() {
-		return clearFunction;
+	public String getLabel() {
+		return label;
 	}
 
-	public void setClearFunction(String clearFunction) {
-		this.clearFunction = clearFunction;
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getCssClass() {
+		return cssClass;
+	}
+
+	public void setCssClass(String cssClass) {
+		this.cssClass = cssClass;
 	}
 
 }

@@ -49,6 +49,7 @@ public class ToolBarTag implements Tag {
 	
 	private ToolBar handler() {
 		ToolBar toolBar = new ToolBar();
+		toolBar.setPageContext(this.pageContext);
 		toolBar.setId(this.id);
 		toolBar.setCreateNewEnable(this.createNewEnable);
 		toolBar.setSaveEnabel(this.saveEnabel);

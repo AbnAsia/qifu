@@ -76,12 +76,10 @@ function queryClear() {
 
       <div class="row">
         <div class="col-lg-4">
-    		<label for="id">Id</label>
-    		<input class="form-control mb-2 mr-sm-2 mb-sm-0" type="text" value="" id="id" name="id" placeholder="Enter Id">
+        	<q:textbox name="id" value="" id="id" label="Id" placeholder="Enter Id"></q:textbox>
         </div>
         <div class="col-lg-4">
-    		<label for="name">Name</label>
-    		<input class="form-control mb-2 mr-sm-2 mb-sm-0" type="text" value="" id="name" name="name" placeholder="Enter name">
+        	<q:textbox name="name" value="" id="name" label="Name" placeholder="Enter name"></q:textbox>
        </div>
       </div>
       
