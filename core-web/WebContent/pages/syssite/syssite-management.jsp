@@ -64,33 +64,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
 <button type="button" class="btn btn-primary" id="btnQuery" onclick="queryGrid();">Query</button>
 <button type="button" class="btn btn-primary" id="btnClear" onclick="queryClear();">Clear</button>
+
 <script>
-function queryGridKeyField() {
-	return "oid";
-}
-function queryGridHeader() {
-	return [
-		{ name: "#", 	field: "oid"},
-		{ name: "Id", 	field: "sysId"},
-		{ name: "Name", field: "name"},
-		{ name: "Host", field: "host"},
-		{ name: "Context path", field: "contextPath"},
-		{ name: "Local", field: "isLocal"}
-	];
-}
-function getQueryGridHeaderOnly() {
-	var str = '<table class="table">';
-	str += '<thead class="thead-inverse">';
-	str += '<tr>';
-	var girdHead = queryGridHeader();
-	for (var i=0; i<girdHead.length; i++) {
-		str += '<th>' + girdHead[i].name + '</th>';
-	}
-	str += '</tr>';
-	str += '</thead>';
-	str += '</table>';
+
+function getQueryGridFormatter(value) {
+	var str = '';
+	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="eee("' + value + '");"/>';
+	str += '&nbsp;&nbsp;';
+	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="ddd("' + value + '");"/>';
 	return str;
 }
+function getQueryGridHeader() {
+	return [
+		{ name: "#", 	field: "oid", 	formatter: getQueryGridFormatter },
+		{ name: "Id", 	field: "sysId"					},
+		{ name: "Name", field: "name"					},
+		{ name: "Host", field: "host"					},
+		{ name: "Context path", field: "contextPath"	},
+		{ name: "Local", field: "isLocal"				}
+	];
+}
+
+
 function queryGrid() {
 	xhrSendParameter(
 			'./core.sysSiteQueryGridJson.do', 
@@ -108,7 +103,7 @@ function queryGrid() {
 				var str = '<table class="table">';
 				str += '<thead class="thead-inverse">';
 				str += '<tr>';
-				var girdHead = queryGridHeader();
+				var girdHead = getQueryGridHeader();
 				for (var i=0; i<girdHead.length; i++) {
 					str += '<th>' + girdHead[i].name + '</th>';
 				}
@@ -120,7 +115,16 @@ function queryGrid() {
 					str += '<tr>';
 					for (var i=0; i<girdHead.length; i++) {
 						var f = girdHead[i].field;
-						var val = data.value[n][f];
+						var val = data.value[n][f];		
+						
+						
+						if ( !(typeof girdHead[i].formatter == 'undefined') && (typeof girdHead[i].formatter === 'function') ) {
+							
+							str += '<td>' + girdHead[i].formatter(val) + '</td>';
+							continue;
+						}
+						
+						
 						if($.type(val) === "string") {
 							str += '<td>' + val.replace(/</g, "&lt;").replace(/>/g, "&gt;"); + '</td>';
 						} else {
@@ -142,8 +146,9 @@ function queryGrid() {
 function queryClear() {
 	$("#id").val('');
 	$("#name").val('');
-	$("#queryGridTable").html( getQueryGridHeaderOnly() );
+	$("#queryGridTable").html( '' );
 }      	
+
 </script>
 
 <br>
