@@ -131,6 +131,8 @@ public class SystemSiteAction extends BaseController {
 			return result;
 		}
 		try {
+			result.testField("id", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!");
+			
 			// test
 			result.setMessage( "TEST" );
 			result.setSuccess( YesNo.NO );

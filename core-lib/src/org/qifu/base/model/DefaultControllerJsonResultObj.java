@@ -21,6 +21,12 @@
  */
 package org.qifu.base.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import ognl.Ognl;
+import ognl.OgnlException;
+
 public class DefaultControllerJsonResultObj<T> implements java.io.Serializable {
 	private static final long serialVersionUID = 3754125684960027639L;
 	
@@ -29,6 +35,7 @@ public class DefaultControllerJsonResultObj<T> implements java.io.Serializable {
 	private String message = "";
 	private String login = YesNo.NO;
 	private String isAuthorize = YesNo.NO;
+	private Map<String, String> checkFields = new HashMap<String, String>(); // 不符合條件的輸入欄位
 	
 	public static <T> DefaultControllerJsonResultObj<T> build() {
 		DefaultControllerJsonResultObj<T> obj = new DefaultControllerJsonResultObj<T>();
@@ -73,6 +80,47 @@ public class DefaultControllerJsonResultObj<T> implements java.io.Serializable {
 	
 	public void setIsAuthorize(String isAuthorize) {
 		this.isAuthorize = isAuthorize;
+	}
+
+	public Map<String, String> getCheckFields() {
+		return checkFields;
+	}
+
+	public void setCheckFields(Map<String, String> checkFields) {
+		this.checkFields = checkFields;
+	}
+	
+	public String getCheckFieldsMessage() {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<String, String> entry : this.checkFields.entrySet()) {
+			sb.append( entry.getValue() ).append("<br/>");
+		}
+		return sb.toString();		
+	}
+	
+	public DefaultControllerJsonResultObj<T> testField(String id, boolean checkStatus, String message) {
+		if (this.checkFields.get(id) != null) {
+			return this;
+		}
+		if (checkStatus) {
+			this.checkFields.put(id, message);
+		}
+		return this;
+	}
+	
+	public DefaultControllerJsonResultObj<T> testField(String id, Object paramObj, String expression, String message) {
+		if (this.checkFields.get(id) != null) {
+			return this;
+		}
+		try {
+			Object val = Ognl.getValue(expression, paramObj);
+			if ( val instanceof Boolean && (Boolean) val ) {
+				this.checkFields.put(id, message);
+			}
+		} catch (OgnlException e) {
+			e.printStackTrace();
+		}
+		return this;
 	}
 	
 }
