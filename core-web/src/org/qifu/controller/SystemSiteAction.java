@@ -35,6 +35,7 @@ import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSys;
 import org.qifu.service.ISysService;
+import org.qifu.util.IconUtils;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -99,7 +100,7 @@ public class SystemSiteAction extends BaseController {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001A");
 		try {
-			
+			mv.addObject("iconDataMap", IconUtils.getIconsSelectData());
 			viewName = "syssite/syssite-create";
 		} catch (Exception e) {
 			e.printStackTrace();

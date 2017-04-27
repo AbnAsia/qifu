@@ -118,6 +118,7 @@ public class Select implements UIComponent {
 
 	@Override
 	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

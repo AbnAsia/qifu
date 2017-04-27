@@ -134,6 +134,7 @@ public class TextBox implements UIComponent {
 
 	@Override
 	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

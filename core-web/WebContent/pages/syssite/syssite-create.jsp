@@ -49,7 +49,11 @@ function save() {
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
-xxxxxxxxxxxxxxxxxxx
+<div class="row">
+	<div class="col-lg-4">
+		<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon"></q:select>
+	</div>
+</div>  
 
 </body>
 </html>
