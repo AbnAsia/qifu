@@ -119,7 +119,7 @@
 		</attribute>
 	</tag>		
 	
-	<!-- Grid -->
+	<!-- TextBox -->
 	<tag>
 		<name>textbox</name>
 		<tag-class>org.qifu.tag.TextBoxTag</tag-class>
@@ -158,7 +158,12 @@
 			<name>cssClass</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>										
+		</attribute>
+		<attribute>
+			<name>requiredFlag</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>												
 	</tag>		
 	
 </taglib>	

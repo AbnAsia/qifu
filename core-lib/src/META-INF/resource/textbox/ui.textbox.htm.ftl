@@ -1,2 +1,2 @@
-<#if label?? && label != ""> <label for="${id}">${label}</label> </#if>
+<#if label?? && label != ""> <label for="${id}"> ${label}<#if requiredFlag == "Y" >&nbsp;<font color="RED">*</font></#if></label> </#if>
 <input class="${cssClass}" type="text" value="${value}" id="${id}" name="${name}" placeholder="${placeholder}" <#if readonly == "Y" > readonly="readonly" </#if> >

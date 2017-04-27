@@ -27,6 +27,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.qifu.base.model.YesNo;
 import org.qifu.ui.impl.TextBox;
 
 public class TextBoxTag implements Tag {
@@ -36,10 +37,11 @@ public class TextBoxTag implements Tag {
 	private String id = "";
 	private String name = "";
 	private String value  = "";
-	private String readonly = "N";
+	private String readonly = YesNo.NO;
 	private String placeholder = "";
 	private String label = "";
-	private String cssClass = "form-control mb-2 mr-sm-2 mb-sm-0";	
+	private String cssClass = "form-control mb-2 mr-sm-2 mb-sm-0";
+	private String requiredFlag = YesNo.NO;
 
 	private TextBox handler() {
 		TextBox textBox = new TextBox();
@@ -51,6 +53,7 @@ public class TextBoxTag implements Tag {
 		textBox.setPlaceholder(this.placeholder);
 		textBox.setLabel(this.label);
 		textBox.setCssClass(this.cssClass);
+		textBox.setRequiredFlag(this.requiredFlag);
 		return textBox;
 	}
 
@@ -147,6 +150,14 @@ public class TextBoxTag implements Tag {
 
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
+	}
+
+	public String getRequiredFlag() {
+		return requiredFlag;
+	}
+
+	public void setRequiredFlag(String requiredFlag) {
+		this.requiredFlag = requiredFlag;
 	}
 
 }

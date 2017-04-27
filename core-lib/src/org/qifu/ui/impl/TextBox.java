@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.ognl.Ognl;
 import org.apache.ibatis.ognl.OgnlException;
@@ -43,6 +44,7 @@ public class TextBox implements UIComponent {
 	private String placeholder = "";
 	private String label = "";
 	private String cssClass = "";
+	private String requiredFlag = "";
 	private StringBuilder htmlOut=new StringBuilder();	
 	
 	private Map<String, Object> getParameters(String type) {
@@ -54,6 +56,7 @@ public class TextBox implements UIComponent {
 		paramMap.put("label", this.label);
 		paramMap.put("value", this.value);
 		paramMap.put("cssClass", this.cssClass);
+		paramMap.put("requiredFlag", this.requiredFlag);
 		if (!StringUtils.isBlank(this.value) && StringUtils.defaultString(this.value).indexOf(".") == -1) {
 			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 			Object val = ( request.getParameter(this.value) != null ? request.getParameter(this.value) : request.getAttribute(this.value) ); // 以 getParameter 為主
@@ -74,11 +77,42 @@ public class TextBox implements UIComponent {
 				}				
 			}
 			if (val != null) {
-				paramMap.put("value", val);
+				this.putValue(paramMap, val);
 			}			
 		}
 		return paramMap;
 	}
+	
+	private void putValue(Map<String, Object> params, Object val) {
+		if (val instanceof java.lang.String) {
+			params.put("value", StringEscapeUtils.escapeHtml4( (String)val ) );
+			return;
+		}		
+		if (val instanceof java.lang.Integer) {
+			params.put("value", String.valueOf( (Integer)val ) );
+			return;			
+		}
+		if (val instanceof java.lang.Long) {
+			params.put("value", String.valueOf( (Long)val ) );
+			return;						
+		}
+		if (val instanceof java.math.BigDecimal) {
+			params.put("value", ((java.math.BigDecimal)val).toString() );
+			return;					
+		}
+		if (val instanceof java.math.BigInteger) {
+			params.put("value", ((java.math.BigInteger)val).toString() );
+			return;							
+		}
+		if (val instanceof java.lang.Float) {
+			params.put("value", String.valueOf( (Float)val ) );
+			return;						
+		}
+		if (val instanceof java.lang.Double) {
+			params.put("value", String.valueOf( (Double)val ) );
+			return;						
+		}			
+	}	
 	
 	private void generateHtml() {
 		try {
@@ -161,6 +195,14 @@ public class TextBox implements UIComponent {
 
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
+	}
+
+	public String getRequiredFlag() {
+		return requiredFlag;
+	}
+
+	public void setRequiredFlag(String requiredFlag) {
+		this.requiredFlag = requiredFlag;
 	}
 
 }
