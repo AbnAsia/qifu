@@ -13,6 +13,11 @@
 			<img alt="create" title="Create new" src="./images/create.png" onclick="${createNewJsMethod}"/>
 			&nbsp;
 </#if>			
+
+<#if saveEnabel == "Y" >			
+			<img alt="save" title="Save / Update" src="./images/save.png" onclick="${saveJsMethod}"/>
+			&nbsp;
+</#if>	
 			
 <#if cancelEnable == "Y" >			
 			&nbsp;<font color="#BDBDBD">|</font>&nbsp;
