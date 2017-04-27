@@ -163,7 +163,12 @@
 			<name>requiredFlag</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>												
+		</attribute>
+		<attribute>
+			<name>maxlength</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>							
 	</tag>		
 	
 	<!-- Select -->

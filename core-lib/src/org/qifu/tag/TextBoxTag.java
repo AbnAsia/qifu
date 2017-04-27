@@ -42,6 +42,7 @@ public class TextBoxTag implements Tag {
 	private String label = "";
 	private String cssClass = "form-control mb-2 mr-sm-2 mb-sm-0";
 	private String requiredFlag = YesNo.NO;
+	private String maxlength = "";
 
 	private TextBox handler() {
 		TextBox textBox = new TextBox();
@@ -54,6 +55,7 @@ public class TextBoxTag implements Tag {
 		textBox.setLabel(this.label);
 		textBox.setCssClass(this.cssClass);
 		textBox.setRequiredFlag(this.requiredFlag);
+		textBox.setMaxlength(this.maxlength);
 		return textBox;
 	}
 
@@ -158,6 +160,14 @@ public class TextBoxTag implements Tag {
 
 	public void setRequiredFlag(String requiredFlag) {
 		this.requiredFlag = requiredFlag;
+	}
+
+	public String getMaxlength() {
+		return maxlength;
+	}
+
+	public void setMaxlength(String maxlength) {
+		this.maxlength = maxlength;
 	}
 
 }

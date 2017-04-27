@@ -45,6 +45,7 @@ public class TextBox implements UIComponent {
 	private String label = "";
 	private String cssClass = "";
 	private String requiredFlag = "";
+	private String maxlength = "";
 	private StringBuilder htmlOut=new StringBuilder();	
 	
 	private Map<String, Object> getParameters(String type) {
@@ -57,6 +58,7 @@ public class TextBox implements UIComponent {
 		paramMap.put("value", this.value);
 		paramMap.put("cssClass", this.cssClass);
 		paramMap.put("requiredFlag", this.requiredFlag);
+		paramMap.put("maxlength", this.maxlength);
 		if (!StringUtils.isBlank(this.value) && StringUtils.defaultString(this.value).indexOf(".") == -1) {
 			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 			Object val = ( request.getParameter(this.value) != null ? request.getParameter(this.value) : request.getAttribute(this.value) ); // 以 getParameter 為主
@@ -204,6 +206,14 @@ public class TextBox implements UIComponent {
 
 	public void setRequiredFlag(String requiredFlag) {
 		this.requiredFlag = requiredFlag;
+	}
+
+	public String getMaxlength() {
+		return maxlength;
+	}
+
+	public void setMaxlength(String maxlength) {
+		this.maxlength = maxlength;
 	}
 
 }
