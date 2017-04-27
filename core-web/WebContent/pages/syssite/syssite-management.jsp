@@ -75,10 +75,10 @@ function queryClear() {
 
 
       <div class="row">
-        <div class="col-md-6 col-lg-6">
+        <div class="col-xs-6 col-md-6 col-lg-6">
         	<q:textbox name="id" value="" id="id" label="Id" placeholder="Enter Id" maxlength="10"></q:textbox>
         </div>
-        <div class="col-md-6 col-lg-6">
+        <div class="col-xs-6 col-md-6 col-lg-6">
         	<q:textbox name="name" value="" id="name" label="Name" placeholder="Enter name" maxlength="100"></q:textbox>
        </div>
       </div>
