@@ -78,7 +78,6 @@ public class SystemSiteAction extends BaseController {
 		return mv;
 	}
 	
-	//http://127.0.0.1:8080/core-web/core.sysSiteQueryGridJson.do?parameter[name]=BBB&parameter[id]=123&&select=1&showRow=10&sortType=ASC&orderBy=NAME
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
 	@RequestMapping(value = "/core.sysSiteQueryGridJson.do", produces = "application/json")	
 	public @ResponseBody QueryControllerJsonResultObj<List<SysVO>> queryGrid(SearchValue searchValue, PageOf pageOf) {
@@ -94,23 +93,20 @@ public class SystemSiteAction extends BaseController {
 		return result;
 	}	
 	
-	/*
-	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
-	@RequestMapping(value = "/core.sysSiteQueryGridTestJson.do", produces = "application/json")	
-	public @ResponseBody QueryControllerJsonResultObj<SysVO> queryGrid2(HttpServletRequest request) {
-		QueryControllerJsonResultObj<SysVO> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
-		SearchValue searchValue = this.getSearchValue(request);
-		PageOf pageOf = this.getPageOf(request);
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
+	@RequestMapping(value = "/core.sysSiteCreate.do", method = RequestMethod.GET)
+	public ModelAndView sysSiteCreate(HttpServletRequest request) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001A");
 		try {
-			//http://127.0.0.1:8080/core-web/core.sysSiteQueryGridTestJson.do?parameter.name=BBB&parameter.id=123&&select=1&showRow=10&sortType=ASC&orderBy=NAME
-			result.setSuccess(YesNo.YES);
+			
+			viewName = "syssite/syssite-create";
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setSuccess( YesNo.NO );
-			result.setMessage( e.getMessage().toString() );
+			this.setPageMessage(request, e.getMessage().toString());
 		}
-		return result;
+		mv.setViewName(viewName);
+		return mv;
 	}
-	*/
 	
 }
