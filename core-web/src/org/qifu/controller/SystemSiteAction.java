@@ -22,6 +22,7 @@
 package org.qifu.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -100,7 +101,15 @@ public class SystemSiteAction extends BaseController {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001A");
 		try {
-			mv.addObject("iconDataMap", IconUtils.getIconsSelectData());
+			Map<String, String> iconDataMap = IconUtils.getIconsSelectData();
+			mv.addObject("iconDataMap", iconDataMap);
+			String firstIconKey = "";
+			for (Map.Entry<String, String> entry : iconDataMap.entrySet()) {
+				if ("".equals(firstIconKey)) {
+					firstIconKey = entry.getKey();
+				}
+			}
+			mv.addObject("firstIconKey", firstIconKey);
 			viewName = "syssite/syssite-create";
 		} catch (Exception e) {
 			e.printStackTrace();

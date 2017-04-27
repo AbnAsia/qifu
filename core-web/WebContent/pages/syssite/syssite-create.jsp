@@ -28,8 +28,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 function save() {
 	alert(123);
 }
-function clear() {
-	
+
+function clearSave() {
+	$("#sysId").val( '' );
+	$("#name").val( '' );
+	$("#host").val( '' );
+	$("#contextPath").val( '' );
+	$("#icon").val( '${firstIconKey}' );
+	$("#local").attr('checked', false);
 }
 
 </script>
@@ -96,7 +102,7 @@ function clear() {
 <div class="row">
 	<div class="col-xs-6 col-md-6 col-lg-6">
 		<button type="button" class="btn btn-primary" id="btnSave" onclick="save();">Save</button>
-		<button type="button" class="btn btn-primary" id="btnClear" onclick="clear();">Clear</button>		
+		<button type="button" class="btn btn-primary" id="btnClear" onclick="clearSave();">Clear</button>		
 	</div>
 </div>
 	
