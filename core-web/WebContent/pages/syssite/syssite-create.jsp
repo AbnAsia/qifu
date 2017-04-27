@@ -40,7 +40,7 @@ function clearSave() {
 	$("#host").val( '' );
 	$("#contextPath").val( '' );
 	$("#icon").val( '${firstIconKey}' );
-	$("#local").attr('checked', false);
+	$("#local").prop('checked', false);
 }
 
 </script>
@@ -120,7 +120,7 @@ function clearSave() {
 			"
 			onclick="btnSave();"
 			loadFunction="saveSuccess(data);"
-			errorFunction="">
+			errorFunction="clearSave();">
 		</q:button>
 		<q:button id="btnClear" label="Clear" onclick="clearSave();"></q:button>
 	</div>

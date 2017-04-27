@@ -4,10 +4,12 @@ function ${onclick}() {
 	xhrSendParameter(
 		'${xhrUrl}',
 		${xhrParameter},
-		function(data) {
-			${loadFunction}
+		function(data, textStatus) {
+			${loadFunction};
 		},
-		${errorFunction}
+		function(jqXHR, textStatus, errorThrown) {
+			${errorFunction};
+		}
 	);
 }
 </script>
@@ -19,10 +21,12 @@ function ${onclick}() {
 	xhrSendForm(
 		'${xhrUrl}',
 		'${formId}', 
-		function(data) {
-			${loadFunction}
+		function(data, textStatus) {
+			${loadFunction};
 		},
-		${errorFunction}
+		function(jqXHR, textStatus, errorThrown) {
+			${errorFunction};
+		}
 	);
 }
 </script>

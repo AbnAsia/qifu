@@ -157,7 +157,7 @@ function ${queryFunction}() {
 				$("#${id}").html( str );
 			}, 
 			function(){
-				
+				${clearFunction}();
 			}
 	);
 }    	

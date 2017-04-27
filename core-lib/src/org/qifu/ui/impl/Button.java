@@ -59,12 +59,6 @@ public class Button implements UIComponent {
 			paramMap.put("formId", StringUtils.defaultString(this.formId).trim());
 			paramMap.put("errorFunction", this.errorFunction);
 			paramMap.put("loadFunction", this.loadFunction);
-			if (StringUtils.isBlank(this.errorFunction)) {
-				paramMap.put("errorFunction", "function(){}");
-			}
-			if (StringUtils.isBlank(this.loadFunction)) {
-				paramMap.put("loadFunction", "function(data){}");
-			}
 			paramMap.put("onclick", this.onclick.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
 		} else {
 			paramMap.put("id", this.id);

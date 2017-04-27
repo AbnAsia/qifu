@@ -22,12 +22,12 @@ function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
 				alert("No permission!");
 				return;        				
 			}        						
-			successFn(data);
+			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
 	    	parent.hidePleaseWait(); 	    	
 	        alert(textStatus);
-	        errorFn();
+	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
 	});
 }
@@ -56,12 +56,12 @@ function xhrSendForm(xhrUrl, formId, successFn, errorFn) {
 				alert("No permission!");
 				return;        				
 			}        						
-			successFn(data);
+			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
 	    	parent.hidePleaseWait(); 	    	
 	        alert(textStatus);
-	        errorFn();
+	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
 	});
 }
