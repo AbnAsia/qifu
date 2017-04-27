@@ -210,6 +210,13 @@ public abstract class BaseController {
 		}		
 	}
 	
+	protected boolean isAuthorizeAndLoginFromControllerJsonResult(DefaultControllerJsonResultObj<?> result) {
+		if (YesNo.YES.equals(result.getIsAuthorize()) && YesNo.YES.equals(result.getLogin())) {
+			return true;
+		}
+		return false;
+	}
+	
 	protected void fillObjectFromRequest(HttpServletRequest request, Object root) {
 		Enumeration<String> pNames = request.getParameterNames();
 		while (pNames.hasMoreElements()) {

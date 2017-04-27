@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
@@ -84,6 +85,9 @@ public class SystemSiteAction extends BaseController {
 	@RequestMapping(value = "/core.sysSiteQueryGridJson.do", produces = "application/json")	
 	public @ResponseBody QueryControllerJsonResultObj<List<SysVO>> queryGrid(SearchValue searchValue, PageOf pageOf) {
 		QueryControllerJsonResultObj<List<SysVO>> result = this.getQueryJsonResult("CORE_PROG001D0001Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
 		try {
 			QueryResult<List<SysVO>> queryResult = this.sysService.findGridResult(searchValue, pageOf);
 			this.setQueryGridJsonResult(result, queryResult, pageOf);
@@ -117,6 +121,25 @@ public class SystemSiteAction extends BaseController {
 		}
 		mv.setViewName(viewName);
 		return mv;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
+	@RequestMapping(value = "/core.sysSiteSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysVO> sysSiteSave(SysVO sys) {
+		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			// test
+			result.setMessage( "TEST" );
+			result.setSuccess( YesNo.NO );
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess( YesNo.NO );
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
 	}
 	
 }

@@ -25,8 +25,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
-function save() {
-	alert(123);
+function saveSuccess(data) {
+	if ( _qifu_success_flag != data.success ) {
+		parent.toastrWarning( data.message );
+		return;
+	}
+	parent.toastrInfo( data.message );
+	clearSave();
 }
 
 function clearSave() {
@@ -52,7 +57,7 @@ function clearSave() {
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="Y" 
-	saveJsMethod="save();" 	
+	saveJsMethod="btnSave();" 	
 	cancelEnable="Y" 
 	cancelJsMethod="parent.closeTab('CORE_PROG001D0001A');" >
 </q:toolBar>
@@ -101,8 +106,23 @@ function clearSave() {
 
 <div class="row">
 	<div class="col-xs-6 col-md-6 col-lg-6">
-		<button type="button" class="btn btn-primary" id="btnSave" onclick="save();">Save</button>
-		<button type="button" class="btn btn-primary" id="btnClear" onclick="clearSave();">Clear</button>		
+		<q:button id="btnSave" label="Save"
+			xhrUrl="./core.sysSiteSaveJson.do"
+			xhrParameter="
+			{
+				'sysId'			:	$('#sysId').val(),
+				'name'			:	$('#name').val(),
+				'host'			:	$('#host').val(),
+				'contextPath'	:	$('#contextPath').val(),
+				'icon'			:	$('#icon').val(),		
+				'isLocal'		:	( $('#local').is(':checked') ? 'Y' : 'N' )
+			}
+			"
+			onclick="btnSave();"
+			loadFunction="saveSuccess(data);"
+			errorFunction="">
+		</q:button>
+		<q:button id="btnClear" label="Clear" onclick="clearSave();"></q:button>
 	</div>
 </div>
 	
