@@ -235,8 +235,7 @@ public abstract class BaseController {
 		return searchValue;
 	}	
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void setQueryGridJsonResult(QueryControllerJsonResultObj jsonResult, QueryResult queryResult, PageOf pageOf) {
+	protected <T> void setQueryGridJsonResult(QueryControllerJsonResultObj<T> jsonResult, QueryResult<T> queryResult, PageOf pageOf) {
 		if (queryResult.getValue() != null) {
 			jsonResult.setValue( queryResult.getValue() );
 			jsonResult.setPageOfCountSize( queryResult.getRowCount() );
