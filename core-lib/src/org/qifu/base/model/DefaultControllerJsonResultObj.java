@@ -21,7 +21,7 @@
  */
 package org.qifu.base.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DefaultControllerJsonResultObj<T> implements java.io.Serializable {
@@ -32,7 +32,7 @@ public class DefaultControllerJsonResultObj<T> implements java.io.Serializable {
 	private String message = "";
 	private String login = YesNo.NO;
 	private String isAuthorize = YesNo.NO;
-	private Map<String, String> checkFields = new HashMap<String, String>(); // 不符合條件的輸入欄位
+	private Map<String, String> checkFields = new LinkedHashMap<String, String>(); // 不符合條件的輸入欄位
 	
 	public static <T> DefaultControllerJsonResultObj<T> build() {
 		DefaultControllerJsonResultObj<T> obj = new DefaultControllerJsonResultObj<T>();
