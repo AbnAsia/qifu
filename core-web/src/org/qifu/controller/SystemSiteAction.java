@@ -168,4 +168,26 @@ public class SystemSiteAction extends BaseController {
 		return result;
 	}
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001D")
+	@RequestMapping(value = "/core.sysSiteDeleteJson.do", produces = "application/json")			
+	public @ResponseBody DefaultControllerJsonResultObj<SysVO> delete(SysVO sys) {
+		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			DefaultResult<Boolean> sysResult = this.applicationSystemLogicService.delete(sys);
+			if (sysResult.getValue() != null) {
+				result.setSuccess( YesNo.YES );
+			}
+			result.setMessage( sysResult.getSystemMessage().getValue() );
+		} catch (ControllerException ce) {
+			result.setMessage( ce.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
+	
 }

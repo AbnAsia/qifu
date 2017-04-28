@@ -27,9 +27,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 function getQueryGridFormatter(value) {
 	var str = '';
-	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="eee("' + value + '");"/>';
+	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="eee(\'' + value + '\');"/>';
 	str += '&nbsp;&nbsp;';
-	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="ddd("' + value + '");"/>';
+	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
 	return str;
 }
 function getQueryGridHeader() {
@@ -50,6 +50,33 @@ function queryClear() {
 	clearQueryGridTable();
 	
 }  
+
+function deleteRecord(oid) {
+	bootbox.confirm(
+			"Delete?", 
+			function(result) { 
+				if (!result) {
+					return;
+				}
+				xhrSendParameter(
+						'core.sysSiteDeleteJson.do', 
+						{ 'oid' : oid }, 
+						function(data) {
+							if ( _qifu_success_flag != data.success ) {
+								parent.toastrWarning( data.message );
+							}
+							if ( _qifu_success_flag == data.success ) {
+								parent.toastrInfo( data.message );
+							}
+							queryGrid();
+						}, 
+						function() {
+							
+						}
+				);
+			}
+	);	
+}
 
 </script>
 
