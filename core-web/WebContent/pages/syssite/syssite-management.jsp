@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 function getQueryGridFormatter(value) {
 	var str = '';
-	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="eee(\'' + value + '\');"/>';
+	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="editPage(\'' + value + '\');"/>';
 	str += '&nbsp;&nbsp;';
 	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
 	return str;
@@ -50,6 +50,10 @@ function queryClear() {
 	clearQueryGridTable();
 	
 }  
+
+function editPage(oid) {
+	parent.addTab('CORE_PROG001D0001E', parent.getProgUrl('CORE_PROG001D0001E') + '&oid=' + oid );
+}
 
 function deleteRecord(oid) {
 	parent.bootbox.confirm(

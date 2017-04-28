@@ -173,6 +173,17 @@ public abstract class BaseController {
 		request.setAttribute("errorContact", this.getErrorContact());
 	}
 	
+	protected void setPageMessage(ModelAndView mv, String pageMessage) {
+		if (null!=pageMessage && pageMessage.length()>=500) {
+			pageMessage=pageMessage.substring(0, 500);
+		}
+		mv.addObject(Constants.PAGE_MESSAGE, pageMessage);
+	}	
+	
+	protected void setPageErrorContact(ModelAndView mv) {
+		mv.addObject("errorContact", this.getErrorContact());
+	}	
+	
 	protected String getNowDate() {
 		return SimpleUtils.getStrYMD("/");
 	}

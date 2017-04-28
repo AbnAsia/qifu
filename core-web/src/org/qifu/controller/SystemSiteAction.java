@@ -38,15 +38,18 @@ import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSys;
+import org.qifu.po.TbSysIcon;
+import org.qifu.service.ISysIconService;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.IApplicationSystemLogicService;
 import org.qifu.util.IconUtils;
+import org.qifu.vo.SysIconVO;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -56,7 +59,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SystemSiteAction extends BaseController {
 	
 	private ISysService<SysVO, TbSys, String> sysService;
-	
+	private ISysIconService<SysIconVO, TbSysIcon, String> sysIconService;
 	private IApplicationSystemLogicService applicationSystemLogicService;
 	
 	public ISysService<SysVO, TbSys, String> getSysService() {
@@ -68,6 +71,17 @@ public class SystemSiteAction extends BaseController {
 	@Required
 	public void setSysService(ISysService<SysVO, TbSys, String> sysService) {
 		this.sysService = sysService;
+	}
+
+	public ISysIconService<SysIconVO, TbSysIcon, String> getSysIconService() {
+		return sysIconService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysIconService")
+	@Required	
+	public void setSysIconService(ISysIconService<SysIconVO, TbSysIcon, String> sysIconService) {
+		this.sysIconService = sysIconService;
 	}
 
 	public IApplicationSystemLogicService getApplicationSystemLogicService() {
@@ -82,13 +96,15 @@ public class SystemSiteAction extends BaseController {
 	}
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
-	@RequestMapping(value = "/core.sysSiteManagement.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/core.sysSiteManagement.do")
 	public ModelAndView queryPage(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001Q");
 		try {
 			
 			viewName = "syssite/syssite-management";
+		} catch (ControllerException ce) {
+			this.setPageMessage(request, ce.getMessage().toString());					
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.setPageMessage(request, e.getMessage().toString());
@@ -107,6 +123,8 @@ public class SystemSiteAction extends BaseController {
 		try {
 			QueryResult<List<SysVO>> queryResult = this.sysService.findGridResult(searchValue, pageOf);
 			this.setQueryGridJsonResult(result, queryResult, pageOf);
+		} catch (ControllerException ce) {
+			result.setMessage( ce.getMessage().toString() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setMessage( e.getMessage().toString() );
@@ -115,7 +133,7 @@ public class SystemSiteAction extends BaseController {
 	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
-	@RequestMapping(value = "/core.sysSiteCreate.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/core.sysSiteCreate.do")
 	public ModelAndView createPage(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001A");
@@ -130,12 +148,60 @@ public class SystemSiteAction extends BaseController {
 			}
 			mv.addObject("firstIconKey", firstIconKey);
 			viewName = "syssite/syssite-create";
+		} catch (ControllerException ce) {
+			this.setPageMessage(request, ce.getMessage().toString());			
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.setPageMessage(request, e.getMessage().toString());
 		}
 		mv.setViewName(viewName);
 		return mv;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001E")
+	@RequestMapping(value = "/core.sysSiteEdit.do")	
+	public ModelAndView editPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001E");
+		try {
+			SysVO sys = new SysVO();
+			sys.setOid(oid);
+			DefaultResult<SysVO> sysResult = this.sysService.findObjectByOid(sys);
+			if ( sysResult.getValue() == null ) {
+				throw new ControllerException( sysResult.getSystemMessage().getValue() );
+			}
+			sys = sysResult.getValue();
+			Map<String, String> iconDataMap = IconUtils.getIconsSelectData();
+			TbSysIcon sysIcon = new TbSysIcon();
+			sysIcon.setIconId(sys.getIcon());
+			DefaultResult<TbSysIcon> iconResult = this.sysIconService.findEntityByUK(sysIcon);
+			if (iconResult.getValue() == null) {
+				throw new ControllerException( iconResult.getSystemMessage().getValue() );
+			}
+			sysIcon = iconResult.getValue();
+			mv.addObject("firstIconKey", sysIcon.getOid());
+			mv.addObject("iconDataMap", iconDataMap);
+			mv.addObject("sys", sys);
+			viewName = "syssite/syssite-edit";
+		} catch (ControllerException ce) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			this.setPageMessage(request, ce.getMessage().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}
+	
+	private void checkFields(DefaultControllerJsonResultObj<SysVO> result, SysVO sys) throws ControllerException, Exception {
+		this.getCheckControllerFieldHandler(result)
+		.testField("systemId", sys, "@org.apache.commons.lang3.StringUtils@isBlank(sysId)", "Id is blank!")
+		.testField("systemId", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!")
+		.testField("systemName", sys, "@org.apache.commons.lang3.StringUtils@isBlank(name)", "Name is blank!")
+		.testField("systemHost", sys, "@org.apache.commons.lang3.StringUtils@isBlank(host)", "Host is blank!")
+		.testField("systemContextPath", sys, "@org.apache.commons.lang3.StringUtils@isBlank(contextPath)", "Context path is blank!")
+		.throwMessage();		
 	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
@@ -146,13 +212,7 @@ public class SystemSiteAction extends BaseController {
 			return result;
 		}
 		try {
-			this.getCheckControllerFieldHandler(result)
-			.testField("systemId", sys, "@org.apache.commons.lang3.StringUtils@isBlank(sysId)", "Id is blank!")
-			.testField("systemId", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!")
-			.testField("systemName", sys, "@org.apache.commons.lang3.StringUtils@isBlank(name)", "Name is blank!")
-			.testField("systemHost", sys, "@org.apache.commons.lang3.StringUtils@isBlank(host)", "Host is blank!")
-			.testField("systemContextPath", sys, "@org.apache.commons.lang3.StringUtils@isBlank(contextPath)", "Context path is blank!")
-			.throwMessage();
+			this.checkFields(result, sys);
 			DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.create(sys, sys.getIcon());
 			if ( sysResult.getValue() != null ) {
 				result.setValue( sysResult.getValue() );
@@ -167,6 +227,30 @@ public class SystemSiteAction extends BaseController {
 		}
 		return result;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
+	@RequestMapping(value = "/core.sysSiteUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysVO> update(SysVO sys) {
+		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.checkFields(result, sys);
+			DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.update(sys, sys.getIcon());
+			if ( sysResult.getValue() != null ) {
+				result.setValue( sysResult.getValue() );
+				result.setSuccess( YesNo.YES );
+			}
+			result.setMessage( sysResult.getSystemMessage().getValue() );
+		} catch (ControllerException ce) {
+			result.setMessage( ce.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001D")
 	@RequestMapping(value = "/core.sysSiteDeleteJson.do", produces = "application/json")			

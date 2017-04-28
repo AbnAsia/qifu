@@ -71,13 +71,17 @@ public class TextBox implements UIComponent {
 			String kName = this.value.split("[.]")[0];
 			Object valObj = ( request.getParameter(kName) != null ? request.getParameter(kName) : request.getAttribute(kName) );
 			Object val = null;
+			Map<String, Object> ognlRoot = new HashMap<String, Object>(); 
 			if (valObj != null) {
 				try {
-					val = Ognl.getValue(this.value, valObj);
+					ognlRoot.put(kName, valObj);
+					val = Ognl.getValue(this.value, ognlRoot);
 				} catch (OgnlException e) {	
 					//e.printStackTrace();
 				}				
 			}
+			ognlRoot.clear();
+			ognlRoot = null;
 			if (val != null) {
 				this.putValue(paramMap, val);
 			}			

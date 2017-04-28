@@ -39,7 +39,7 @@ formGroups['name'] 			= 'form-group1';
 formGroups['host'] 			= 'form-group2';
 formGroups['contextPath'] 	= 'form-group2';
 
-function saveSuccess(data) {
+function updateSuccess(data) {
 	clearWarningMessageField(formGroups, msgFields);
 	if ( _qifu_success_flag != data.success ) {
 		parent.toastrWarning( data.message );
@@ -47,12 +47,10 @@ function saveSuccess(data) {
 		return;
 	}
 	parent.toastrInfo( data.message );
-	clearSave();
 }
 
-function clearSave() {
+function clearUpdate() {
 	clearWarningMessageField(formGroups, msgFields);
-	$("#sysId").val( '' );
 	$("#name").val( '' );
 	$("#host").val( '' );
 	$("#contextPath").val( '' );
@@ -68,46 +66,46 @@ function clearSave() {
 <body>
 
 <q:toolBar 
-	id="CORE_PROG001D0001A_toolbar" 
+	id="CORE_PROG001D0001E_toolbar" 
 	refreshEnable="Y"
-	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG001D0001A');" 
+	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG001D0001E') + '&oid=${sys.oid}';" 
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="Y" 
-	saveJsMethod="btnSave();" 	
+	saveJsMethod="btnUpdate();" 	
 	cancelEnable="Y" 
-	cancelJsMethod="parent.closeTab('CORE_PROG001D0001A');" >
+	cancelJsMethod="parent.closeTab('CORE_PROG001D0001E');" >
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
 <div class="form-group" id="form-group1">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="sysId" value="" id="sysId" label="Id" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)"></q:textbox>
+			<q:textbox name="sysId" value="sys.sysId" id="sysId" label="Id" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)" readonly="Y"></q:textbox>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="name" value="" id="name" label="Name" requiredFlag="Y" maxlength="100" placeholder="Enter name"></q:textbox>
+			<q:textbox name="name" value="sys.name" id="name" label="Name" requiredFlag="Y" maxlength="100" placeholder="Enter name"></q:textbox>
 		</div>
 	</div>
 </div>
 <div class="form-group" id="form-group2">	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="host" value="" id="host" label="Host" requiredFlag="Y" maxlength="200" placeholder="Enter host e.g: 127.0.0.1:8080"></q:textbox>
+			<q:textbox name="host" value="sys.host" id="host" label="Host" requiredFlag="Y" maxlength="200" placeholder="Enter host e.g: 127.0.0.1:8080"></q:textbox>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="contextPath" value="" id="contextPath" label="Context path" requiredFlag="Y" maxlength="100" placeholder="Enter host e.g: demo-web"></q:textbox>
+			<q:textbox name="contextPath" value="sys.contextPath" id="contextPath" label="Context path" requiredFlag="Y" maxlength="100" placeholder="Enter host e.g: demo-web"></q:textbox>
 		</div>
 	</div>	
 </div>	
 <div class="form-group">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon" requiredFlag="Y"></q:select>
+			<q:select dataSource="iconDataMap" name="icon" id="icon" value="${firstIconKey}" label="Icon" requiredFlag="Y"></q:select>
 		</div>
 	</div>
 	<div class="row">
@@ -115,7 +113,7 @@ function clearSave() {
 		<br>
 		&nbsp;
 			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="local" name="local">
+				<input type="checkbox" class="custom-control-input" id="local" name="local" <c:if test="${ \"Y\" == sys.isLocal }"> checked="checked" </c:if> >
 			    <span class="custom-control-indicator"></span>
 			    <span class="custom-control-description">Local</span>
 			</label>
@@ -129,10 +127,11 @@ function clearSave() {
 
 <div class="row">
 	<div class="col-xs-6 col-md-6 col-lg-6">
-		<q:button id="btnSave" label="Save"
-			xhrUrl="./core.sysSiteSaveJson.do"
+		<q:button id="btnUpdate" label="Save"
+			xhrUrl="./core.sysSiteUpdateJson.do"
 			xhrParameter="
 			{
+				'oid'			:	'${sys.oid}',
 				'sysId'			:	$('#sysId').val(),
 				'name'			:	$('#name').val(),
 				'host'			:	$('#host').val(),
@@ -141,11 +140,11 @@ function clearSave() {
 				'isLocal'		:	( $('#local').is(':checked') ? 'Y' : 'N' )
 			}
 			"
-			onclick="btnSave();"
-			loadFunction="saveSuccess(data);"
-			errorFunction="clearSave();">
+			onclick="btnUpdate();"
+			loadFunction="updateSuccess(data);"
+			errorFunction="clearUpdate();">
 		</q:button>
-		<q:button id="btnClear" label="Clear" onclick="clearSave();"></q:button>
+		<q:button id="btnClear" label="Clear" onclick="clearUpdate();"></q:button>
 	</div>
 </div>
 	
