@@ -30,6 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.qifu.base.Constants;
+import org.qifu.base.model.CheckControllerFieldHandler;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
@@ -253,6 +254,10 @@ public abstract class BaseController {
 		} else {
 			jsonResult.setMessage( queryResult.getSystemMessage().getValue() );
 		}		
+	}
+	
+	protected <T> CheckControllerFieldHandler<T> getCheckControllerFieldHandler(DefaultControllerJsonResultObj<T> result) {
+		return CheckControllerFieldHandler.build(result);
 	}
 	
 }

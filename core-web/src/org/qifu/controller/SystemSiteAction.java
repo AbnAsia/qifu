@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.controller.BaseController;
+import org.qifu.base.exception.ControllerException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
@@ -67,7 +68,7 @@ public class SystemSiteAction extends BaseController {
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
 	@RequestMapping(value = "/core.sysSiteManagement.do", method = RequestMethod.GET)
-	public ModelAndView sysSiteManagement(HttpServletRequest request) {
+	public ModelAndView queryPage(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001Q");
 		try {
@@ -93,7 +94,6 @@ public class SystemSiteAction extends BaseController {
 			this.setQueryGridJsonResult(result, queryResult, pageOf);
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setSuccess( YesNo.NO );
 			result.setMessage( e.getMessage().toString() );
 		}
 		return result;
@@ -101,7 +101,7 @@ public class SystemSiteAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
 	@RequestMapping(value = "/core.sysSiteCreate.do", method = RequestMethod.GET)
-	public ModelAndView sysSiteCreate(HttpServletRequest request) {
+	public ModelAndView createPage(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001A");
 		try {
@@ -125,20 +125,26 @@ public class SystemSiteAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
 	@RequestMapping(value = "/core.sysSiteSaveJson.do", produces = "application/json")		
-	public @ResponseBody DefaultControllerJsonResultObj<SysVO> sysSiteSave(SysVO sys) {
+	public @ResponseBody DefaultControllerJsonResultObj<SysVO> save(SysVO sys) {
 		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001A");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
 		try {
-			result.testField("id", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!");
+			this.getCheckControllerFieldHandler(result)
+			.testField("id", sys, "@org.apache.commons.lang3.StringUtils@isBlank(sysId)", "Id is blank!")
+			.testField("id", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!")
+			.testField("name", sys, "@org.apache.commons.lang3.StringUtils@isBlank(name)", "Name is blank!")
+			.testField("host", sys, "@org.apache.commons.lang3.StringUtils@isBlank(host)", "Host is blank!")
+			.testField("contextPath", sys, "@org.apache.commons.lang3.StringUtils@isBlank(contextPath)", "Context path is blank!")
+			.throwMessage();
 			
-			// test
 			result.setMessage( "TEST" );
-			result.setSuccess( YesNo.NO );
+			result.setSuccess( YesNo.YES );
+		} catch (ControllerException ce) {
+			result.setMessage( ce.getMessage().toString() );			
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setSuccess( YesNo.NO );
 			result.setMessage( e.getMessage().toString() );
 		}
 		return result;
