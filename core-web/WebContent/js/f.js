@@ -66,32 +66,42 @@ function xhrSendForm(xhrUrl, formId, successFn, errorFn) {
 	});
 }
 
-function setWarningMessageField(formGroupId, fields, checkFields) {
+function setWarningMessageField(formGroups, fields, checkFields) {
 	if (null == fields) {
 		return;
 	}
 	for (var k in fields) {
 		var idKey = '';
 		var msgContent = '';
-		for (var d in checkFields) {
-			if ( fields[k] == d ) {
+		var formGroupId = '';
+		for (var d in checkFields) {			
+			if ( k == d ) {
 				idKey = fields[k];
 				msgContent = checkFields[d];
+			}
+		}
+		for (var g in formGroups) {
+			if ( fields[k] == g ) {
+				formGroupId = formGroups[g]; 
 			}
 		}
 		if (null == idKey || idKey == '') {
 			continue;
 		}
 		$("#"+idKey+"-feedback").html( msgContent );
-		$("#"+idKey).addClass( "form-control-warning" );		
+		$("#"+idKey).addClass( "form-control-warning" );
+		if (null != formGroupId && formGroupId != '') {
+			$("#"+formGroupId).addClass( "has-warning" );
+		}
 	}
-	$("#"+formGroupId).addClass( "has-warning" );
 }
-function clearWarningMessageField(formGroupId, fields) {
+function clearWarningMessageField(formGroups, fields) {
 	for (var k in fields) {
 		var idKey = fields[k];
 		$("#"+idKey+"-feedback").html( "" );
 		$("#"+idKey).removeClass( "form-control-warning" );		
 	}
-	$("#"+formGroupId).removeClass( "has-warning" );
+	for (var g in formGroups) {
+		$("#"+formGroups[g]).removeClass( "has-warning" );
+	}
 }

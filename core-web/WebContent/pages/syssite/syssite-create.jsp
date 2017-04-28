@@ -27,17 +27,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 //fields[ data.checkFields map 的 key ]	= '頁面的欄位id';
 var msgFields = new Object();
-msgFields['sysId'] 			= 'sysId';
-msgFields['name'] 			= 'name';
-msgFields['host'] 			= 'host';
-msgFields['contextPath'] 	= 'contextPath';
+msgFields['systemId'] 			= 'sysId';
+msgFields['systemName'] 		= 'name';
+msgFields['systemHost'] 		= 'host';
+msgFields['systemContextPath']	= 'contextPath';
 
+//formGroups[ 頁面的欄位id ] = ' 欄位form-group的 id ';
+var formGroups = new Object();
+formGroups['sysId'] 		= 'form-group1';
+formGroups['name'] 			= 'form-group1';
+formGroups['host'] 			= 'form-group2';
+formGroups['contextPath'] 	= 'form-group2';
 
 function saveSuccess(data) {
-	clearWarningMessageField("CORE_PROG001D0001C-form-group", msgFields);
+	clearWarningMessageField(formGroups, msgFields);
 	if ( _qifu_success_flag != data.success ) {
 		parent.toastrWarning( data.message );
-		setWarningMessageField("CORE_PROG001D0001C-form-group", msgFields, data.checkFields);
+		setWarningMessageField(formGroups, msgFields, data.checkFields);
 		return;
 	}
 	parent.toastrInfo( data.message );
@@ -45,7 +51,7 @@ function saveSuccess(data) {
 }
 
 function clearSave() {
-	clearWarningMessageField("CORE_PROG001D0001C-form-group", msgFields);
+	clearWarningMessageField(formGroups, msgFields);
 	$("#sysId").val( '' );
 	$("#name").val( '' );
 	$("#host").val( '' );
@@ -74,8 +80,7 @@ function clearSave() {
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
-<div class="form-group" id="CORE_PROG001D0001C-form-group">
-
+<div class="form-group" id="form-group1">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
 			<q:textbox name="sysId" value="" id="sysId" label="Id" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)"></q:textbox>
@@ -86,6 +91,8 @@ function clearSave() {
 			<q:textbox name="name" value="" id="name" label="Name" requiredFlag="Y" maxlength="100" placeholder="Enter name"></q:textbox>
 		</div>
 	</div>
+</div>
+<div class="form-group" id="form-group2">	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
 			<q:textbox name="host" value="" id="host" label="Host" requiredFlag="Y" maxlength="200" placeholder="Enter host e.g: 127.0.0.1:8080"></q:textbox>
@@ -96,14 +103,13 @@ function clearSave() {
 			<q:textbox name="contextPath" value="" id="contextPath" label="Context path" requiredFlag="Y" maxlength="100" placeholder="Enter host e.g: demo-web"></q:textbox>
 		</div>
 	</div>	
+</div>	
+<div class="form-group">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
 			<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon" requiredFlag="Y"></q:select>
 		</div>
 	</div>
-
-</div>
-<div class="form-group">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
 		<br>
