@@ -28,7 +28,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.controller.BaseController;
+import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
+import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.DefaultResult;
@@ -101,10 +103,12 @@ public class SystemSiteAction extends BaseController {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001Q");
 		try {
-			
+			// do some...
 			viewName = "syssite/syssite-management";
-		} catch (ControllerException ce) {
-			this.setPageMessage(request, ce.getMessage().toString());					
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.setPageMessage(request, e.getMessage().toString());
@@ -123,8 +127,8 @@ public class SystemSiteAction extends BaseController {
 		try {
 			QueryResult<List<SysVO>> queryResult = this.sysService.findGridResult(searchValue, pageOf);
 			this.setQueryGridJsonResult(result, queryResult, pageOf);
-		} catch (ControllerException ce) {
-			result.setMessage( ce.getMessage().toString() );			
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setMessage( e.getMessage().toString() );
@@ -148,8 +152,10 @@ public class SystemSiteAction extends BaseController {
 			}
 			mv.addObject("firstIconKey", firstIconKey);
 			viewName = "syssite/syssite-create";
-		} catch (ControllerException ce) {
-			this.setPageMessage(request, ce.getMessage().toString());			
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.setPageMessage(request, e.getMessage().toString());
@@ -183,9 +189,10 @@ public class SystemSiteAction extends BaseController {
 			mv.addObject("iconDataMap", iconDataMap);
 			mv.addObject("sys", sys);
 			viewName = "syssite/syssite-edit";
-		} catch (ControllerException ce) {
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
 			viewName = PAGE_SYS_SEARCH_NO_DATA;
-			this.setPageMessage(request, ce.getMessage().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.setPageMessage(request, e.getMessage().toString());
@@ -204,23 +211,45 @@ public class SystemSiteAction extends BaseController {
 		.throwMessage();		
 	}
 	
+	private void save(DefaultControllerJsonResultObj<SysVO> result, SysVO sys) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sys);
+		DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.create(sys, sys.getIcon());
+		if ( sysResult.getValue() != null ) {
+			result.setValue( sysResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( sysResult.getSystemMessage().getValue() );		
+	}
+	
+	private void update(DefaultControllerJsonResultObj<SysVO> result, SysVO sys) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sys);
+		DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.update(sys, sys.getIcon());
+		if ( sysResult.getValue() != null ) {
+			result.setValue( sysResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( sysResult.getSystemMessage().getValue() );
+	}
+	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysVO sys) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> sysResult = this.applicationSystemLogicService.delete(sys);
+		if (sysResult.getValue() != null) {
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( sysResult.getSystemMessage().getValue() );		
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
 	@RequestMapping(value = "/core.sysSiteSaveJson.do", produces = "application/json")		
-	public @ResponseBody DefaultControllerJsonResultObj<SysVO> save(SysVO sys) {
+	public @ResponseBody DefaultControllerJsonResultObj<SysVO> doSave(SysVO sys) {
 		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001A");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
 		try {
-			this.checkFields(result, sys);
-			DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.create(sys, sys.getIcon());
-			if ( sysResult.getValue() != null ) {
-				result.setValue( sysResult.getValue() );
-				result.setSuccess( YesNo.YES );
-			}
-			result.setMessage( sysResult.getSystemMessage().getValue() );
-		} catch (ControllerException ce) {
-			result.setMessage( ce.getMessage().toString() );			
+			this.save(result, sys);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setMessage( e.getMessage().toString() );
@@ -230,21 +259,15 @@ public class SystemSiteAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
 	@RequestMapping(value = "/core.sysSiteUpdateJson.do", produces = "application/json")		
-	public @ResponseBody DefaultControllerJsonResultObj<SysVO> update(SysVO sys) {
+	public @ResponseBody DefaultControllerJsonResultObj<SysVO> doUpdate(SysVO sys) {
 		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001A");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
 		try {
-			this.checkFields(result, sys);
-			DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.update(sys, sys.getIcon());
-			if ( sysResult.getValue() != null ) {
-				result.setValue( sysResult.getValue() );
-				result.setSuccess( YesNo.YES );
-			}
-			result.setMessage( sysResult.getSystemMessage().getValue() );
-		} catch (ControllerException ce) {
-			result.setMessage( ce.getMessage().toString() );			
+			this.update(result, sys);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setMessage( e.getMessage().toString() );
@@ -254,19 +277,15 @@ public class SystemSiteAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001D")
 	@RequestMapping(value = "/core.sysSiteDeleteJson.do", produces = "application/json")			
-	public @ResponseBody DefaultControllerJsonResultObj<SysVO> delete(SysVO sys) {
-		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001D");
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysVO sys) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0001D");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
 		try {
-			DefaultResult<Boolean> sysResult = this.applicationSystemLogicService.delete(sys);
-			if (sysResult.getValue() != null) {
-				result.setSuccess( YesNo.YES );
-			}
-			result.setMessage( sysResult.getSystemMessage().getValue() );
-		} catch (ControllerException ce) {
-			result.setMessage( ce.getMessage().toString() );			
+			this.delete(result, sys);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setMessage( e.getMessage().toString() );
