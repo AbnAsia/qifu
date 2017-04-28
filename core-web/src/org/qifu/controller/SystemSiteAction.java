@@ -31,6 +31,7 @@ import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
@@ -38,6 +39,7 @@ import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSys;
 import org.qifu.service.ISysService;
+import org.qifu.service.logic.IApplicationSystemLogicService;
 import org.qifu.util.IconUtils;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,8 @@ public class SystemSiteAction extends BaseController {
 	
 	private ISysService<SysVO, TbSys, String> sysService;
 	
+	private IApplicationSystemLogicService applicationSystemLogicService;
+	
 	public ISysService<SysVO, TbSys, String> getSysService() {
 		return sysService;
 	}
@@ -64,6 +68,17 @@ public class SystemSiteAction extends BaseController {
 	@Required
 	public void setSysService(ISysService<SysVO, TbSys, String> sysService) {
 		this.sysService = sysService;
+	}
+
+	public IApplicationSystemLogicService getApplicationSystemLogicService() {
+		return applicationSystemLogicService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.logic.ApplicationSystemLogicService")
+	@Required	
+	public void setApplicationSystemLogicService(IApplicationSystemLogicService applicationSystemLogicService) {
+		this.applicationSystemLogicService = applicationSystemLogicService;
 	}
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001Q")
@@ -138,9 +153,12 @@ public class SystemSiteAction extends BaseController {
 			.testField("systemHost", sys, "@org.apache.commons.lang3.StringUtils@isBlank(host)", "Host is blank!")
 			.testField("systemContextPath", sys, "@org.apache.commons.lang3.StringUtils@isBlank(contextPath)", "Context path is blank!")
 			.throwMessage();
-			
-			result.setMessage( "TEST" );
-			result.setSuccess( YesNo.YES );
+			DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.create(sys, sys.getIcon());
+			if ( sysResult.getValue() != null ) {
+				result.setValue( sysResult.getValue() );
+				result.setSuccess( YesNo.YES );
+			}
+			result.setMessage( sysResult.getSystemMessage().getValue() );
 		} catch (ControllerException ce) {
 			result.setMessage( ce.getMessage().toString() );			
 		} catch (Exception e) {

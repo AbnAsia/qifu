@@ -11,6 +11,7 @@
     
     <!-- Logic Service -->         
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sys.xml" />    
+    <!--  
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysProg.xml" />   
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysMenu.xml" /> 
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-role.xml" /> 
@@ -23,5 +24,6 @@
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysJreport.xml" />
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysCtxBean.xml" />
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysForm.xml" /> 
-        
+    -->
+    
 </beans>    
