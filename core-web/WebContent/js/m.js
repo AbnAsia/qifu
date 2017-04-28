@@ -152,6 +152,13 @@ function hidePleaseWait() {
 	$('#myPleaseWait').modal('hide');
 }
 
+function showPleaseWaitForQueryGrid() {
+	$('#myPleaseWaitForQueryGrid').modal('show');
+}
+function hidePleaseWaitForQueryGrid() {
+	$('#myPleaseWaitForQueryGrid').modal('hide');
+}
+
 
 function toastrInfo(message) {
 	toastr.info( message.replace(/\n/gi, "<br>").replace("/\r\n", "<br>") );

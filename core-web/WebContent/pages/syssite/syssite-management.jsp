@@ -52,7 +52,7 @@ function queryClear() {
 }  
 
 function deleteRecord(oid) {
-	bootbox.confirm(
+	parent.bootbox.confirm(
 			"Delete?", 
 			function(result) { 
 				if (!result) {

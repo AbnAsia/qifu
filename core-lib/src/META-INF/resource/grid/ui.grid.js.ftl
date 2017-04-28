@@ -97,7 +97,7 @@ function changeQueryGridToNext() {
 }
 
 function ${queryFunction}() {
-	xhrSendParameter(
+	xhrSendParameterForQueryGrid(
 			'${xhrUrl}', 
 			${xhrParameter}, 
 			function(data) {

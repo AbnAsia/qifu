@@ -49,7 +49,7 @@ ${menuJavascriptData}
 <body>
 
 
-<!-- Modal Start here-->
+<!-- Modal Start here -->
 <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="myPleaseWait">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -64,6 +64,20 @@ ${menuJavascriptData}
 </div>
 <!-- Modal ends Here -->
 
+<!-- Modal Start here for page query grid -->
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="myPleaseWaitForQueryGrid">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="mySmallModalLabel">Please wait!</h4>
+      </div>
+      <div class="modal-body">
+        <img alt="loading" src="./images/loadingAnimation.gif" border="0">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal ends Here for page query grid -->
 
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">

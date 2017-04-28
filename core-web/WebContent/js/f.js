@@ -1,3 +1,37 @@
+function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn) {
+	parent.showPleaseWaitForQueryGrid();
+	$.ajax({
+		type : _qifu_jqXhrType,
+	    url : xhrUrl,
+	    timeout: _qifu_jqXhrTimeout,
+	    dataType : 'json',
+	    data : jsonParam,
+	    cache: _qifu_jqXhrCache,
+	    async: _qifu_jqXhrAsync,
+	    success : function(data, textStatus) {
+	    	parent.hidePleaseWaitForQueryGrid();  	    	
+			if (data==null || (typeof data=='undefined') ) {
+				alert('Unexpected error!');
+				return;
+			}    			
+			if ( _qifu_success_flag != data.login ) {
+				alert("Please try login again!");
+				return;
+			}       
+			if ( _qifu_success_flag != data.isAuthorize ) {
+				alert("No permission!");
+				return;        				
+			}        						
+			successFn(data, textStatus);
+	    },
+	    error : function(jqXHR, textStatus, errorThrown) {
+	    	parent.hidePleaseWaitForQueryGrid(); 	    	
+	        alert(textStatus);
+	        errorFn(jqXHR, textStatus, errorThrown);
+	    }
+	});
+}
+
 function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
 	parent.showPleaseWait();
 	$.ajax({
