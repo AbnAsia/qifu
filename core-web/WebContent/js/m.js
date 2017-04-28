@@ -6,9 +6,9 @@ function getPageUrl(url) {
 		return url;
 	}
 	if ( url.indexOf("?") > -1 ) {
-		url += '&' + _m_PAGE_CHANGE_URL_PARAM + '=Y&isPageRefresh=' + guid();
+		url += '&' + _m_PAGE_CHANGE_URL_PARAM + '=Y';
 	} else {
-		url += '?' + _m_PAGE_CHANGE_URL_PARAM + '=Y&isPageRefresh=' + guid();
+		url += '?' + _m_PAGE_CHANGE_URL_PARAM + '=Y';
 	}	
 	return url;
 }
@@ -24,6 +24,15 @@ function getProgUrl(progId) {
 	return getPageUrl(pUrl);
 }
 
+function getProgUrlForOid(progId, oid) {
+	var pUrl = '';
+	for (var i=0; pUrl == '' && i< _prog.length; i++) {
+		if ( _prog[i].id == progId ) {
+			pUrl = _prog[i].url;
+		}
+	}	
+	return getPageUrl(pUrl) + '&oid=' + oid;
+}
 
 function addTab( tabId, srcUrl ) {
 	for (var i=0; _tabData != null && i< _tabData.length; i++) {

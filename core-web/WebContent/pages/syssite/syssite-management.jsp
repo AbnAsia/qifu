@@ -52,7 +52,7 @@ function queryClear() {
 }  
 
 function editPage(oid) {
-	parent.addTab('CORE_PROG001D0001E', parent.getProgUrl('CORE_PROG001D0001E') + '&oid=' + oid );
+	parent.addTab('CORE_PROG001D0001E', parent.getProgUrlForOid('CORE_PROG001D0001E', oid) );
 }
 
 function deleteRecord(oid) {
@@ -63,7 +63,7 @@ function deleteRecord(oid) {
 					return;
 				}
 				xhrSendParameter(
-						'core.sysSiteDeleteJson.do', 
+						'./core.sysSiteDeleteJson.do', 
 						{ 'oid' : oid }, 
 						function(data) {
 							if ( _qifu_success_flag != data.success ) {

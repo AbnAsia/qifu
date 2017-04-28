@@ -68,7 +68,7 @@ function clearUpdate() {
 <q:toolBar 
 	id="CORE_PROG001D0001E_toolbar" 
 	refreshEnable="Y"
-	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG001D0001E') + '&oid=${sys.oid}';" 
+	refreshJsMethod="window.location=parent.getProgUrlForOid('CORE_PROG001D0001E', '${sys.oid}');" 
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="Y" 
@@ -81,7 +81,7 @@ function clearUpdate() {
 <div class="form-group" id="form-group1">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="sysId" value="sys.sysId" id="sysId" label="Id" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)" readonly="Y"></q:textbox>
+			<q:textbox name="sysId" value="sys.sysId" id="sysId" label="Id (read only)" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)" readonly="Y"></q:textbox>
 		</div>
 	</div>
 	<div class="row">
