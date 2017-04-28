@@ -132,8 +132,8 @@ public class SystemSiteAction extends BaseController {
 		}
 		try {
 			this.getCheckControllerFieldHandler(result)
-			.testField("id", sys, "@org.apache.commons.lang3.StringUtils@isBlank(sysId)", "Id is blank!")
-			.testField("id", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!")
+			.testField("sysId", sys, "@org.apache.commons.lang3.StringUtils@isBlank(sysId)", "Id is blank!")
+			.testField("sysId", sys, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(sysId)", "Id only normal character!")
 			.testField("name", sys, "@org.apache.commons.lang3.StringUtils@isBlank(name)", "Name is blank!")
 			.testField("host", sys, "@org.apache.commons.lang3.StringUtils@isBlank(host)", "Host is blank!")
 			.testField("contextPath", sys, "@org.apache.commons.lang3.StringUtils@isBlank(contextPath)", "Context path is blank!")

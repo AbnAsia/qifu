@@ -25,9 +25,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
+//fields[ data.checkFields map 的 key ]	= '頁面的欄位id';
+var msgFields = new Object();
+msgFields['sysId'] 			= 'sysId';
+msgFields['name'] 			= 'name';
+msgFields['host'] 			= 'host';
+msgFields['contextPath'] 	= 'contextPath';
+
+
 function saveSuccess(data) {
+	clearWarningMessageField("CORE_PROG001D0001C-form-group", msgFields);
 	if ( _qifu_success_flag != data.success ) {
 		parent.toastrWarning( data.message );
+		setWarningMessageField("CORE_PROG001D0001C-form-group", msgFields, data.checkFields);
 		return;
 	}
 	parent.toastrInfo( data.message );
@@ -35,6 +45,7 @@ function saveSuccess(data) {
 }
 
 function clearSave() {
+	clearWarningMessageField("CORE_PROG001D0001C-form-group", msgFields);
 	$("#sysId").val( '' );
 	$("#name").val( '' );
 	$("#host").val( '' );
@@ -63,41 +74,47 @@ function clearSave() {
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
-<div class="row">
-	<div class="col-xs-6 col-md-6 col-lg-6">
-		<q:textbox name="sysId" value="" id="sysId" label="Id" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)"></q:textbox>
+<div class="form-group" id="CORE_PROG001D0001C-form-group">
+
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="sysId" value="" id="sysId" label="Id" requiredFlag="Y" maxlength="10" placeholder="Enter Id (only normal character)"></q:textbox>
+		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="name" value="" id="name" label="Name" requiredFlag="Y" maxlength="100" placeholder="Enter name"></q:textbox>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="host" value="" id="host" label="Host" requiredFlag="Y" maxlength="200" placeholder="Enter host e.g: 127.0.0.1:8080"></q:textbox>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="contextPath" value="" id="contextPath" label="Context path" requiredFlag="Y" maxlength="100" placeholder="Enter host e.g: demo-web"></q:textbox>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon" requiredFlag="Y"></q:select>
+		</div>
+	</div>
+
 </div>
-<div class="row">
-	<div class="col-xs-6 col-md-6 col-lg-6">
-		<q:textbox name="name" value="" id="name" label="Name" requiredFlag="Y" maxlength="100" placeholder="Enter name"></q:textbox>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-6 col-md-6 col-lg-6">
-		<q:textbox name="host" value="" id="host" label="Host" requiredFlag="Y" maxlength="200" placeholder="Enter host e.g: 127.0.0.1:8080"></q:textbox>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-6 col-md-6 col-lg-6">
-		<q:textbox name="contextPath" value="" id="contextPath" label="Context path" requiredFlag="Y" maxlength="100" placeholder="Enter host e.g: demo-web"></q:textbox>
-	</div>
-</div>	
-<div class="row">
-	<div class="col-xs-6 col-md-6 col-lg-6">
-		<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon" requiredFlag="Y"></q:select>
-	</div>
-</div>  
-<div class="row">
-	<div class="col-xs-6 col-md-6 col-lg-6">
-	<br>
-	&nbsp;
-		<label class="custom-control custom-checkbox">
-			<input type="checkbox" class="custom-control-input" id="local" name="local">
-		    <span class="custom-control-indicator"></span>
-		    <span class="custom-control-description">Local</span>
-		</label>
-				
+<div class="form-group">
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+		<br>
+		&nbsp;
+			<label class="custom-control custom-checkbox">
+				<input type="checkbox" class="custom-control-input" id="local" name="local">
+			    <span class="custom-control-indicator"></span>
+			    <span class="custom-control-description">Local</span>
+			</label>
+					
+		</div>
 	</div>
 </div>
 
