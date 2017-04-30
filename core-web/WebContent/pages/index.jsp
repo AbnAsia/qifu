@@ -24,6 +24,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="./toastr/toastr.min.css" crossorigin="anonymous">
 <script src="./toastr/toastr.min.js" crossorigin="anonymous"></script>
 
+<!-- 預設沒有開啟 -->
+<!--  
+<link rel="stylesheet" href="./jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css" crossorigin="anonymous">
+<script src="./jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js" crossorigin="anonymous"></script>
+-->
+
 <link rel="stylesheet" href="./css/m.css?ver=${jsVerBuild}" crossorigin="anonymous">
 <script src="./configJs.do?ver=${jsVerBuild}" crossorigin="anonymous"></script>
 <script src="./js/m.js?ver=${jsVerBuild}" crossorigin="anonymous"></script>
@@ -154,6 +160,13 @@ $('#myTab').bind('show', function(e) {
         $(paneID+" iframe").attr("src",src);
     }
 });
+
+// 預設沒有開啟
+/*
+$('.nav-tabs').scrollingTabs({
+	  reverseScroll: true  
+});
+*/
 
 // first load on config
 ${firstLoadJavascript}
