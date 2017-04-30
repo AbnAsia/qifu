@@ -61,7 +61,7 @@ function addTab( tabId, srcUrl ) {
 	
 	srcUrl = getPageUrl(srcUrl);
 	
-	$('#myTab').append('<li class="nav-item" id="_tab_' + tabId + '"><a class="nav-link" data-toggle="tab" href="#' + tabId + '" role="tab" aria-controls="' + tabId + '"><img src="' + progIcon + '" broder="0">&nbsp;' + progName + '&nbsp;<span class="close" onclick="closeTab(\'' + tabId + '\');">×</span></a></li>');
+	$('#myTab').append('<li class="nav-item" id="_tab_' + tabId + '"><a class="nav-link" data-toggle="tab" href="#' + tabId + '" role="tab" aria-controls="' + tabId + '"><span class="close" onclick="closeTab(\'' + tabId + '\');">×</span>&nbsp;<img src="' + progIcon + '" broder="0">&nbsp;' + progName + '&nbsp;</a></li>');
 	$('#myTabContent').append('<div class="tab-pane" style="height: 100%;" id="' + tabId + '" data-src="' + srcUrl + '"><iframe src="' + srcUrl + '" ></iframe></div>');
 	
 	
