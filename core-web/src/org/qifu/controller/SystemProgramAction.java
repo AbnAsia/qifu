@@ -21,6 +21,9 @@
  */
 package org.qifu.controller;
 
+import java.util.List;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.controller.BaseController;
@@ -28,9 +31,19 @@ import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.PageOf;
+import org.qifu.base.model.QueryControllerJsonResultObj;
+import org.qifu.base.model.QueryResult;
+import org.qifu.base.model.SearchValue;
+import org.qifu.po.TbSysProg;
+import org.qifu.service.ISysProgService;
+import org.qifu.vo.SysProgVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -38,6 +51,19 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Controller
 public class SystemProgramAction extends BaseController {
 	
+	private ISysProgService<SysProgVO, TbSysProg, String> sysProgService;
+	
+	public ISysProgService<SysProgVO, TbSysProg, String> getSysProgService() {
+		return sysProgService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysProgService")
+	@Required	
+	public void setSysProgService(ISysProgService<SysProgVO, TbSysProg, String> sysProgService) {
+		this.sysProgService = sysProgService;
+	}
+
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002Q")
 	@RequestMapping(value = "/core.sysProgramManagement.do")
 	public ModelAndView queryPage(HttpServletRequest request) {
@@ -56,6 +82,25 @@ public class SystemProgramAction extends BaseController {
 		}
 		mv.setViewName(viewName);
 		return mv;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002Q")
+	@RequestMapping(value = "/core.sysProgramQueryGridJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj<List<SysProgVO>> queryGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj<List<SysProgVO>> result = this.getQueryJsonResult("CORE_PROG001D0002Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			QueryResult<List<SysProgVO>> queryResult = this.sysProgService.findGridResult(searchValue, pageOf);
+			this.setQueryGridJsonResult(result, queryResult, pageOf);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
 	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002A")
