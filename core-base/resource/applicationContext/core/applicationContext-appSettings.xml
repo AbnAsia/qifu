@@ -36,6 +36,7 @@
 				<entry key="basePage.jqXhrTimeout" 						value="${base.page.jqXhr.timeout}" />
 				<entry key="basePage.jqXhrCache" 						value="${base.page.jqXhr.cache}" />
 				<entry key="basePage.jqXhrAsync" 						value="${base.page.jqXhr.async}" />
+				<entry key="basePage.scrollingTabsEnable" 				value="${base.page.scrollingTabsEnable}" />
 			</map>
 		</constructor-arg>				
 	</bean>

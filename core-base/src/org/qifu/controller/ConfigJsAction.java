@@ -21,8 +21,6 @@
  */
 package org.qifu.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.qifu.base.Constants;
@@ -42,7 +40,6 @@ public class ConfigJsAction extends BaseController {
 	@RequestMapping(value = "/configJs.do", method = RequestMethod.GET)
 	public @ResponseBody String execute(HttpServletRequest request) {
 		StringBuilder sb = new StringBuilder();
-		Map<String, Object> settings = Constants.getSettingsMap();
 		sb.append("var _qifu_googleMapClientLocationEnable='").append( super.getGoogleMapClientLocationEnable() ).append("';").append("\n");
 		sb.append("var _qifu_googleMapUrl='").append( super.getGoogleMapUrl() ).append("';").append("\n");
 		sb.append("var _qifu_googleMapDefaultLat=").append( super.getGoogleMapDefaultLat() ).append(";").append("\n");
@@ -53,10 +50,10 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_please_select_id='").append(Constants.HTML_SELECT_NO_SELECT_ID).append("';").append("\n");
 		sb.append("var _qifu_default_pageRowSize=").append(PageOf.Rows[0]).append(";").append("\n");
 		sb.append("var _qifu_basePath='").append( super.getBasePath(request) ).append("';").append("\n");
-		sb.append("var _qifu_jqXhrType='").append( super.defaultString((String)settings.get("basePage.jqXhrType")) ).append("';").append("\n");
-		sb.append("var _qifu_jqXhrTimeout=").append( super.defaultString((String)settings.get("basePage.jqXhrTimeout")) ).append(";").append("\n");
-		sb.append("var _qifu_jqXhrCache=").append( (YesNo.YES.equals( settings.get("basePage.jqXhrCache") ) ? true : false) ).append(";").append("\n");
-		sb.append("var _qifu_jqXhrAsync=").append( (YesNo.YES.equals( settings.get("basePage.jqXhrAsync") ) ? true : false) ).append(";").append("\n");
+		sb.append("var _qifu_jqXhrType='").append( super.getJqXhrType() ).append("';").append("\n");
+		sb.append("var _qifu_jqXhrTimeout=").append( super.getJqXhrTimeout() ).append(";").append("\n");
+		sb.append("var _qifu_jqXhrCache=").append( super.getJqXhrCache() ).append(";").append("\n");
+		sb.append("var _qifu_jqXhrAsync=").append( super.getJqXhrAsync() ).append(";").append("\n");
 		return sb.toString();
 	}
 

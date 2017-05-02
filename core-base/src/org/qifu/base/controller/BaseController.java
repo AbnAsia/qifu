@@ -72,6 +72,11 @@ public abstract class BaseController {
 		mv.addObject("googleMapClientLocationEnable", this.getGoogleMapClientLocationEnable());
 		mv.addObject("twitterEnable", this.getTwitterEnable());
 		mv.addObject("isSuperRole", this.isSuperRole());
+		mv.addObject("jqXhrType", this.getJqXhrType());
+		mv.addObject("jqXhrTimeout", this.getJqXhrTimeout());
+		mv.addObject("jqXhrCache", this.getJqXhrCache());
+		mv.addObject("jqXhrAsync", this.getJqXhrAsync());
+		mv.addObject("scrollingTabsEnable", this.getScrollingTabsEnable());
 		return mv;
 	}
 	
@@ -131,6 +136,26 @@ public abstract class BaseController {
 	
 	public String getTwitterEnable() {
 		return String.valueOf( Constants.getSettingsMap().get("twitter.enable") );
+	}
+	
+	public String getJqXhrType() {
+		return String.valueOf( Constants.getSettingsMap().get("basePage.jqXhrType") );
+	}
+	
+	public String getJqXhrTimeout() {
+		return String.valueOf( Constants.getSettingsMap().get("basePage.jqXhrTimeout") );
+	}
+	
+	public boolean getJqXhrCache() {
+		return (YesNo.YES.equals( Constants.getSettingsMap().get("basePage.jqXhrCache") ) ? true : false);
+	}
+	
+	public boolean getJqXhrAsync() {
+		return (YesNo.YES.equals( Constants.getSettingsMap().get("basePage.jqXhrAsync") ) ? true : false);
+	}
+	
+	public String getScrollingTabsEnable() {
+		return String.valueOf( Constants.getSettingsMap().get("basePage.scrollingTabsEnable") );
 	}
 	
 	public boolean isSuperRole() {
