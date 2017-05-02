@@ -104,7 +104,7 @@ public class SystemSiteAction extends BaseController {
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0001Q");
 		try {
 			// do some...
-			viewName = "syssite/syssite-management";
+			viewName = "sys-site/sys-site-management";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
 		} catch (ServiceException | ControllerException e) {
@@ -151,7 +151,7 @@ public class SystemSiteAction extends BaseController {
 				}
 			}
 			mv.addObject("firstIconKey", firstIconKey);
-			viewName = "syssite/syssite-create";
+			viewName = "sys-site/sys-site-create";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
 		} catch (ServiceException | ControllerException e) {
@@ -188,7 +188,7 @@ public class SystemSiteAction extends BaseController {
 			mv.addObject("firstIconKey", sysIcon.getOid());
 			mv.addObject("iconDataMap", iconDataMap);
 			mv.addObject("sys", sys);
-			viewName = "syssite/syssite-edit";
+			viewName = "sys-site/sys-site-edit";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
 		} catch (ServiceException | ControllerException e) {
