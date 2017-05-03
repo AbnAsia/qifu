@@ -6,3 +6,4 @@
 		</#list>
 	</#if>
 </select>
+<div class="form-control-feedback" id="${id}-feedback"></div>

@@ -26,18 +26,29 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
+import org.qifu.base.model.YesNo;
+import org.qifu.po.TbSys;
+import org.qifu.po.TbSysIcon;
 import org.qifu.po.TbSysProg;
+import org.qifu.service.ISysIconService;
 import org.qifu.service.ISysProgService;
+import org.qifu.service.ISysService;
+import org.qifu.util.IconUtils;
+import org.qifu.util.SimpleUtils;
+import org.qifu.vo.SysIconVO;
 import org.qifu.vo.SysProgVO;
+import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -52,6 +63,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SystemProgramAction extends BaseController {
 	
 	private ISysProgService<SysProgVO, TbSysProg, String> sysProgService;
+	private ISysService<SysVO, TbSys, String> sysService;
+	private ISysIconService<SysIconVO, TbSysIcon, String> sysIconService;
 	
 	public ISysProgService<SysProgVO, TbSysProg, String> getSysProgService() {
 		return sysProgService;
@@ -63,6 +76,28 @@ public class SystemProgramAction extends BaseController {
 	public void setSysProgService(ISysProgService<SysProgVO, TbSysProg, String> sysProgService) {
 		this.sysProgService = sysProgService;
 	}
+	
+	public ISysService<SysVO, TbSys, String> getSysService() {
+		return sysService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysService")
+	@Required
+	public void setSysService(ISysService<SysVO, TbSys, String> sysService) {
+		this.sysService = sysService;
+	}
+	
+	public ISysIconService<SysIconVO, TbSysIcon, String> getSysIconService() {
+		return sysIconService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysIconService")
+	@Required	
+	public void setSysIconService(ISysIconService<SysIconVO, TbSysIcon, String> sysIconService) {
+		this.sysIconService = sysIconService;
+	}	
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002Q")
 	@RequestMapping(value = "/core.sysProgramManagement.do")
@@ -103,13 +138,18 @@ public class SystemProgramAction extends BaseController {
 		return result;
 	}	
 	
+	private void init(String type, HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+		mv.addObject( "sysMap", this.sysService.findSysMap(super.getBasePath(request), true) );
+		mv.addObject( "iconMap", IconUtils.getIconsSelectData() );
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002A")
 	@RequestMapping(value = "/core.sysProgramCreate.do")
 	public ModelAndView createPage(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0002A");
 		try {
-			// do some...
+			this.init("createPage", request, mv);
 			viewName = "sys-program/sys-program-create";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
@@ -142,5 +182,48 @@ public class SystemProgramAction extends BaseController {
 		mv.setViewName(viewName);
 		return mv;
 	}		
+	
+	private void checkFields(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String w, String h) throws ControllerException, Exception {
+		this.getCheckControllerFieldHandler(result)
+		.testField("progSystemOid", ( this.noSelect(sysOid) ), "Please select system!")
+		.testField("progId", sysProg, "@org.apache.commons.lang3.StringUtils@isBlank(progId)", "Id is blank!")
+		.testField("progId", ( this.noSelect(sysProg.getProgId()) ), "Please change Id value!") // PROG-ID 不能用  "all" 這個下拉值
+		.testField("progId", ( !SimpleUtils.checkBeTrueOf_azAZ09(super.defaultString(sysProg.getProgId()).replaceAll("-", "").replaceAll("_", "")) ), "Id only normal character!")
+		.testField("name", sysProg, "@org.apache.commons.lang3.StringUtils@isBlank(name)", "Name is blank!")
+		.testField("url", sysProg, "@org.apache.commons.lang3.StringUtils@isBlank(url)", "URL is blank!")
+		.testField("itemType", ( this.noSelect(sysProg.getItemType()) ), "Please select item-type!")
+		.testField("icon", ( this.noSelect(sysProg.getIcon()) ), "Please select icon!")
+		.testField("dialogWidth", ( (YesNo.YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(w)) ), "Please input dialog width!")
+		.testField("dialogHeight", ( (YesNo.YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(h)) ), "Please input dialog height!")
+		.throwMessage();		
+	}
+	
+	private void save(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String w, String h) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysProg, sysOid, w, h);
+		
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002A")
+	@RequestMapping(value = "/core.sysProgramSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysProgVO> doSave(HttpServletRequest request, SysProgVO sysProg) {
+		DefaultControllerJsonResultObj<SysProgVO> result = this.getDefaultJsonResult("CORE_PROG001D0002A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.save(
+					result, 
+					sysProg, 
+					request.getParameter("progSystemOid"), 
+					request.getParameter("dialogWidth"), 
+					request.getParameter("dialogHeight"));
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;		
+	}
 	
 }

@@ -296,4 +296,11 @@ public abstract class BaseController {
 		return CheckControllerFieldHandler.build(result);
 	}
 	
+	protected boolean noSelect(String selectValue) {
+		if (StringUtils.isBlank(selectValue) || Constants.HTML_SELECT_NO_SELECT_ID.equals(selectValue)) {
+			return true;
+		}
+		return false;
+	}
+	
 }
