@@ -159,6 +159,33 @@ public class SystemProgramAction extends BaseController {
 		mv.addObject( "iconMap", IconUtils.getIconsSelectData() );
 	}
 	
+	private void fetchData(SysProgVO sysProg, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+		DefaultResult<SysProgVO> result = this.sysProgService.findObjectByOid(sysProg);
+		if (result.getValue() == null) {
+			throw new ControllerException(result.getSystemMessage().getValue());
+		}
+		sysProg = result.getValue();
+		mv.addObject("sysProg", sysProg);
+		
+		TbSysIcon sysIcon = new TbSysIcon();
+		sysIcon.setIconId(sysProg.getIcon());
+		DefaultResult<TbSysIcon> iconResult = this.sysIconService.findEntityByUK(sysIcon);
+		if (iconResult.getValue() == null) {
+			throw new ControllerException( iconResult.getSystemMessage().getValue() );
+		}
+		sysIcon = iconResult.getValue();		
+		mv.addObject("iconSelectOid", sysIcon.getOid());
+		
+		TbSys sys = new TbSys();
+		sys.setSysId(sysProg.getProgSystem());
+		DefaultResult<TbSys> sysResult = this.sysService.findEntityByUK(sys);
+		if (sysResult.getValue() == null) {
+			throw new ControllerException( sysResult.getSystemMessage().getValue() );
+		}
+		sys = sysResult.getValue();
+		mv.addObject("sysSelectOid", sys.getOid());
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002A")
 	@RequestMapping(value = "/core.sysProgramCreate.do")
 	public ModelAndView createPage(HttpServletRequest request) {
@@ -185,7 +212,10 @@ public class SystemProgramAction extends BaseController {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0002E");
 		try {
-			// do some...
+			SysProgVO sysProg = new SysProgVO();
+			sysProg.setOid(oid);
+			this.init("editPage", request, mv);
+			this.fetchData(sysProg, mv);
 			viewName = "sys-program/sys-program-edit";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
@@ -226,6 +256,18 @@ public class SystemProgramAction extends BaseController {
 		result.setMessage( progResult.getSystemMessage().getValue() );
 	}
 	
+	private void update(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String iconOid, String w, String h) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysProg, sysOid, iconOid, w, h);
+		sysProg.setDialogW( NumberUtils.toInt(w) );
+		sysProg.setDialogH( NumberUtils.toInt(h) );
+		DefaultResult<SysProgVO> progResult = this.systemProgramLogicService.update(sysProg, sysOid, iconOid);
+		if (progResult.getValue() != null) {
+			result.setValue( progResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( progResult.getSystemMessage().getValue() );		
+	}
+	
 	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysProgVO sysProg) throws AuthorityException, ControllerException, ServiceException, Exception {
 		DefaultResult<Boolean> progResult = this.systemProgramLogicService.delete(sysProg);
 		if (progResult.getValue() != null) {
@@ -258,6 +300,30 @@ public class SystemProgramAction extends BaseController {
 		}
 		return result;		
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002E")
+	@RequestMapping(value = "/core.sysProgramUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysProgVO> doUpdate(HttpServletRequest request, SysProgVO sysProg) {
+		DefaultControllerJsonResultObj<SysProgVO> result = this.getDefaultJsonResult("CORE_PROG001D0002E");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.update(
+					result, 
+					sysProg, 
+					request.getParameter("progSystemOid"),
+					request.getParameter("iconOid"),
+					request.getParameter("dialogWidth"), 
+					request.getParameter("dialogHeight"));
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;		
+	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002D")
 	@RequestMapping(value = "/core.sysProgramDeleteJson.do", produces = "application/json")		
