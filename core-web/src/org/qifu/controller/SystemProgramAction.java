@@ -226,6 +226,15 @@ public class SystemProgramAction extends BaseController {
 		result.setMessage( progResult.getSystemMessage().getValue() );
 	}
 	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysProgVO sysProg) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> progResult = this.systemProgramLogicService.delete(sysProg);
+		if (progResult.getValue() != null) {
+			result.setValue( progResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( progResult.getSystemMessage().getValue() );
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002A")
 	@RequestMapping(value = "/core.sysProgramSaveJson.do", produces = "application/json")		
 	public @ResponseBody DefaultControllerJsonResultObj<SysProgVO> doSave(HttpServletRequest request, SysProgVO sysProg) {
@@ -249,5 +258,23 @@ public class SystemProgramAction extends BaseController {
 		}
 		return result;		
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002D")
+	@RequestMapping(value = "/core.sysProgramDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysProgVO sysProg) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0002D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.delete(result, sysProg);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;		
+	}	
 	
 }
