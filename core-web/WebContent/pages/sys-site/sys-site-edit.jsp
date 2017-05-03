@@ -105,7 +105,7 @@ function clearUpdate() {
 <div class="form-group">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="iconDataMap" name="icon" id="icon" value="${firstIconKey}" label="Icon" requiredFlag="Y"></q:select>
+			<q:select dataSource="iconDataMap" name="icon" id="icon" value="firstIconKey" label="Icon" requiredFlag="Y"></q:select>
 		</div>
 	</div>
 	<div class="row">
