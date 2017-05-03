@@ -25,6 +25,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
+function sysChange() {
+	var sysOid = $("#sysOid").val();
+	xhrSendParameter(
+			'./core.getCommonProgramFolderJson.do', 
+			{ 'oid' : sysOid }, 
+			function(data) {
+				if ( _qifu_success_flag != data.success ) {
+					parent.toastrWarning( data.message );
+				}
+				if ( _qifu_success_flag == data.success ) {
+					parent.toastrInfo( data.message );
+				}
+				// fill folderProgOid select item
+				console.log( data.value );
+			}, 
+			function() {
+				
+			}
+	);	
+}
+
 </script>
 
 <body>
@@ -42,7 +63,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
-xxxxxxxxxxxxxxxx
+<div class="form-group" id="form-group1">
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:select dataSource="sysMap" name="sysOid" id="sysOid" value="" label="System" requiredFlag="Y" onchange="sysChange();"></q:select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:select dataSource="folderProgMap" name="folderProgOid" id="folderProgOid" value="" label="Program folder" requiredFlag="Y"></q:select>
+		</div>
+	</div>		
+</div>	
 
 </body>
 </html>

@@ -22,6 +22,8 @@
 package org.qifu.base.controller;
 
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -301,6 +303,14 @@ public abstract class BaseController {
 			return true;
 		}
 		return false;
+	}
+	
+	protected Map<String, String> getPleaseSelectMap(boolean pleaseSelect) {
+		Map<String, String> dataMap = new LinkedHashMap<String, String>();
+		if (pleaseSelect) {
+			dataMap.put(Constants.HTML_SELECT_NO_SELECT_ID, Constants.HTML_SELECT_NO_SELECT_NAME);
+		}
+		return dataMap;
 	}
 	
 }
