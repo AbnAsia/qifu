@@ -26,6 +26,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
@@ -33,17 +34,20 @@ import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
+import org.qifu.model.MenuItemType;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysIcon;
 import org.qifu.po.TbSysProg;
 import org.qifu.service.ISysIconService;
 import org.qifu.service.ISysProgService;
 import org.qifu.service.ISysService;
+import org.qifu.service.logic.ISystemProgramLogicService;
 import org.qifu.util.IconUtils;
 import org.qifu.util.SimpleUtils;
 import org.qifu.vo.SysIconVO;
@@ -65,6 +69,7 @@ public class SystemProgramAction extends BaseController {
 	private ISysProgService<SysProgVO, TbSysProg, String> sysProgService;
 	private ISysService<SysVO, TbSys, String> sysService;
 	private ISysIconService<SysIconVO, TbSysIcon, String> sysIconService;
+	private ISystemProgramLogicService systemProgramLogicService;
 	
 	public ISysProgService<SysProgVO, TbSysProg, String> getSysProgService() {
 		return sysProgService;
@@ -98,6 +103,17 @@ public class SystemProgramAction extends BaseController {
 	public void setSysIconService(ISysIconService<SysIconVO, TbSysIcon, String> sysIconService) {
 		this.sysIconService = sysIconService;
 	}	
+
+	public ISystemProgramLogicService getSystemProgramLogicService() {
+		return systemProgramLogicService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.logic.SystemProgramLogicService")
+	@Required	
+	public void setSystemProgramLogicService(ISystemProgramLogicService systemProgramLogicService) {
+		this.systemProgramLogicService = systemProgramLogicService;
+	}
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002Q")
 	@RequestMapping(value = "/core.sysProgramManagement.do")
@@ -183,24 +199,31 @@ public class SystemProgramAction extends BaseController {
 		return mv;
 	}		
 	
-	private void checkFields(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String w, String h) throws ControllerException, Exception {
+	private void checkFields(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String iconOid, String w, String h) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
 		.testField("progSystemOid", ( this.noSelect(sysOid) ), "Please select system!")
 		.testField("progId", sysProg, "@org.apache.commons.lang3.StringUtils@isBlank(progId)", "Id is blank!")
 		.testField("progId", ( this.noSelect(sysProg.getProgId()) ), "Please change Id value!") // PROG-ID 不能用  "all" 這個下拉值
 		.testField("progId", ( !SimpleUtils.checkBeTrueOf_azAZ09(super.defaultString(sysProg.getProgId()).replaceAll("-", "").replaceAll("_", "")) ), "Id only normal character!")
 		.testField("name", sysProg, "@org.apache.commons.lang3.StringUtils@isBlank(name)", "Name is blank!")
-		.testField("url", sysProg, "@org.apache.commons.lang3.StringUtils@isBlank(url)", "URL is blank!")
+		.testField("url", ( (MenuItemType.ITEM.equals(sysProg.getItemType()) && StringUtils.isBlank(sysProg.getUrl())) ), "URL is blank!")
 		.testField("itemType", ( this.noSelect(sysProg.getItemType()) ), "Please select item-type!")
-		.testField("icon", ( this.noSelect(sysProg.getIcon()) ), "Please select icon!")
+		.testField("iconOid", ( this.noSelect(iconOid) ), "Please select icon!")
 		.testField("dialogWidth", ( (YesNo.YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(w)) ), "Please input dialog width!")
 		.testField("dialogHeight", ( (YesNo.YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(h)) ), "Please input dialog height!")
 		.throwMessage();		
 	}
 	
-	private void save(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String w, String h) throws AuthorityException, ControllerException, ServiceException, Exception {
-		this.checkFields(result, sysProg, sysOid, w, h);
-		
+	private void save(DefaultControllerJsonResultObj<SysProgVO> result, SysProgVO sysProg, String sysOid, String iconOid, String w, String h) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysProg, sysOid, iconOid, w, h);
+		sysProg.setDialogW( NumberUtils.toInt(w) );
+		sysProg.setDialogH( NumberUtils.toInt(h) );
+		DefaultResult<SysProgVO> progResult = this.systemProgramLogicService.create(sysProg, sysOid, iconOid);
+		if (progResult.getValue() != null) {
+			result.setValue( progResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( progResult.getSystemMessage().getValue() );
 	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0002A")
@@ -214,7 +237,8 @@ public class SystemProgramAction extends BaseController {
 			this.save(
 					result, 
 					sysProg, 
-					request.getParameter("progSystemOid"), 
+					request.getParameter("progSystemOid"),
+					request.getParameter("iconOid"),
 					request.getParameter("dialogWidth"), 
 					request.getParameter("dialogHeight"));
 		} catch (AuthorityException | ServiceException | ControllerException e) {

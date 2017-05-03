@@ -31,7 +31,7 @@ msgFields['progId'] 		= 'progId';
 msgFields['name'] 			= 'name';
 msgFields['url']			= 'url';
 msgFields['itemType']		= 'itemType';
-msgFields['icon']			= 'icon';
+msgFields['iconOid']		= 'icon';
 msgFields['editMode']		= 'editMode';
 msgFields['isDialog']		= 'isDialog';
 msgFields['dialogWidth']	= 'dialogWidth';
@@ -103,7 +103,7 @@ function clearSave() {
 <div class="form-group" id="form-group2">	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="url" value="" id="url" label="Url" requiredFlag="Y" maxlength="255" placeholder="Enter Program URL"></q:textbox>
+			<q:textbox name="url" value="" id="url" label="Url" maxlength="255" placeholder="Enter Program URL"></q:textbox>
 		</div>
 	</div>
 	<div class="row">
@@ -166,7 +166,7 @@ function clearSave() {
 				'name'			:	$('#name').val(),
 				'url'			:	$('#url').val(),
 				'itemType'		:	$('#itemType').val(),
-				'icon'			:	$('#icon').val(),
+				'iconOid'		:	$('#icon').val(),
 				'editMode'		:	( $('#editMode').is(':checked') ? 'Y' : 'N' ),
 				'isDialog'		:	( $('#isDialog').is(':checked') ? 'Y' : 'N' ),
 				'dialogWidth'	:	$('#dialogWidth').val(),
