@@ -47,6 +47,28 @@ var _m_PAGE_CHANGE_URL_PARAM = 'isQifuPageChange';
 ${menuJavascriptData}
 //=====================================================================
 
+${iconJavascriptData}
+
+function getIconUrlFromOid(oid) {
+	var iconUrl = '';
+	for (var n in _iconData) {
+		if (_iconData[n].oid == oid) {
+			iconUrl = '<%=basePath%>/icons/' + _iconData[n].fileName;
+		}
+	}
+	return iconUrl;
+}
+
+function getIconUrlFromId(id) {
+	var iconUrl = '';
+	for (var n in _iconData) {
+		if (_iconData[n].iconId == id) {
+			iconUrl = '<%=basePath%>/icons/' + _iconData[n].fileName;
+		}
+	}
+	return iconUrl;
+}
+
 </script>
 
 

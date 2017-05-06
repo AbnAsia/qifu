@@ -94,4 +94,19 @@ public class IconUtils {
 		return dataMap;
 	}
 	
+	public static String getJsData() throws ServiceException, Exception {
+		StringBuilder sb = new StringBuilder();
+		sb.append("var _iconData = [];");
+		sb.append("\n");
+		List<TbSysIcon> iconList = sysIconService.findListByParams(null);
+		if (null==iconList || iconList.size()<1) {
+			return sb.toString();
+		}
+		for (TbSysIcon entity : iconList) {
+			sb.append("_iconData.push({\"oid\" : \"").append( entity.getOid() ).append("\", \"iconId\" : \"").append( entity.getIconId() ).append("\", \"fileName\" : \"").append( entity.getFileName() ).append("\"});");
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+	
 }

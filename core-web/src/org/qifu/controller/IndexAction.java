@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.model.MenuResultObj;
+import org.qifu.util.IconUtils;
 import org.qifu.util.MenuSupportUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,7 @@ public class IndexAction extends BaseController {
 			mv.addObject("menuJavascriptData", menuResult.getJavascriptData());
 			mv.addObject("dropdownHtmlData", menuResult.getDropdownHtmlData());
 			mv.addObject("navItemHtmlData",  menuResult.getNavItemHtmlData());
+			mv.addObject("iconJavascriptData", IconUtils.getJsData());
 			viewName = "index";
 		} catch (Exception e) {
 			e.printStackTrace();

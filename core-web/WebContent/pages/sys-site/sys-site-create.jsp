@@ -25,6 +25,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
+$( document ).ready(function() {
+	
+	$("#icon").trigger("change");
+	
+});
+
 //fields[ data.checkFields map 的 key ]	= '頁面的欄位id';
 var msgFields = new Object();
 msgFields['systemId'] 			= 'sysId';
@@ -58,6 +64,7 @@ function clearSave() {
 	$("#contextPath").val( '' );
 	$("#icon").val( '${firstIconKey}' );
 	$("#local").prop('checked', false);
+	$("#icon").trigger("change");
 }
 
 </script>
@@ -107,7 +114,23 @@ function clearSave() {
 <div class="form-group">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon" requiredFlag="Y"></q:select>
+			<q:select dataSource="iconDataMap" name="icon" id="icon" value="" label="Icon" requiredFlag="Y" onchange="showIcon();"></q:select>
+			<div id="iconShow"></div>
+			<script type="text/javascript">
+			function showIcon() {
+				var iconOid = $("#icon").val();
+				if ( _qifu_please_select_id == iconOid ) {
+					$("#iconShow").html( '' );
+					return;
+				}
+				var iconUrl = parent.getIconUrlFromOid( iconOid );
+				if (null == iconUrl || '' == iconUrl) {
+					$("#iconShow").html( '' );
+					return;
+				}
+				$("#iconShow").html( '<img src="' + iconUrl + '" border="0">' );
+			}
+			</script>
 		</div>
 	</div>
 	<div class="row">
