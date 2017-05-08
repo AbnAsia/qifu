@@ -26,19 +26,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 
 function sysChange() {
+	
+	$('#folderProgOid').find('option').remove().end();
+	
 	var sysOid = $("#sysOid").val();
 	xhrSendParameter(
 			'./core.getCommonProgramFolderJson.do', 
 			{ 'oid' : sysOid }, 
 			function(data) {
 				if ( _qifu_success_flag != data.success ) {
-					parent.toastrWarning( data.message );
+					
+					$('#folderProgOid')
+				    .find('option')
+				    .remove()
+				    .end()
+				    .append('<option value="' + _qifu_please_select_id + '">' + _qifu_please_select_name + '</option>')
+				    .val( _qifu_please_select_id );
+					
+					return;
 				}
-				if ( _qifu_success_flag == data.success ) {
-					parent.toastrInfo( data.message );
+				for (var n in data.value) {
+					$('#folderProgOid').append($('<option>', {
+					    value: n,
+					    text: data.value[n]
+					}));
 				}
-				// fill folderProgOid select item
-				console.log( data.value );
+				
 			}, 
 			function() {
 				

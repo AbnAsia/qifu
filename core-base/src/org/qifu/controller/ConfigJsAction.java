@@ -48,6 +48,7 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_delimiter='").append(Constants.ID_DELIMITER).append("';").append("\n");
 		sb.append("var _qifu_success_flag='").append(YesNo.YES).append("';").append("\n");
 		sb.append("var _qifu_please_select_id='").append(Constants.HTML_SELECT_NO_SELECT_ID).append("';").append("\n");
+		sb.append("var _qifu_please_select_name='").append(Constants.HTML_SELECT_NO_SELECT_NAME).append("';").append("\n");
 		sb.append("var _qifu_default_pageRowSize=").append(PageOf.Rows[0]).append(";").append("\n");
 		sb.append("var _qifu_basePath='").append( super.getBasePath(request) ).append("';").append("\n");
 		sb.append("var _qifu_jqXhrType='").append( super.getJqXhrType() ).append("';").append("\n");
