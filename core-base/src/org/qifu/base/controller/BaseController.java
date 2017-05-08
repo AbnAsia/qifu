@@ -23,6 +23,8 @@ package org.qifu.base.controller;
 
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -311,6 +313,21 @@ public abstract class BaseController {
 			dataMap.put(Constants.HTML_SELECT_NO_SELECT_ID, Constants.HTML_SELECT_NO_SELECT_NAME);
 		}
 		return dataMap;
+	}
+	
+	protected List<String> transformAppendKeyStringToList(String appendOid) {
+		List<String> list = new LinkedList<String>();
+		if (StringUtils.isBlank(appendOid)) {
+			return list;
+		}
+		String tmp[] = appendOid.split(Constants.ID_DELIMITER);
+		for (int i=0; tmp != null && i < tmp.length; i++) {
+			if (list.contains(tmp[i])) {
+				continue;
+			}
+			list.add(tmp[i]);
+		}
+		return list;
 	}
 	
 }

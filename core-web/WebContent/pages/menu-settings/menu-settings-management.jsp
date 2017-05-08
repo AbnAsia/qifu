@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 function sysChange() {
 	
 	$('#folderProgOid').find('option').remove().end();
+	$("#progListGrid").html( '' );
 	
 	var sysOid = $("#sysOid").val();
 	xhrSendParameter(
@@ -59,6 +60,87 @@ function sysChange() {
 	);	
 }
 
+function progFolderChange() {
+	
+	$("#progListGrid").html( '' );
+	var folderProgOid = $("#folderProgOid").val();
+	if (null == folderProgOid || '' == folderProgOid || _qifu_please_select_id == folderProgOid) {
+		return;
+	}
+	xhrSendParameter(
+			'./core.menuSettingsQueryProgramListByFolderOidJson.do', 
+			{ 'oid' : folderProgOid }, 
+			function(data) {
+				if ( _qifu_success_flag != data.success ) {
+					parent.toastrWarning( data.message );
+					return;
+				}
+				var progAll = data.value.all;
+				var progEnable = data.value.enable;
+				
+				var str = '';
+				str += '<table class="table">';
+				str += '<thead class="thead-inverse">';
+				str += '<tr>';
+				str += '<th>&nbsp;#</th>';
+				str += '<th>Name</th>';
+				str += '</tr>';
+				str += '</thead>';
+				str += '<tbody>';
+				for (var p in progAll) {
+					var checkIt = false;
+					for (var e in progEnable) {
+						if ( progEnable[e].oid == progAll[p].oid ) {
+							checkIt = true;
+						}
+					}
+					var chkStr = '';
+					if (checkIt) {
+						chkStr = ' checked="checked" ';
+					}
+					str += '<tr>';
+					str += '<td>&nbsp;<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="prog' + progAll[p].oid + '" name="prog' + progAll[p].oid + '" onclick="updateMenu();" ' + chkStr + ' value="' + progAll[p].oid + '" ><span class="custom-control-indicator"></span></label></td>';
+					str += '<td><img src="' + parent.getIconUrlFromId(progAll[p].icon) + '" border="0">&nbsp;' + progAll[p].name + '</td>';
+					str += '</tr>';
+				}
+				str += '</tbody>';
+				str += '</table>';				
+				$("#progListGrid").html( str );
+			}, 
+			function() {
+				
+			}
+	);	
+	
+}
+
+function updateMenu() {
+	var parentOid = $("#folderProgOid").val();
+	var progAppendOid = '';
+	$('input.custom-control-input:checkbox:checked').each(function() {
+	    progAppendOid += $(this).val() + _qifu_delimiter;
+	});
+	xhrSendParameterNoPleaseWait(
+			'./core.menuSettingsUpdateJson.do', 
+			{ 
+				'folderProgramOid'	: parentOid,
+				'appendOid'			: progAppendOid
+			}, 
+			function(data) {
+				if ( _qifu_success_flag == data.success ) {
+					parent.toastrInfo( data.message );
+				} else {
+					parent.toastrWarning( data.message );
+				}
+				progFolderChange(); // 重取 table 資料
+			}, 
+			function() {
+				window.location=parent.getProgUrl('CORE_PROG001D0003Q');
+			}
+	);	
+	
+}
+
 </script>
 
 <body>
@@ -84,9 +166,12 @@ function sysChange() {
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="folderProgMap" name="folderProgOid" id="folderProgOid" value="" label="Program folder" requiredFlag="Y"></q:select>
+			<q:select dataSource="folderProgMap" name="folderProgOid" id="folderProgOid" value="" label="Program folder" requiredFlag="Y" onchange="progFolderChange();"></q:select>
 		</div>
 	</div>		
+	<div class="row">
+		<div id="progListGrid"></div>
+	</div>			
 </div>	
 
 </body>

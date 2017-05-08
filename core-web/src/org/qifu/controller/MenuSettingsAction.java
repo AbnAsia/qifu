@@ -21,6 +21,9 @@
  */
 package org.qifu.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,13 +32,20 @@ import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.DefaultResult;
+import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSys;
 import org.qifu.service.ISysService;
+import org.qifu.service.logic.ISystemMenuLogicService;
+import org.qifu.vo.SysProgVO;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -44,6 +54,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class MenuSettingsAction extends BaseController {
 	
 	private ISysService<SysVO, TbSys, String> sysService;
+	private ISystemMenuLogicService systemMenuLogicService;
 	
 	public ISysService<SysVO, TbSys, String> getSysService() {
 		return sysService;
@@ -56,6 +67,17 @@ public class MenuSettingsAction extends BaseController {
 		this.sysService = sysService;
 	}	
 	
+	public ISystemMenuLogicService getSystemMenuLogicService() {
+		return systemMenuLogicService;
+	}
+	
+	@Autowired
+	@Resource(name="core.service.logic.SystemMenuLogicService")
+	@Required	
+	public void setSystemMenuLogicService(ISystemMenuLogicService systemMenuLogicService) {
+		this.systemMenuLogicService = systemMenuLogicService;
+	}
+
 	private void init(HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {
 		mv.addObject("sysMap", this.sysService.findSysMap(this.getBasePath(request), true));
 		mv.addObject("folderProgMap", this.getPleaseSelectMap(true));
@@ -80,5 +102,47 @@ public class MenuSettingsAction extends BaseController {
 		mv.setViewName(viewName);
 		return mv;		
 	}
-
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0003Q")
+	@RequestMapping(value = "/core.menuSettingsQueryProgramListByFolderOidJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj< Map<String, List<SysProgVO>> > queryProgramListByFolderOid(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		DefaultControllerJsonResultObj< Map<String, List<SysProgVO>> > result = this.getDefaultJsonResult("CORE_PROG001D0003Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}		
+		try {
+			Map<String, List<SysProgVO>> searchDataMap = this.systemMenuLogicService.findForMenuSettingsEnableAndAll(oid);
+			result.setValue( searchDataMap );
+			result.setSuccess( YesNo.YES );
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}		
+		return result;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0003Q")
+	@RequestMapping(value = "/core.menuSettingsUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> updateMenu(HttpServletRequest request, @RequestParam(name="folderProgramOid") String folderProgramOid, @RequestParam(name="appendOid") String appendOid) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0003Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			DefaultResult<Boolean> updateResult = this.systemMenuLogicService.createOrUpdate(folderProgramOid, this.transformAppendKeyStringToList(appendOid));
+			if (updateResult.getValue() != null && updateResult.getValue()) {
+				result.setSuccess(YesNo.YES);
+			}
+			result.setMessage( updateResult.getSystemMessage().getValue() );
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
+	
 }
