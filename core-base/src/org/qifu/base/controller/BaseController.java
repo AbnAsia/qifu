@@ -322,6 +322,9 @@ public abstract class BaseController {
 		}
 		String tmp[] = appendOid.split(Constants.ID_DELIMITER);
 		for (int i=0; tmp != null && i < tmp.length; i++) {
+			if (StringUtils.isBlank(tmp[i])) {
+				continue;
+			}
 			if (list.contains(tmp[i])) {
 				continue;
 			}
