@@ -108,7 +108,7 @@ function xhrSendParameterNoPleaseWait(xhrUrl, jsonParam, successFn, errorFn) {
 	    dataType : 'json',
 	    data : jsonParam,
 	    cache: _qifu_jqXhrCache,
-	    async: _qifu_jqXhrAsync,
+	    async: false, // _qifu_jqXhrAsync
 	    success : function(data, textStatus) { 	    	
 			if (data==null || (typeof data=='undefined') ) {
 				alert('Unexpected error!');
@@ -139,7 +139,7 @@ function xhrSendFormNoPleaseWait(xhrUrl, formId, successFn, errorFn) {
 	    dataType : 'json',
 	    data : $("#"+formId).serialize(),
 	    cache: _qifu_jqXhrCache,
-	    async: _qifu_jqXhrAsync,
+	    async: false, // _qifu_jqXhrAsync
 	    success : function(data, textStatus) {   	
 			if (data==null || (typeof data=='undefined') ) {
 				alert('Unexpected error!');
