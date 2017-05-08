@@ -82,7 +82,7 @@ function progFolderChange() {
 				str += '<table class="table">';
 				str += '<thead class="thead-inverse">';
 				str += '<tr>';
-				str += '<th>&nbsp;#</th>';
+				str += '<th>&nbsp;&nbsp;#&nbsp;&nbsp;</th>';
 				str += '<th>Name</th>';
 				str += '</tr>';
 				str += '</thead>';
@@ -99,7 +99,7 @@ function progFolderChange() {
 						chkStr = ' checked="checked" ';
 					}
 					str += '<tr>';
-					str += '<td>&nbsp;<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="prog' + progAll[p].oid + '" name="prog' + progAll[p].oid + '" onclick="updateMenu();" ' + chkStr + ' value="' + progAll[p].oid + '" ><span class="custom-control-indicator"></span></label></td>';
+					str += '<td>&nbsp;&nbsp;<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="prog' + progAll[p].oid + '" name="prog' + progAll[p].oid + '" onclick="updateMenu();" ' + chkStr + ' value="' + progAll[p].oid + '" ><span class="custom-control-indicator"></span></label></td>';
 					str += '<td><img src="' + parent.getIconUrlFromId(progAll[p].icon) + '" border="0">&nbsp;' + progAll[p].name + '</td>';
 					str += '</tr>';
 				}
