@@ -54,6 +54,7 @@ public abstract class BaseController {
 	protected static final String PAGE_SYS_LOGIN_AGAIN = "system/login_again";
 	protected static final String PAGE_SYS_NO_AUTH = "system/auth1";
 	protected static final String PAGE_SYS_ERROR = "system/error";
+	protected static final String PAGE_SYS_WARNING = "system/warning";
 	
 	protected static final String REDIRECT_INDEX = "index.do";
 	
