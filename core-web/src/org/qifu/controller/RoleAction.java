@@ -31,12 +31,17 @@ import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
+import org.qifu.base.model.YesNo;
 import org.qifu.po.TbRole;
 import org.qifu.service.IRoleService;
+import org.qifu.service.logic.IRoleLogicService;
+import org.qifu.util.SimpleUtils;
 import org.qifu.vo.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -51,6 +56,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class RoleAction extends BaseController {
 	
 	private IRoleService<RoleVO, TbRole, String> roleService;
+	private IRoleLogicService roleLogicService; 
 	
 	public IRoleService<RoleVO, TbRole, String> getRoleService() {
 		return roleService;
@@ -62,8 +68,19 @@ public class RoleAction extends BaseController {
 	public void setRoleService(IRoleService<RoleVO, TbRole, String> roleService) {
 		this.roleService = roleService;
 	}
+	
+	public IRoleLogicService getRoleLogicService() {
+		return roleLogicService;
+	}
 
-	private void init(HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+	@Autowired
+	@Resource(name="core.service.logic.RoleLogicService")
+	@Required		
+	public void setRoleLogicService(IRoleLogicService roleLogicService) {
+		this.roleLogicService = roleLogicService;
+	}
+
+	private void init(String type, HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {
 		
 	}
 	
@@ -73,7 +90,7 @@ public class RoleAction extends BaseController {
 		String viewName = PAGE_SYS_ERROR;
 		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG002D0001Q");
 		try {
-			this.init(request, mv);
+			this.init("queryPage", request, mv);
 			viewName = "role/role-management";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
@@ -87,6 +104,24 @@ public class RoleAction extends BaseController {
 		return mv;		
 	}
 	
+	private void checkFields(DefaultControllerJsonResultObj<RoleVO> result, RoleVO role) throws ControllerException, Exception {
+		this.getCheckControllerFieldHandler(result)
+		.testField("role", role, "@org.apache.commons.lang3.StringUtils@isBlank(role)", "Role is blank!")
+		.testField("role", ( !SimpleUtils.checkBeTrueOf_azAZ09(super.defaultString(role.getRole()).replaceAll("-", "").replaceAll("_", "")) ), "Role only normal character!")
+		.testField("role", ( this.noSelect(role.getRole()) ), "Please change Role value!") // Role 不能用  "all" 這個下拉值
+		.throwMessage();
+	}
+	
+	private void save(DefaultControllerJsonResultObj<RoleVO> result, RoleVO role) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, role);
+		DefaultResult<RoleVO> roleResult = this.roleLogicService.create(role);
+		if ( roleResult.getValue() != null ) {
+			result.setValue( roleResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( roleResult.getSystemMessage().getValue() );
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001Q")
 	@RequestMapping(value = "/core.roleQueryGridJson.do", produces = "application/json")	
 	public @ResponseBody QueryControllerJsonResultObj<List<RoleVO>> queryGrid(SearchValue searchValue, PageOf pageOf) {
@@ -97,6 +132,44 @@ public class RoleAction extends BaseController {
 		try {
 			QueryResult<List<RoleVO>> queryResult = this.roleService.findGridResult(searchValue, pageOf);
 			this.setQueryGridJsonResult(result, queryResult, pageOf);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001A")
+	@RequestMapping(value = "/core.roleCreate.do")
+	public ModelAndView createPage(HttpServletRequest request) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG002D0001A");
+		try {
+			this.init("createPage", request, mv);
+			viewName = "role/role-create";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}		
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001A")
+	@RequestMapping(value = "/core.roleSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<RoleVO> doSave(RoleVO role) {
+		DefaultControllerJsonResultObj<RoleVO> result = this.getDefaultJsonResult("CORE_PROG002D0001A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.save(result, role);
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {

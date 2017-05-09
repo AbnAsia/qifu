@@ -30,18 +30,17 @@ import org.qifu.ui.ComponentResourceUtils;
 import org.qifu.ui.UIComponent;
 import org.qifu.ui.UIComponentValueUtils;
 
-public class TextBox implements UIComponent {
-	private static final String _HTML_RES = "META-INF/resource/textbox/ui.textbox.htm.ftl";
+public class TextArea implements UIComponent {
+	private static final String _HTML_RES = "META-INF/resource/textarea/ui.textarea.htm.ftl";
 	private PageContext pageContext = null;	
 	private String id = "";
 	private String name = "";
 	private String value  = "";
 	private String readonly = "";
-	private String placeholder = "";
 	private String label = "";
 	private String cssClass = "";
 	private String requiredFlag = "";
-	private String maxlength = "";
+	private String rows = "";
 	private StringBuilder htmlOut=new StringBuilder();	
 	
 	private Map<String, Object> getParameters(String type) {
@@ -49,19 +48,18 @@ public class TextBox implements UIComponent {
 		paramMap.put("id", this.id);
 		paramMap.put("name", this.name);
 		paramMap.put("readonly", this.readonly);
-		paramMap.put("placeholder", this.placeholder);
 		paramMap.put("label", this.label);
 		paramMap.put("value", this.value);
 		paramMap.put("cssClass", this.cssClass);
 		paramMap.put("requiredFlag", this.requiredFlag);
-		paramMap.put("maxlength", this.maxlength);
+		paramMap.put("rows", this.rows);
 		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value);
 		return paramMap;
 	}
 	
 	private void generateHtml() {
 		try {
-			htmlOut.append( ComponentResourceUtils.generatorResource(TextBox.class, IS_HTML, _HTML_RES, this.getParameters(IS_HTML)) );
+			htmlOut.append( ComponentResourceUtils.generatorResource(TextArea.class, IS_HTML, _HTML_RES, this.getParameters(IS_HTML)) );
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -76,7 +74,7 @@ public class TextBox implements UIComponent {
 	public String getId() {
 		return this.id;
 	}
-
+	
 	@Override
 	public void setName(String name) {
 		this.name = name;
@@ -86,12 +84,12 @@ public class TextBox implements UIComponent {
 	public String getName() {
 		return this.name;
 	}
-
+	
 	@Override
 	public String getScript() throws Exception {
 		return "";
 	}
-
+	
 	@Override
 	public String getHtml() throws Exception {
 		this.generateHtml();
@@ -102,7 +100,7 @@ public class TextBox implements UIComponent {
 	public void setPageContext(PageContext pageContext) {
 		this.pageContext = pageContext;
 	}
-
+	
 	public String getValue() {
 		return value;
 	}
@@ -110,7 +108,7 @@ public class TextBox implements UIComponent {
 	public void setValue(String value) {
 		this.value = value;
 	}
-
+	
 	public String getReadonly() {
 		return readonly;
 	}
@@ -118,15 +116,7 @@ public class TextBox implements UIComponent {
 	public void setReadonly(String readonly) {
 		this.readonly = readonly;
 	}
-
-	public String getPlaceholder() {
-		return placeholder;
-	}
-
-	public void setPlaceholder(String placeholder) {
-		this.placeholder = placeholder;
-	}
-
+	
 	public String getLabel() {
 		return label;
 	}
@@ -151,12 +141,12 @@ public class TextBox implements UIComponent {
 		this.requiredFlag = requiredFlag;
 	}
 
-	public String getMaxlength() {
-		return maxlength;
+	public String getRows() {
+		return rows;
 	}
 
-	public void setMaxlength(String maxlength) {
-		this.maxlength = maxlength;
-	}
+	public void setRows(String rows) {
+		this.rows = rows;
+	}	
 
 }

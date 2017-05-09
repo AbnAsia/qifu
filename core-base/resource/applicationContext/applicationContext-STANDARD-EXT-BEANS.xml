@@ -13,9 +13,9 @@
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sys.xml" />
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysProg.xml" />
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysMenu.xml" />
+    <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-role.xml" />
     
     <!--     
-    <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-role.xml" /> 
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysCalendarNote.xml" />
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysMsgNotice.xml" />    
     <import resource="classpath*:applicationContext/standard/ext/applicationContext-ext-sysTemplate.xml" />

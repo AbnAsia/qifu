@@ -30,10 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.ognl.Ognl;
-import org.apache.ibatis.ognl.OgnlException;
 import org.qifu.ui.ComponentResourceUtils;
 import org.qifu.ui.UIComponent;
+import org.qifu.ui.UIComponentValueUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -92,33 +91,7 @@ public class Select implements UIComponent {
 		params.put("name", this.name);
 		params.put("dataSource", this.dataMap);
 		params.put("value", this.value);
-		if (!StringUtils.isBlank(this.value) && StringUtils.defaultString(this.value).indexOf(".") == -1) {
-			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-			Object val = ( request.getParameter(this.value) != null ? request.getParameter(this.value) : request.getAttribute(this.value) ); // 以 getParameter 為主
-			if (val != null) {
-				params.put("value", val);
-			}
-		}
-		if ( StringUtils.defaultString(this.value).indexOf(".") >= 1 ) { // 如 policy.no , policy.amount
-			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-			String kName = this.value.split("[.]")[0];
-			Object valObj = ( request.getParameter(kName) != null ? request.getParameter(kName) : request.getAttribute(kName) );
-			Object val = null;
-			Map<String, Object> ognlRoot = new HashMap<String, Object>(); 
-			if (valObj != null) {
-				try {
-					ognlRoot.put(kName, valObj);
-					val = Ognl.getValue(this.value, ognlRoot);
-				} catch (OgnlException e) {	
-					
-				}				
-			}
-			ognlRoot.clear();
-			ognlRoot = null;
-			if (val != null) {
-				params.put("value", String.valueOf(val));
-			}
-		}		
+		UIComponentValueUtils.setValue(pageContext, params, "value", this.value);	
 		params.put("label", this.label);
 		params.put("cssClass", this.cssClass);
 		params.put("requiredFlag", this.requiredFlag);
