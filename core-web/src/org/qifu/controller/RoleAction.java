@@ -26,6 +26,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.qifu.base.Constants;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
@@ -201,6 +202,34 @@ public class RoleAction extends BaseController {
 			this.init("editPage", request, mv);
 			this.fetchData(role, mv);
 			viewName = "role/role-edit";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001S02Q")
+	@RequestMapping(value = "/core.roleCopyManagement.do")
+	public ModelAndView copyAsNewPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG002D0001S02Q");
+		try {
+			RoleVO role = new RoleVO();
+			role.setOid(oid);
+			this.init("copyAsNewPage", request, mv);
+			this.fetchData(role, mv);
+			viewName = "role/role-copy";
+			role = (RoleVO) mv.getModel().get("role");
+			if (Constants.SUPER_ROLE_ADMIN.equals(role.getRole()) || Constants.SUPER_ROLE_ALL.equals(role.getRole())) {
+				viewName = PAGE_SYS_WARNING;
+				this.setPageMessage(mv, "Super/Admin cannot copy as new!");
+			}			
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
 		} catch (ServiceException | ControllerException e) {

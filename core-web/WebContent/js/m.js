@@ -124,6 +124,46 @@ function activaTab(tab){
 };
 
 
+function showModal(progId, srcUrl) {
+	
+	var progName = 'unknown';
+	var progIcon = './unknown.png';
+	var progUrl = '';	
+	for (var i=0; _prog != null && i< _prog.length; i++) {
+		if ( _prog[i].id == progId ) {
+			progName = _prog[i].name;
+			progIcon = _prog[i].icon;
+			progUrl = _prog[i].url;			
+		}
+	}
+	if ('' == progUrl || null == progUrl) {
+		alert('PROG_ID: ' + progId + ' no url, cannot call showModal');
+		return;
+	}
+	if ( '' == srcUrl || null == srcUrl) {
+		srcUrl = progUrl;
+	}
+	
+	srcUrl = getPageUrl(srcUrl);
+	
+	var _modalId = 'modal-' + progId;
+	var _modalIframeId = 'modal-iframe-' + progId;	
+	
+	$('#' + _modalId).on('shown.bs.modal', function() {
+		
+		$(this).find('iframe').attr('src', srcUrl);
+		
+	});
+	$('#' + _modalId).modal({show:true});	
+	
+}
+function hideModal(progId) {
+	var _modalId = 'modal-' + progId;
+	var _modalIframeId = 'modal-iframe-' + progId;
+	$('#' + _modalIframeId).attr('src', 'about:blank');
+	$('#' + _modalId).modal('hide');
+}
+
 /* 
  * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript 
  */

@@ -21,11 +21,16 @@
  */
 package org.qifu.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -48,16 +53,59 @@ import org.qifu.vo.SysMenuVO;
 import org.qifu.vo.SysProgVO;
 import org.qifu.vo.SysVO;
 
+import freemarker.cache.StringTemplateLoader;
+import freemarker.core.ParseException;
+import freemarker.template.Configuration;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateNotFoundException;
+
 @SuppressWarnings("unchecked")
 public class MenuSupportUtils {
+	private static final String _MODAL_HTML_RES = "META-INF/resource/modal.htm.ftl";
 	private static ISysService<SysVO, TbSys, String> sysService;
 	private static ISysMenuService<SysMenuVO, TbSysMenu, String> sysMenuService;
 	private static ISysProgService<SysProgVO, TbSysProg, String> sysProgService;
+	private static String _MODAL_TEMPLATE_STR = "";
 	
 	static {
+		InputStream is = null;
+		try {
+			is = MenuSupportUtils.class.getClassLoader().getResource( _MODAL_HTML_RES ).openStream();
+			_MODAL_TEMPLATE_STR = IOUtils.toString(is, Constants.BASE_ENCODING);			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}			
+			is = null;			
+		}
 		sysService = (ISysService<SysVO, TbSys, String>)AppContext.getBean("core.service.SysService");		
 		sysMenuService = (ISysMenuService<SysMenuVO, TbSysMenu, String>)AppContext.getBean("core.service.SysMenuService");
 		sysProgService = (ISysProgService<SysProgVO, TbSysProg, String>)AppContext.getBean("core.service.SysProgService");		
+	}
+	
+	private static String getModalHtml(TbSysProg prog) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("prog", prog);
+		StringTemplateLoader templateLoader = new StringTemplateLoader();
+		templateLoader.putTemplate("resourceTemplate", _MODAL_TEMPLATE_STR );
+		Configuration cfg = new Configuration( Configuration.VERSION_2_3_21 );
+		cfg.setTemplateLoader(templateLoader);
+		Template template = cfg.getTemplate("resourceTemplate", Constants.BASE_ENCODING);
+		Writer out = new StringWriter();
+		template.process(paramMap, out);
+		paramMap.clear();
+		paramMap = null;
+		return out.toString();
 	}
 	
 	public static TbSysProg loadSysProg(String progId) throws ServiceException, Exception {
@@ -103,6 +151,7 @@ public class MenuSupportUtils {
 		StringBuilder jsSb = new StringBuilder();
 		StringBuilder dropdownHtmlSb = new StringBuilder();
 		StringBuilder navHtmlSb = new StringBuilder();
+		StringBuilder modalHtmlSb = new StringBuilder();
 		jsSb.append("var _prog = []; ").append("\n");
 		for (TbSys sys : sysList) {
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -111,6 +160,11 @@ public class MenuSupportUtils {
 			for (int i=0; sysProgList!=null && i<sysProgList.size(); i++) {
 				TbSysProg sysProg = sysProgList.get(i);
 				jsSb.append("_prog.push({\"id\" : \"" + sysProg.getProgId() + "\", \"itemType\" : \"" + sysProg.getItemType() + "\", \"name\" : \"" + sysProg.getName() + "\", \"icon\" : \"" + IconUtils.getUrl(basePath, sysProg.getIcon()) + "\", \"url\" : \"" + getUrl(basePath, sys, sysProg) + "\"});").append("\n");
+				
+				if (YesNo.YES.equals(sysProg.getIsDialog())) {
+					modalHtmlSb.append( getModalHtml(sysProg) );
+				}
+				
 			}
 			
 			Subject subject = SecurityUtils.getSubject();
@@ -165,6 +219,7 @@ public class MenuSupportUtils {
 		resultObj.setDropdownHtmlData(dropdownHtmlSb.toString());
 		resultObj.setNavItemHtmlData(navHtmlSb.toString());
 		resultObj.setJavascriptData(jsSb.toString());
+		resultObj.setModalHtmlData(modalHtmlSb.toString());
 		return resultObj;
 	}
 	

@@ -38,6 +38,11 @@ public class MenuResultObj implements java.io.Serializable {
 	 * 選單的 javascript
 	 */
 	private String javascriptData = "";
+	
+	/**
+	 * modal 的 html
+	 */
+	private String modalHtmlData = "";
 
 	public String getDropdownHtmlData() {
 		return dropdownHtmlData;
@@ -61,6 +66,14 @@ public class MenuResultObj implements java.io.Serializable {
 
 	public void setJavascriptData(String javascriptData) {
 		this.javascriptData = javascriptData;
+	}
+
+	public String getModalHtmlData() {
+		return modalHtmlData;
+	}
+
+	public void setModalHtmlData(String modalHtmlData) {
+		this.modalHtmlData = modalHtmlData;
 	}	
 	
 }

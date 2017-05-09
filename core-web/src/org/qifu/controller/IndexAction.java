@@ -48,6 +48,7 @@ public class IndexAction extends BaseController {
 			mv.addObject("dropdownHtmlData", menuResult.getDropdownHtmlData());
 			mv.addObject("navItemHtmlData",  menuResult.getNavItemHtmlData());
 			mv.addObject("iconJavascriptData", IconUtils.getJsData());
+			mv.addObject("modalHtmlData",  menuResult.getModalHtmlData());
 			viewName = "index";
 		} catch (Exception e) {
 			e.printStackTrace();
