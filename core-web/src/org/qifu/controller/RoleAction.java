@@ -47,6 +47,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -84,6 +85,15 @@ public class RoleAction extends BaseController {
 		
 	}
 	
+	private void fetchData(RoleVO role, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+		DefaultResult<RoleVO> roleResult = this.roleService.findObjectByOid(role);
+		if ( roleResult.getValue() == null ) {
+			throw new ControllerException( roleResult.getSystemMessage().getValue() );
+		}
+		role = roleResult.getValue();
+		mv.addObject("role", role);
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001Q")
 	@RequestMapping(value = "/core.roleManagement.do")	
 	public ModelAndView queryPage(HttpServletRequest request) {
@@ -117,6 +127,25 @@ public class RoleAction extends BaseController {
 		DefaultResult<RoleVO> roleResult = this.roleLogicService.create(role);
 		if ( roleResult.getValue() != null ) {
 			result.setValue( roleResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( roleResult.getSystemMessage().getValue() );
+	}
+	
+	private void update(DefaultControllerJsonResultObj<RoleVO> result, RoleVO role) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, role);
+		DefaultResult<RoleVO> roleResult = this.roleLogicService.update(role);
+		if ( roleResult.getValue() != null ) {
+			result.setValue( roleResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( roleResult.getSystemMessage().getValue() );
+	}
+	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, RoleVO role) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> roleResult = this.roleLogicService.delete(role);
+		if ( roleResult.getValue() != null && roleResult.getValue() ) {
+			result.setValue( Boolean.TRUE );
 			result.setSuccess( YesNo.YES );
 		}
 		result.setMessage( roleResult.getSystemMessage().getValue() );
@@ -161,6 +190,29 @@ public class RoleAction extends BaseController {
 		return mv;
 	}		
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001E")
+	@RequestMapping(value = "/core.roleEdit.do")
+	public ModelAndView editPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG002D0001E");
+		try {
+			RoleVO role = new RoleVO();
+			role.setOid(oid);
+			this.init("editPage", request, mv);
+			this.fetchData(role, mv);
+			viewName = "role/role-edit";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}	
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001A")
 	@RequestMapping(value = "/core.roleSaveJson.do", produces = "application/json")		
 	public @ResponseBody DefaultControllerJsonResultObj<RoleVO> doSave(RoleVO role) {
@@ -178,5 +230,41 @@ public class RoleAction extends BaseController {
 		}
 		return result;
 	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001E")
+	@RequestMapping(value = "/core.roleUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<RoleVO> doUpdate(RoleVO role) {
+		DefaultControllerJsonResultObj<RoleVO> result = this.getDefaultJsonResult("CORE_PROG002D0001E");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.update(result, role);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001D")
+	@RequestMapping(value = "/core.roleDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(RoleVO role) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG002D0001D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.delete(result, role);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
 	
 }

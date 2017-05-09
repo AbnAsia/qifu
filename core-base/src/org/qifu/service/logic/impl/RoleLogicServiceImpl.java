@@ -249,10 +249,16 @@ public class RoleLogicServiceImpl extends BaseLogicService implements IRoleLogic
 		if (Constants.SUPER_ROLE_ADMIN.equals(role.getRole()) || Constants.SUPER_ROLE_ALL.equals(role.getRole())) {			
 			throw new ServiceException("Administrator or super role cannot delete!");
 		}		
+		/*
+		 * FIXME: 暫時不處理
+		 * FIXME: 暫時不處理
+		 * FIXME: 暫時不處理
+		 * 
 		String defaultUserRole = this.getDefaultUserRole();
 		if (role.getRole().equals(defaultUserRole)) {
 			throw new ServiceException("Default user role: " + defaultUserRole + " cannot delete!");
 		}
+		*/
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("role", role.getRole());		
 		this.deleteRolePermission(params);
