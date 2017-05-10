@@ -152,6 +152,16 @@ public class RoleAction extends BaseController {
 		result.setMessage( roleResult.getSystemMessage().getValue() );
 	}
 	
+	private void saveAsNew(DefaultControllerJsonResultObj<RoleVO> result, String fromRoleOid, RoleVO role) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, role);
+		DefaultResult<RoleVO> roleResult = this.roleLogicService.copyAsNew(fromRoleOid, role);
+		if ( roleResult.getValue() != null ) {
+			result.setValue( roleResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( roleResult.getSystemMessage().getValue() );
+	}	
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001Q")
 	@RequestMapping(value = "/core.roleQueryGridJson.do", produces = "application/json")	
 	public @ResponseBody QueryControllerJsonResultObj<List<RoleVO>> queryGrid(SearchValue searchValue, PageOf pageOf) {
@@ -295,5 +305,23 @@ public class RoleAction extends BaseController {
 		}
 		return result;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG002D0001S02A")
+	@RequestMapping(value = "/core.roleCopySaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<RoleVO> doSaveCopyAsNew(@RequestParam(name="fromRoleOid") String fromRoleOid, RoleVO role) {
+		DefaultControllerJsonResultObj<RoleVO> result = this.getDefaultJsonResult("CORE_PROG002D0001S02A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.saveAsNew(result, fromRoleOid, role);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}		
 	
 }

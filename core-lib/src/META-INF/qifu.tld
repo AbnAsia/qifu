@@ -223,7 +223,7 @@
 		</attribute>										
 	</tag>
 	
-	<!-- Select -->
+	<!-- Button -->
 	<tag>
 		<name>button</name>
 		<tag-class>org.qifu.tag.ButtonTag</tag-class>
@@ -277,10 +277,15 @@
 			<name>disabled</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>				
+		</attribute>
+		<attribute>
+			<name>xhrSendNoPleaseWait</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>		
 	
-	<!-- TextBox -->
+	<!-- TextArea -->
 	<tag>
 		<name>textarea</name>
 		<tag-class>org.qifu.tag.TextAreaTag</tag-class>

@@ -45,6 +45,7 @@ public class Button implements UIComponent {
 	private String errorFunction = "";
 	private String loadFunction = "";
 	private String disabled = "";
+	private String xhrSendNoPleaseWait = "";
 	private StringBuilder htmlOut = new StringBuilder();
 	private StringBuilder jsOut = new StringBuilder();	
 
@@ -60,6 +61,8 @@ public class Button implements UIComponent {
 			paramMap.put("errorFunction", this.errorFunction);
 			paramMap.put("loadFunction", this.loadFunction);
 			paramMap.put("onclick", this.onclick.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
+			paramMap.put("xhrSendNoPleaseWait", this.xhrSendNoPleaseWait);
+			
 		} else {
 			paramMap.put("id", this.id);
 			paramMap.put("cssClass", this.cssClass);
@@ -196,6 +199,14 @@ public class Button implements UIComponent {
 
 	public void setDisabled(String disabled) {
 		this.disabled = disabled;
+	}
+
+	public String getXhrSendNoPleaseWait() {
+		return xhrSendNoPleaseWait;
+	}
+
+	public void setXhrSendNoPleaseWait(String xhrSendNoPleaseWait) {
+		this.xhrSendNoPleaseWait = xhrSendNoPleaseWait;
 	}
 
 }

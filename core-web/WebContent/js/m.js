@@ -154,13 +154,18 @@ function showModal(progId, srcUrl) {
 		$(this).find('iframe').attr('src', srcUrl);
 		
 	});
+	$('#' + _modalId).on('hidden.bs.modal', function() {
+		
+		//$('#' + _modalIframeId).attr('src', 'about:blank');
+		$(this).find('iframe').attr('src', 'about:blank');
+		
+	});		
 	$('#' + _modalId).modal({show:true});	
 	
 }
 function hideModal(progId) {
 	var _modalId = 'modal-' + progId;
 	var _modalIframeId = 'modal-iframe-' + progId;
-	$('#' + _modalIframeId).attr('src', 'about:blank');
 	$('#' + _modalId).modal('hide');
 }
 

@@ -72,17 +72,17 @@ function clearSave() {
 <div class="form-group" id="form-group1">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			Role&nbsp;:&nbsp;${role.role}
+			The original Role&nbsp;:&nbsp;${role.role}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="role" value="role.role" id="role" label="New role" requiredFlag="Y" maxlength="50" placeholder="Enter new role" readonly="Y"></q:textbox>
+			<q:textbox name="role" value="" id="role" label="New role" requiredFlag="Y" maxlength="50" placeholder="Enter new role" ></q:textbox>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textarea name="description" value="role.description" id="description" label="Description" rows="3"></q:textarea>
+			<q:textarea name="description" value="" id="description" label="Description" rows="3"></q:textarea>
 		</div>
 	</div>
 </div>
@@ -95,14 +95,15 @@ function clearSave() {
 			xhrUrl="./core.roleCopySaveJson.do"
 			xhrParameter="
 			{
-				'oid'			:	'${role.oid}',
+				'fromRoleOid'	:	'${role.oid}',
 				'role'			:	$('#role').val(),
 				'description'	:	$('#description').val()
 			}
 			"
 			onclick="btnSave();"
 			loadFunction="saveSuccess(data);"
-			errorFunction="clearSave();">
+			errorFunction="clearSave();"
+			xhrSendNoPleaseWait="Y">
 		</q:button>
 		<q:button id="btnClear" label="Clear" onclick="clearSave();"></q:button>
 	</div>
