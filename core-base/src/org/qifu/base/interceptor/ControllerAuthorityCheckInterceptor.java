@@ -41,8 +41,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 	protected static Logger logger = Logger.getLogger(ControllerAuthorityCheckInterceptor.class);
-	private static final String NO_AUTH_PAGE = "/pages/system/auth1.jsp";
-
+	private static final String NO_AUTH_PAGE = "./pages/system/auth1.jsp";
+	
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 		
@@ -94,23 +94,33 @@ public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 	}
 	
 	private boolean isControllerAuthority(Annotation[] actionMethodAnnotations, Subject subject) {
-		if (actionMethodAnnotations!=null && actionMethodAnnotations.length>0) {
-			for (Annotation anno : actionMethodAnnotations) {
-				if (anno instanceof ControllerMethodAuthority) {
-					if (!((ControllerMethodAuthority)anno).check()) { // check=false , 表示不要檢查權限
-						return true;
-					}
-					String progId = ((ControllerMethodAuthority)anno).programId();
-					if (StringUtils.isBlank(progId)) {
-						return false;	
-					}
-					if (subject.isPermitted(progId)) {
-						return true;
-					}							
-				}
+		if (actionMethodAnnotations==null || actionMethodAnnotations.length == 0) { // 沒有 ControllerMethodAuthority 不需要check
+			return true;
+		}
+		boolean foundControllerMethodAuthority = false;
+		for (Annotation anno : actionMethodAnnotations) {
+			if (anno instanceof ControllerMethodAuthority) {
+				foundControllerMethodAuthority = true;
 			}
 		}
-		return true;
+		if (!foundControllerMethodAuthority) { // 沒有 ControllerMethodAuthority 不需要check
+			return true;
+		}
+		for (Annotation anno : actionMethodAnnotations) {
+			if (anno instanceof ControllerMethodAuthority) {
+				if (!((ControllerMethodAuthority)anno).check()) { // check=false , 表示不要檢查權限
+					return true;
+				}
+				String progId = ((ControllerMethodAuthority)anno).programId();
+				if (StringUtils.isBlank(progId)) {
+					return false;	
+				}
+				if (subject.isPermitted(progId)) {
+					return true;
+				}							
+			}
+		}
+		return false;
 	}	
 
 }

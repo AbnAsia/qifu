@@ -21,11 +21,13 @@
  */
 package org.qifu.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
@@ -78,23 +80,55 @@ public class CommonAction extends BaseController {
 		this.sysService = sysService;
 	}	
 	
+	private TbSys findSys(String oid) throws ServiceException, Exception {
+		TbSys sys = new TbSys();
+		sys.setOid(oid);
+		DefaultResult<TbSys> sysResult = this.sysService.findEntityByOid(sys);
+		if (sysResult.getValue() == null) {
+			throw new ControllerException( sysResult.getSystemMessage().getValue() );
+		}
+		sys = sysResult.getValue();
+		return sys;
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0001Q")
 	@RequestMapping(value = "/core.getCommonProgramFolderJson.do")	
-	public @ResponseBody DefaultControllerJsonResultObj<Map<String, String>> doSave(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+	public @ResponseBody DefaultControllerJsonResultObj<Map<String, String>> doQueryProgramFolder(HttpServletRequest request, @RequestParam(name="oid") String oid) {
 		DefaultControllerJsonResultObj<Map<String, String>> result = this.getDefaultJsonResult("CORE_PROGCOMM0001Q");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			result.setValue( this.getPleaseSelectMap(true) );
 			return result;
 		}		
 		try {
-			TbSys sys = new TbSys();
-			sys.setOid(oid);
-			DefaultResult<TbSys> sysResult = this.sysService.findEntityByOid(sys);
-			if (sysResult.getValue() == null) {
-				throw new ControllerException( sysResult.getSystemMessage().getValue() );
-			}
-			sys = sysResult.getValue();
+			TbSys sys = this.findSys(oid);
 			result.setValue( this.sysProgService.findSysProgFolderMap(this.getBasePath(request), sys.getSysId(), MenuItemType.FOLDER, true) );
+			result.setSuccess( YesNo.YES );
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0002Q")
+	@RequestMapping(value = "/core.getCommonProgramFolderMenuItemJson.do")	
+	public @ResponseBody DefaultControllerJsonResultObj<Map<String, String>> doQueryProgramList(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		DefaultControllerJsonResultObj<Map<String, String>> result = this.getDefaultJsonResult("CORE_PROGCOMM0002Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			result.setValue( this.getPleaseSelectMap(true) );
+			return result;
+		}		
+		try {
+			TbSys sys = this.findSys(oid);
+			List<SysProgVO> menuProgList = this.sysProgService.findForInTheFolderMenuItems(sys.getSysId(), null, null);
+			Map<String, String> dataMap = this.getPleaseSelectMap(true);
+			for (int i=0; menuProgList!=null && i<menuProgList.size(); i++) {
+				SysProgVO sysProg = menuProgList.get(i);
+				dataMap.put(sysProg.getOid(), StringEscapeUtils.escapeHtml4(sysProg.getName()));
+			}
+			result.setValue( dataMap );
 			result.setSuccess( YesNo.YES );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			

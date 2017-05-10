@@ -25,19 +25,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
-function accountChange() {
+function sysChange() {
 	
-	$("#roleListGrid").html( '' );
+	$('#progOid').find('option').remove().end();
+	$("#roleListGrid").html( '' );	
 	
-	var accountOid = $("#accountOid").val();
+	var sysOid = $("#sysOid").val();
+	xhrSendParameter(
+			'./core.getCommonProgramFolderMenuItemJson.do', 
+			{ 'oid' : sysOid }, 
+			function(data) {
+				if ( _qifu_success_flag != data.success ) {
+					
+					$('#progOid')
+				    .find('option')
+				    .remove()
+				    .end()
+				    .append('<option value="' + _qifu_please_select_id + '">' + _qifu_please_select_name + '</option>')
+				    .val( _qifu_please_select_id );
+					
+					return;
+				}
+				for (var n in data.value) {
+					$('#progOid').append($('<option>', {
+					    value: n,
+					    text: data.value[n]
+					}));
+				}
+				
+			}, 
+			function() {
+				
+			}
+	);		
 	
-	if ( _qifu_please_select_id == accountOid || null == accountOid ) {
+}
+
+function progChange() {
+	
+	$("#roleListGrid").html( '' );	
+	
+	var progOid = $("#progOid").val();
+	
+	if ( _qifu_please_select_id == progOid || null == progOid ) {
 		return;
-	}
+	}	
 	
 	xhrSendParameter(
-			'./core.userRoleListByAccountOidJson.do', 
-			{ 'accountOid' : accountOid }, 
+			'./core.queryMenuProgramRoleListByOidJson.do', 
+			{ 'oid' : progOid }, 
 			function(data) {
 				if ( _qifu_success_flag != data.success ) {
 					parent.toastrWarning( data.message );
@@ -68,7 +104,7 @@ function accountChange() {
 						chkStr = ' checked="checked" ';
 					}
 					str += '<tr>';
-					str += '<td>&nbsp;&nbsp;<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="role' + roleAll[p].oid + '" name="role' + roleAll[p].oid + '" onclick="updateRoleEnable();" ' + chkStr + ' value="' + roleAll[p].oid + '" ><span class="custom-control-indicator"></span></label></td>';
+					str += '<td>&nbsp;&nbsp;<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="role' + roleAll[p].oid + '" name="role' + roleAll[p].oid + '" onclick="updateMenuRoleEnable();" ' + chkStr + ' value="' + roleAll[p].oid + '" ><span class="custom-control-indicator"></span></label></td>';
 					str += '<td>' + roleAll[p].role + '</td>';
 					str += '</tr>';
 				}
@@ -80,19 +116,21 @@ function accountChange() {
 			function() {
 				
 			}
-	);
+	);	
+	
+	
 }
 
-function updateRoleEnable() {
-	var accountOid = $("#accountOid").val();
+function updateMenuRoleEnable() {
+	var progOid = $("#progOid").val();
 	var roleAppendOid = '';
 	$('input.custom-control-input:checkbox:checked').each(function() {
 		roleAppendOid += $(this).val() + _qifu_delimiter;
 	});
 	xhrSendParameterNoPleaseWait(
-			'./core.userRoleUpdateJson.do', 
+			'./core.menuRoleUpdateJson.do', 
 			{ 
-				'accountOid'	: accountOid,
+				'progOid'		: progOid,
 				'appendOid'		: roleAppendOid
 			}, 
 			function(data) {
@@ -101,41 +139,45 @@ function updateRoleEnable() {
 				} else {
 					parent.toastrWarning( data.message );
 				}
-				accountChange(); // 重取 table 資料
+				progChange(); // 重取 table 資料
 			}, 
 			function() {
-				window.location=parent.getProgUrl('CORE_PROG002D0002Q');
+				window.location=parent.getProgUrl('CORE_PROG002D0003Q');
 			}
-	);
+	);	
 }
 
 </script>
 
-
 <body>
 
 <q:toolBar 
-	id="CORE_PROG002D0002Q_toolbar" 
+	id="CORE_PROG002D0003Q_toolbar" 
 	refreshEnable="Y"
-	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG002D0002Q');" 
+	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG002D0003Q');" 
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="N" 
 	saveJsMethod="" 	
 	cancelEnable="Y" 
-	cancelJsMethod="parent.closeTab('CORE_PROG002D0002Q');" >
+	cancelJsMethod="parent.closeTab('CORE_PROG002D0003Q');" >
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
 <div class="form-group" id="form-group1">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="accountMap" name="accountOid" id="accountOid" value="" label="Account" requiredFlag="Y" onchange="accountChange();"></q:select>
+			<q:select dataSource="sysMap" name="sysOid" id="sysOid" value="" label="System" requiredFlag="Y" onchange="sysChange();"></q:select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:select dataSource="progMap" name="progOid" id="progOid" value="" label="System" requiredFlag="Y" onchange="progChange();"></q:select>
 		</div>
 	</div>
 	<div class="row">
 		<div id="roleListGrid"></div>
-	</div>	
+	</div>		
 </div>	
 
 </body>
