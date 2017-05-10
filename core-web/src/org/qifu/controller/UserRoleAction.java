@@ -36,9 +36,7 @@ import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.YesNo;
 import org.qifu.po.TbAccount;
-import org.qifu.po.TbRole;
 import org.qifu.service.IAccountService;
-import org.qifu.service.IRoleService;
 import org.qifu.service.logic.IRoleLogicService;
 import org.qifu.vo.AccountVO;
 import org.qifu.vo.RoleVO;
@@ -56,7 +54,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class UserRoleAction extends BaseController {
 	
 	private IAccountService<AccountVO, TbAccount, String> accountService;
-	private IRoleService<RoleVO, TbRole, String> roleService;
 	private IRoleLogicService roleLogicService;
 	
 	public IAccountService<AccountVO, TbAccount, String> getAccountService() {
@@ -68,17 +65,6 @@ public class UserRoleAction extends BaseController {
 	@Required	
 	public void setAccountService(IAccountService<AccountVO, TbAccount, String> accountService) {
 		this.accountService = accountService;
-	}
-
-	public IRoleService<RoleVO, TbRole, String> getRoleService() {
-		return roleService;
-	}
-
-	@Autowired
-	@Resource(name="core.service.RoleService")
-	@Required	
-	public void setRoleService(IRoleService<RoleVO, TbRole, String> roleService) {
-		this.roleService = roleService;
 	}
 
 	public IRoleLogicService getRoleLogicService() {
