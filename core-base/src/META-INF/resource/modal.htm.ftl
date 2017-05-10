@@ -11,7 +11,7 @@
       
       <div class="modal-body">
 		  <div class="container-fluid">
-			<div class="row" style="width:${prog.dialogW-30}px; height:${prog.dialogH-180}px;"  >
+			<div class="row" style="width:${prog.dialogW-30}px; height:${prog.dialogH-160}px;"  >
 				<iframe id="modal-iframe-${prog.progId}" src=""  frameborder="0"></iframe>
 			</div>
 			</div>
