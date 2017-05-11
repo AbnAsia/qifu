@@ -42,9 +42,12 @@
                 <value>classpath*:mappers/TbSysMenu.xml</value>      
                 <value>classpath*:mappers/TbSysMenuRole.xml</value>
                 <value>classpath*:mappers/TbSysIcon.xml</value>        
-                <value>classpath*:mappers/TbSysProg.xml</value>                       
-                
-                                 
+                <value>classpath*:mappers/TbSysProg.xml</value>
+                <value>classpath*:mappers/TbSysTemplate.xml</value>
+                <value>classpath*:mappers/TbSysTemplateParam.xml</value>
+                <value>classpath*:mappers/TbSysUpload.xml</value>
+                <value>classpath*:mappers/TbSysUploadTran.xml</value>
+                <value>classpath*:mappers/TbSysUploadTranSegm.xml</value>
             </list>
         </property>          		  		
   		<property name="databaseIdProvider" ref="databaseIdProvider"/>

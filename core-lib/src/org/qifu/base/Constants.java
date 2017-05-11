@@ -94,6 +94,7 @@ public class Constants {
 	
 	public static final String TMP_SUB_DIR_NAME = "qifu";
 	
+	public static final String HTML_BR = "<br>";
 	
 	public static String getTmpDir() {
 		return System.getProperty("java.io.tmpdir");

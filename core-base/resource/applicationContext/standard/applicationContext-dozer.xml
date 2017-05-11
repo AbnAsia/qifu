@@ -30,6 +30,11 @@
 				<value>classpath*:dozer/dozerBeanMapping-sysProg.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysMenu.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysMenuRole.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysTemplate.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysTemplateParam.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysUpload.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysUploadTran.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysUploadTranSegm.xml</value>
 				
 			</list> 
 		</property> 
