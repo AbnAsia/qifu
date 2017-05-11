@@ -1,2 +1,2 @@
 # qifu
-Backend Admin WEB base on JAVA & Spring & hibernate & Bootstrap v4
+Backend Admin WEB base on JAVA & Spring / Spring MVC & hibernate & Bootstrap v4
