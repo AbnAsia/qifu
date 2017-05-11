@@ -79,7 +79,8 @@ function accountChange() {
 			}, 
 			function() {
 				
-			}
+			},
+			_qifu_defaultSelfPleaseWaitShow
 	);
 }
 

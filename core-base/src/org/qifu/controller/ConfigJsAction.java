@@ -55,6 +55,7 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_jqXhrTimeout=").append( super.getJqXhrTimeout() ).append(";").append("\n");
 		sb.append("var _qifu_jqXhrCache=").append( super.getJqXhrCache() ).append(";").append("\n");
 		sb.append("var _qifu_jqXhrAsync=").append( super.getJqXhrAsync() ).append(";").append("\n");
+		sb.append("var _qifu_defaultSelfPleaseWaitShow='").append(YesNo.NO).append("';").append("\n");
 		return sb.toString();
 	}
 

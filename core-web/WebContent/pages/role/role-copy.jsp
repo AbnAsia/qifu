@@ -103,7 +103,7 @@ function clearSave() {
 			onclick="btnSave();"
 			loadFunction="saveSuccess(data);"
 			errorFunction="clearSave();"
-			xhrSendNoPleaseWait="Y">
+			selfPleaseWaitShow="Y">
 		</q:button>
 		<q:button id="btnClear" label="Clear" onclick="clearSave();"></q:button>
 	</div>

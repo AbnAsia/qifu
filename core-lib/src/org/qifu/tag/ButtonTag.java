@@ -45,6 +45,7 @@ public class ButtonTag implements Tag {
 	private String loadFunction = "";	
 	private String disabled = YesNo.NO;
 	private String xhrSendNoPleaseWait = YesNo.NO;
+	private String selfPleaseWaitShow = YesNo.NO;
 	
 	private Button handler() {
 		Button button = new Button();
@@ -60,6 +61,7 @@ public class ButtonTag implements Tag {
 		button.setLoadFunction(this.loadFunction);
 		button.setDisabled(this.disabled);
 		button.setXhrSendNoPleaseWait(this.xhrSendNoPleaseWait);
+		button.setSelfPleaseWaitShow(this.selfPleaseWaitShow);
 		return button;
 	}
 
@@ -189,6 +191,14 @@ public class ButtonTag implements Tag {
 
 	public void setXhrSendNoPleaseWait(String xhrSendNoPleaseWait) {
 		this.xhrSendNoPleaseWait = xhrSendNoPleaseWait;
+	}
+
+	public String getSelfPleaseWaitShow() {
+		return selfPleaseWaitShow;
+	}
+
+	public void setSelfPleaseWaitShow(String selfPleaseWaitShow) {
+		this.selfPleaseWaitShow = selfPleaseWaitShow;
 	}
 	
 }

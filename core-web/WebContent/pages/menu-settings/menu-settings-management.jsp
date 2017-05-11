@@ -56,7 +56,8 @@ function sysChange() {
 			}, 
 			function() {
 				
-			}
+			},
+			_qifu_defaultSelfPleaseWaitShow
 	);	
 }
 
@@ -109,7 +110,8 @@ function progFolderChange() {
 			}, 
 			function() {
 				
-			}
+			},
+			_qifu_defaultSelfPleaseWaitShow
 	);	
 	
 }

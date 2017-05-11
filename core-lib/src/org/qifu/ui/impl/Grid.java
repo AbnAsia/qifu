@@ -39,6 +39,7 @@ public class Grid implements UIComponent {
 	private String gridFieldStructure = "";
 	private String queryFunction = "";
 	private String clearFunction = "";
+	private String selfPleaseWaitShow = "";
 	private StringBuilder htmlOut=new StringBuilder();
 	private StringBuilder jsOut=new StringBuilder();
 	
@@ -51,6 +52,7 @@ public class Grid implements UIComponent {
 			paramMap.put("gridFieldStructure", this.gridFieldStructure);
 			paramMap.put("queryFunction", this.queryFunction);
 			paramMap.put("clearFunction", this.clearFunction);
+			paramMap.put("selfPleaseWaitShow", this.selfPleaseWaitShow);
 		}
 		return paramMap;
 	}
@@ -149,6 +151,14 @@ public class Grid implements UIComponent {
 
 	public void setClearFunction(String clearFunction) {
 		this.clearFunction = clearFunction;
+	}
+
+	public String getSelfPleaseWaitShow() {
+		return selfPleaseWaitShow;
+	}
+
+	public void setSelfPleaseWaitShow(String selfPleaseWaitShow) {
+		this.selfPleaseWaitShow = selfPleaseWaitShow;
 	}
 
 }

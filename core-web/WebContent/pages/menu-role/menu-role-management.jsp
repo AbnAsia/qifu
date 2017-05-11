@@ -56,7 +56,8 @@ function sysChange() {
 			}, 
 			function() {
 				
-			}
+			},
+			_qifu_defaultSelfPleaseWaitShow
 	);		
 	
 }
@@ -115,7 +116,8 @@ function progChange() {
 			}, 
 			function() {
 				
-			}
+			},
+			_qifu_defaultSelfPleaseWaitShow
 	);	
 	
 	

@@ -84,7 +84,8 @@ function deleteRecord(oid) {
 						}, 
 						function() {
 							
-						}
+						},
+						_qifu_defaultSelfPleaseWaitShow
 				);
 			}
 	);	

@@ -117,6 +117,11 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<name>selfPleaseWaitShow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>		
 	
 	<!-- TextBox -->
@@ -280,6 +285,11 @@
 		</attribute>
 		<attribute>
 			<name>xhrSendNoPleaseWait</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>selfPleaseWaitShow</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

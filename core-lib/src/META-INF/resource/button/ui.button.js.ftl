@@ -15,6 +15,9 @@ function ${onclick}() {
 		function(jqXHR, textStatus, errorThrown) {
 			${errorFunction};
 		}
+		<#if xhrSendNoPleaseWait != "Y" >
+		, '${selfPleaseWaitShow}'
+		</#if>
 	);
 }
 </script>
@@ -37,6 +40,9 @@ function ${onclick}() {
 		function(jqXHR, textStatus, errorThrown) {
 			${errorFunction};
 		}
+		<#if xhrSendNoPleaseWait != "Y" >
+		, '${selfPleaseWaitShow}'
+		</#if>		
 	);
 }
 </script>

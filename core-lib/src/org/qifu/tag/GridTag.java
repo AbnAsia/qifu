@@ -27,6 +27,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.qifu.base.model.YesNo;
 import org.qifu.ui.impl.Grid;
 
 public class GridTag implements Tag {
@@ -39,6 +40,7 @@ public class GridTag implements Tag {
 	private String gridFieldStructure = "";
 	private String queryFunction = "";
 	private String clearFunction = "";
+	private String selfPleaseWaitShow = YesNo.NO;
 	
 	private Grid handler() {
 		Grid grid = new Grid();
@@ -49,6 +51,7 @@ public class GridTag implements Tag {
 		grid.setGridFieldStructure(this.gridFieldStructure);
 		grid.setQueryFunction(this.queryFunction.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
 		grid.setClearFunction(this.clearFunction.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
+		grid.setSelfPleaseWaitShow(this.selfPleaseWaitShow);
 		return grid;
 	}
 
@@ -138,6 +141,14 @@ public class GridTag implements Tag {
 
 	public void setClearFunction(String clearFunction) {
 		this.clearFunction = clearFunction;
+	}
+
+	public String getSelfPleaseWaitShow() {
+		return selfPleaseWaitShow;
+	}
+
+	public void setSelfPleaseWaitShow(String selfPleaseWaitShow) {
+		this.selfPleaseWaitShow = selfPleaseWaitShow;
 	}
 
 }

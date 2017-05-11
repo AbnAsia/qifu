@@ -158,7 +158,8 @@ function ${queryFunction}() {
 			}, 
 			function(){
 				${clearFunction}();
-			}
+			},
+			'${selfPleaseWaitShow}'
 	);
 }    	
 

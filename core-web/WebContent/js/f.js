@@ -1,5 +1,9 @@
-function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn) {
-	parent.showPleaseWaitForQueryGrid();
+function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn, selfPleaseWaitShow) {
+	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+		parent.showPleaseWaitForQueryGrid();
+	} else {
+		showPleaseWaitForQueryGrid();
+	}
 	$.ajax({
 		type : _qifu_jqXhrType,
 	    url : xhrUrl,
@@ -9,7 +13,11 @@ function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn) {
 	    cache: _qifu_jqXhrCache,
 	    async: _qifu_jqXhrAsync,
 	    success : function(data, textStatus) {
-	    	parent.hidePleaseWaitForQueryGrid();  	    	
+	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+	    		parent.hidePleaseWaitForQueryGrid();
+	    	} else {
+	    		hidePleaseWaitForQueryGrid();
+	    	}
 			if (data==null || (typeof data=='undefined') ) {
 				alert('Unexpected error!');
 				return;
@@ -32,8 +40,12 @@ function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn) {
 	});
 }
 
-function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
-	parent.showPleaseWait();
+function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn, selfPleaseWaitShow) {
+	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+		parent.showPleaseWait();
+	} else {
+		showPleaseWait();
+	}
 	$.ajax({
 		type : _qifu_jqXhrType,
 	    url : xhrUrl,
@@ -43,7 +55,11 @@ function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
 	    cache: _qifu_jqXhrCache,
 	    async: _qifu_jqXhrAsync,
 	    success : function(data, textStatus) {
-	    	parent.hidePleaseWait();  	    	
+	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+	    		parent.hidePleaseWait();
+	    	} else {
+	    		hidePleaseWait();
+	    	}
 			if (data==null || (typeof data=='undefined') ) {
 				alert('Unexpected error!');
 				return;
@@ -59,15 +75,23 @@ function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn) {
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
-	    	parent.hidePleaseWait(); 	    	
+	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+	    		parent.hidePleaseWait();
+	    	} else {
+	    		hidePleaseWait();
+	    	}
 	        alert(textStatus);
 	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
 	});
 }
 
-function xhrSendForm(xhrUrl, formId, successFn, errorFn) {
-	parent.showPleaseWait();
+function xhrSendForm(xhrUrl, formId, successFn, errorFn, selfPleaseWaitShow) {
+	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+		parent.showPleaseWait();
+	} else {
+		showPleaseWait();
+	}
 	$.ajax({
 		type : _qifu_jqXhrType,
 	    url : xhrUrl,
@@ -77,7 +101,11 @@ function xhrSendForm(xhrUrl, formId, successFn, errorFn) {
 	    cache: _qifu_jqXhrCache,
 	    async: _qifu_jqXhrAsync,
 	    success : function(data, textStatus) {
-	    	parent.hidePleaseWait();  	    	
+	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+	    		parent.hidePleaseWait();
+	    	} else {
+	    		hidePleaseWait();
+	    	}
 			if (data==null || (typeof data=='undefined') ) {
 				alert('Unexpected error!');
 				return;
@@ -93,7 +121,11 @@ function xhrSendForm(xhrUrl, formId, successFn, errorFn) {
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
-	    	parent.hidePleaseWait(); 	    	
+	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+	    		parent.hidePleaseWait();
+	    	} else {
+	    		hidePleaseWait();
+	    	}
 	        alert(textStatus);
 	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
