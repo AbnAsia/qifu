@@ -1,2 +1,2 @@
 # qifu
-Test project, self need.
+Backend Admin WEB base on JAVA & Spring & hibernate & Bootstrap v4
