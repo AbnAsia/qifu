@@ -42,6 +42,7 @@ public class TextAreaTag implements Tag {
 	private String cssClass = "form-control mb-2 mr-sm-2 mb-sm-0";
 	private String requiredFlag = YesNo.NO;
 	private String rows = "3";
+	private String placeholder = "";
 	
 	private TextArea handler() {
 		TextArea textArea = new TextArea();
@@ -54,6 +55,7 @@ public class TextAreaTag implements Tag {
 		textArea.setCssClass(this.cssClass);
 		textArea.setRequiredFlag(this.requiredFlag);
 		textArea.setRows(this.rows);
+		textArea.setPlaceholder(this.placeholder);
 		return textArea;
 	}	
 	
@@ -158,6 +160,14 @@ public class TextAreaTag implements Tag {
 
 	public void setRows(String rows) {
 		this.rows = rows;
+	}
+
+	public String getPlaceholder() {
+		return placeholder;
+	}
+
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
 	}
 	
 }

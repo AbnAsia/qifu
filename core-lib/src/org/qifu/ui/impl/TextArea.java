@@ -41,6 +41,7 @@ public class TextArea implements UIComponent {
 	private String cssClass = "";
 	private String requiredFlag = "";
 	private String rows = "";
+	private String placeholder = "";
 	private StringBuilder htmlOut=new StringBuilder();	
 	
 	private Map<String, Object> getParameters(String type) {
@@ -53,6 +54,7 @@ public class TextArea implements UIComponent {
 		paramMap.put("cssClass", this.cssClass);
 		paramMap.put("requiredFlag", this.requiredFlag);
 		paramMap.put("rows", this.rows);
+		paramMap.put("placeholder", this.placeholder);
 		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value);
 		return paramMap;
 	}
@@ -147,6 +149,14 @@ public class TextArea implements UIComponent {
 
 	public void setRows(String rows) {
 		this.rows = rows;
+	}
+
+	public String getPlaceholder() {
+		return placeholder;
+	}
+
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
 	}	
 
 }

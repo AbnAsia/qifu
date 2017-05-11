@@ -77,7 +77,7 @@ function clearUpdate() {
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textarea name="description" value="role.description" id="description" label="Description" rows="3"></q:textarea>
+			<q:textarea name="description" value="role.description" id="description" label="Description" rows="3" placeholder="Enter descripnion"></q:textarea>
 		</div>
 	</div>
 </div>
