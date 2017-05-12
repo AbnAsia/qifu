@@ -25,6 +25,67 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
+function getQueryGridFormatter(value) {
+	var str = '';
+	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="editPage(\'' + value + '\');"/>';
+	str += '&nbsp;&nbsp;';
+	str += '<img alt="edit-Param" title="Edit parameter" src="./images/alert.png" onclick="editParamPage(\'' + value + '\');"/>';
+	str += '&nbsp;&nbsp;';	
+	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
+	return str;
+}
+function getQueryGridHeader() {
+	return [
+		{ name: "#", 			field: "oid", 	formatter: getQueryGridFormatter },
+		{ name: "Id", 			field: "templateId"		},
+		{ name: "title", 		field: "title"			},
+		{ name: "Description", 	field: "description"	}
+	];
+}
+
+function queryClear() {
+	$("#id").val('');
+	$("#title").val('');
+	
+	clearQueryGridTable();
+	
+}  
+
+function editPage(oid) {
+	parent.addTab('CORE_PROG001D0004E', parent.getProgUrlForOid('CORE_PROG001D0004E', oid) );
+}
+
+function editParamPage(oid) {
+	
+}
+
+function deleteRecord(oid) {
+	parent.bootbox.confirm(
+			"Delete?", 
+			function(result) { 
+				if (!result) {
+					return;
+				}
+				xhrSendParameter(
+						'./core.templateDeleteJson.do', 
+						{ 'oid' : oid }, 
+						function(data) {
+							if ( _qifu_success_flag != data.success ) {
+								parent.toastrWarning( data.message );
+							}
+							if ( _qifu_success_flag == data.success ) {
+								parent.toastrInfo( data.message );
+							}
+							queryGrid();
+						}, 
+						function() {
+							
+						},
+						_qifu_defaultSelfPleaseWaitShow
+				);
+			}
+	);	
+}
 
 </script>
 
@@ -42,6 +103,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	cancelJsMethod="parent.closeTab('CORE_PROG001D0004Q');" >
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
+
+      <div class="row">
+        <div class="col-xs-6 col-md-6 col-lg-6">
+        	<q:textbox name="id" value="" id="id" label="Id" placeholder="Enter Id" maxlength="50"></q:textbox>
+        </div>
+        <div class="col-xs-6 col-md-6 col-lg-6">
+        	<q:textbox name="title" value="" id="title" label="Title" placeholder="Enter title" maxlength="100"></q:textbox>
+       </div>
+      </div>
+      
+<br>
+      
+<button type="button" class="btn btn-primary" id="btnQuery" onclick="queryGrid();">Query</button>
+<button type="button" class="btn btn-primary" id="btnClear" onclick="queryClear();">Clear</button>
+
+<br>
+<br>
+
+<q:grid gridFieldStructure="getQueryGridHeader()" 
+	xhrParameter="
+	{
+		'parameter[templateId]'	: $('#id').val(),
+		'parameter[title]'		: $('#title').val(),
+		'select'				: getQueryGridSelect(),
+		'showRow'				: getQueryGridShowRow()	
+	}
+	"
+	xhrUrl="./core.templateQueryGridJson.do" 
+	id="CORE_PROG001D0004Q_grid"
+	queryFunction="queryGrid()"
+	clearFunction="clearQueryGridTable()">
+</q:grid>
 
 </body>
 </html>

@@ -69,6 +69,31 @@ function getIconUrlFromId(id) {
 	return iconUrl;
 }
 
+$( document ).ready(function() {
+	
+	$('#myTab').bind('show', function(e) {  
+	    var paneID = $(e.target).attr('href');
+	    var src = $(paneID).attr('data-src');
+	    // if the iframe hasn't already been loaded once
+	    if($(paneID+" iframe").attr("src")=="")
+	    {
+	        $(paneID+" iframe").attr("src",src);
+	    }
+	});
+	
+	
+	<c:if test="${ \"Y\" == scrollingTabsEnable }">
+	//預設沒有開啟
+	$('.nav-tabs').scrollingTabs({
+		  reverseScroll: true  
+	});
+	</c:if>	
+	
+	// first load on config
+	${firstLoadJavascript}
+	
+});
+
 </script>
 
 
@@ -176,32 +201,6 @@ ${modalHtmlData}
         </main>
       </div>
     </div>
-
-	
-<script>
-$('#myTab').bind('show', function(e) {  
-    var paneID = $(e.target).attr('href');
-    var src = $(paneID).attr('data-src');
-    // if the iframe hasn't already been loaded once
-    if($(paneID+" iframe").attr("src")=="")
-    {
-        $(paneID+" iframe").attr("src",src);
-    }
-});
-
-
-<c:if test="${ \"Y\" == scrollingTabsEnable }">
-//預設沒有開啟
-$('.nav-tabs').scrollingTabs({
-	  reverseScroll: true  
-});
-</c:if>
-
-
-// first load on config
-${firstLoadJavascript}
-
-</script>	
 
 </body>
   
