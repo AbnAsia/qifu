@@ -215,8 +215,10 @@ function hidePleaseWaitForQueryGrid() {
 
 
 function toastrInfo(message) {
+	toastr.options = { onclick: function () { alert(message); } }
 	toastr.info( message.replace(/\n/gi, "<br>").replace("/\r\n", "<br>") );
 }
 function toastrWarning(message) {
+	toastr.options = { onclick: function () { alert(message); } }
 	toastr.warning( message.replace(/\n/gi, "<br>").replace("/\r\n", "<br>") );
 }
