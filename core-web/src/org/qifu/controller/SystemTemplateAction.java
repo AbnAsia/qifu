@@ -135,4 +135,24 @@ public class SystemTemplateAction extends BaseController {
 		return result;
 	}	
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004A")
+	@RequestMapping(value = "/core.templateCreate.do")
+	public ModelAndView createPage(HttpServletRequest request) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0004A");
+		try {
+			this.init("createPage", request, mv);
+			viewName = "sys-template/sys-template-create";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}		
+	
 }
