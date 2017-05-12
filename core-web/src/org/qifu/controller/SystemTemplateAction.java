@@ -31,15 +31,19 @@ import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
+import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
+import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSysTemplate;
 import org.qifu.po.TbSysTemplateParam;
 import org.qifu.service.ISysTemplateParamService;
 import org.qifu.service.ISysTemplateService;
 import org.qifu.service.logic.ISystemTemplateLogicService;
+import org.qifu.util.SimpleUtils;
 import org.qifu.vo.SysTemplateParamVO;
 import org.qifu.vo.SysTemplateVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,5 +158,43 @@ public class SystemTemplateAction extends BaseController {
 		mv.setViewName(viewName);
 		return mv;
 	}		
+	
+	private void checkFields(DefaultControllerJsonResultObj<SysTemplateVO> result, SysTemplateVO template) throws ControllerException, Exception {
+		this.getCheckControllerFieldHandler(result)
+		.testField("templateId", template, "@org.apache.commons.lang3.StringUtils@isBlank(templateId)", "Id is blank!")
+		.testField("templateId", ( !SimpleUtils.checkBeTrueOf_azAZ09(super.defaultString(template.getTemplateId()).replaceAll("-", "").replaceAll("_", "")) ), "Id only normal character!")
+		.testField("templateId", ( this.noSelect(template.getTemplateId()) ), "Please change Id value!") // Role 不能用  "all" 這個下拉值
+		.testField("title", template, "@org.apache.commons.lang3.StringUtils@isBlank(title)", "Title is blank!")
+		.testField("message", template, "@org.apache.commons.lang3.StringUtils@isBlank(message)", "Message is blank!")
+		.throwMessage();		
+	}
+	
+	private void save(DefaultControllerJsonResultObj<SysTemplateVO> result, SysTemplateVO template) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, template);
+		DefaultResult<SysTemplateVO> roleResult = this.systemTemplateLogicService.create(template);
+		if ( roleResult.getValue() != null ) {
+			result.setValue( roleResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( roleResult.getSystemMessage().getValue() );
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004A")
+	@RequestMapping(value = "/core.templateSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysTemplateVO> doSave(SysTemplateVO template) {
+		DefaultControllerJsonResultObj<SysTemplateVO> result = this.getDefaultJsonResult("CORE_PROG001D0004A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.save(result, template);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
 	
 }
