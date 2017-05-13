@@ -21,6 +21,7 @@
  */
 package org.qifu.ui;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,41 +48,87 @@ public class UIComponentValueUtils {
 		return val;
 	}
 	
-	public static void setValue(PageContext pageContext, Map<String, Object> paramMap, String paramMapKey, String value, boolean escapeHtml, boolean ecmaScript, String scope) {
-		if (!StringUtils.isBlank(value) && StringUtils.defaultString(value).indexOf(".") == -1) {
-			Object val = null;
-			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
-				val = getObjectFromSession(pageContext, value);
-			} else {
-				val = getObjectFromPage(pageContext, value);
-			}
-			if (val != null) {
-				paramMap.put(paramMapKey, val);
+	public static Object getOgnlProcessObjectFromHttpServletRequest(PageContext pageContext, String expression) {
+		Map<String, Object> ognlRoot = new HashMap<String, Object>();
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		Enumeration<String> pNames = request.getParameterNames();
+		Enumeration<String> aNames = request.getAttributeNames();
+		while (pNames.hasMoreElements()) { // 以 getParameter 為主
+			String key = pNames.nextElement();
+			ognlRoot.put(key, request.getParameter(key));
+		}
+		while (aNames.hasMoreElements()) { // 以 getParameter 為主
+			String key = aNames.nextElement();
+			if (ognlRoot.get(key) == null) {
+				ognlRoot.put(key, request.getAttribute(key));
 			}
 		}
-		if ( StringUtils.defaultString(value).indexOf(".") >= 1 ) { // 如 policy.no , policy.amount
-			String kName = value.split("[.]")[0];
-			Object valObj = null;
-			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
-				valObj = getObjectFromSession(pageContext, kName);
-			} else {
-				valObj = getObjectFromPage(pageContext, kName);
-			}
-			Object val = null;
-			Map<String, Object> ognlRoot = new HashMap<String, Object>(); 
-			if (valObj != null) {
-				try {
-					ognlRoot.put(kName, valObj);
-					val = Ognl.getValue(value, ognlRoot);
-				} catch (OgnlException e) {	
-					//e.printStackTrace();
-				}				
-			}
-			ognlRoot.clear();
+		if (ognlRoot.size() == 0) {
 			ognlRoot = null;
-			if (val != null) {
+			return null;
+		}
+		Object val = null;
+		try {
+			val = Ognl.getValue(expression, ognlRoot);
+		} catch (OgnlException e) {
+			//e.printStackTrace();
+		}
+		ognlRoot.clear();
+		ognlRoot = null;
+		return val;
+	}
+	
+	public static Object getOgnlProcessObjectFromHttpSession(PageContext pageContext, String expression) {
+		Map<String, Object> ognlRoot = new HashMap<String, Object>();
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		Enumeration<String> aNames = request.getSession().getAttributeNames();
+		while (aNames.hasMoreElements()) {
+			String key = aNames.nextElement();
+			ognlRoot.put(key, request.getAttribute(key));
+		}
+		if (ognlRoot.size() == 0) {
+			ognlRoot = null;
+			return null;
+		}
+		Object val = null;
+		try {
+			val = Ognl.getValue(expression, ognlRoot);
+		} catch (OgnlException e) {
+			//e.printStackTrace();
+		}
+		ognlRoot.clear();
+		ognlRoot = null;		
+		return val;		
+	}
+	
+	public static void setValue(PageContext pageContext, Map<String, Object> paramMap, String paramMapKey, String value, boolean escapeHtml, boolean ecmaScript, String scope) {
+		if (!StringUtils.isBlank(value)) {
+			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
+				Object valObj = null;
+				if ( (valObj = getObjectFromSession(pageContext, value)) != null ) {
+					putValue(paramMap, paramMapKey, valObj, escapeHtml, ecmaScript);
+				}
+			} else {
+				Object valObj = null;
+				if ( (valObj = getObjectFromPage(pageContext, value)) != null ) {
+					putValue(paramMap, paramMapKey, valObj, escapeHtml, ecmaScript);
+				}
+			}
+		}
+		/**
+		 * 不要處理 "@" 與 "new" 的 Ognl expression 如: @java.lang.Runtime@getRuntime().exec("exec /usr/local/bin/firefox"), new java.lang...
+		 * 處理 如: policy.no , policy.amount
+		 */
+		if (!StringUtils.isBlank(value) && paramMap.get(paramMapKey) == null && value.indexOf("@") == -1 && value.indexOf("new ") == -1 && value.indexOf(".") >= 1) {
+			Object val = null;
+			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
+				val = getOgnlProcessObjectFromHttpSession(pageContext, value);
+			} else {
+				val = getOgnlProcessObjectFromHttpServletRequest(pageContext, value);
+			}
+			if (null != val) {
 				putValue(paramMap, paramMapKey, val, escapeHtml, ecmaScript);
-			}			
+			}
 		}
 		if (paramMap.get(paramMapKey) == null) {
 			paramMap.put(paramMapKey, StringUtils.defaultString(value));
@@ -89,6 +136,9 @@ public class UIComponentValueUtils {
 	}
 	
 	private static void putValue(Map<String, Object> params, String paramMapKey, Object val, boolean escapeHtml, boolean ecmaScript) {
+		if (val == null) {
+			return;
+		}
 		if (val instanceof java.lang.String) {
 			params.put(paramMapKey, String.valueOf(val) );
 			if (ecmaScript) {
