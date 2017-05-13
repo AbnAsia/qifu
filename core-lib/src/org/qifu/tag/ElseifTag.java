@@ -19,51 +19,63 @@
  * contact: chen.xin.nien@gmail.com
  * 
  */
-package org.qifu.ui.impl;
+package org.qifu.tag;
 
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.qifu.ui.UIComponent;
-import org.qifu.ui.UIComponentValueUtils;
+import org.qifu.ui.impl.Elseif;
 
-public class If implements UIComponent {
-	private PageContext pageContext = null;	
-	private String scope = "";
+public class ElseifTag implements Tag {
+	private PageContext pageContext=null;
+	private Tag parent=null;
+	private String scope = UIComponent.SCOPE_PAGE;
 	private String test = "";
 	
-	@Override
-	public void setId(String id) {
-		
-	}
-	
-	@Override
-	public String getId() {
-		return "";
-	}
-	
-	@Override
-	public void setName(String name) {
-		
-	}
-	
-	@Override
-	public String getName() {
-		return "";
-	}
-	
-	@Override
-	public String getScript() throws Exception {
-		return "";
+	private Elseif handler() {
+		Elseif elseif = new Elseif();
+		elseif.setPageContext(this.pageContext);
+		elseif.setScope(this.scope);
+		elseif.setTest(this.test);
+		return elseif;
 	}
 
 	@Override
-	public String getHtml() throws Exception {
-		return "";
+	public int doEndTag() throws JspException {
+		return 0;
+	}
+
+	@Override
+	public int doStartTag() throws JspException {
+		Elseif elseif = this.handler();
+		if (elseif.getTestResult()) {
+			elseif = null;
+			return EVAL_BODY_INCLUDE;
+		}	
+		elseif = null;		
+		return SKIP_BODY;
+	}
+
+	@Override
+	public Tag getParent() {
+		return this.parent;
+	}
+
+	@Override
+	public void release() {
+		
 	}
 
 	@Override
 	public void setPageContext(PageContext pageContext) {
 		this.pageContext = pageContext;
+	}
+
+	@Override
+	public void setParent(Tag parent) {
+		this.parent = parent;
 	}
 
 	public String getScope() {
@@ -80,21 +92,6 @@ public class If implements UIComponent {
 
 	public void setTest(String test) {
 		this.test = test;
-	}
-
-	public Boolean getTestResult() {
-		Object objVal = null;
-		if ( SCOPE_SESSION.equals(this.scope) ) {
-			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpSession(this.pageContext, this.test);
-		} else {
-			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpServletRequest(this.pageContext, this.test);
-		}
-		if ( objVal instanceof Boolean ) {
-			UIComponentValueUtils.putIfResult(pageContext, (Boolean) objVal);
-			return (Boolean) objVal;
-		}
-		UIComponentValueUtils.putIfResult(pageContext, Boolean.FALSE);
-		return false;
 	}
 	
 }

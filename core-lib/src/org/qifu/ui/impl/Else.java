@@ -26,10 +26,8 @@ import javax.servlet.jsp.PageContext;
 import org.qifu.ui.UIComponent;
 import org.qifu.ui.UIComponentValueUtils;
 
-public class If implements UIComponent {
+public class Else implements UIComponent {
 	private PageContext pageContext = null;	
-	private String scope = "";
-	private String test = "";
 	
 	@Override
 	public void setId(String id) {
@@ -66,35 +64,16 @@ public class If implements UIComponent {
 		this.pageContext = pageContext;
 	}
 
-	public String getScope() {
-		return scope;
-	}
-
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
-
-	public String getTest() {
-		return test;
-	}
-
-	public void setTest(String test) {
-		this.test = test;
-	}
-
 	public Boolean getTestResult() {
-		Object objVal = null;
-		if ( SCOPE_SESSION.equals(this.scope) ) {
-			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpSession(this.pageContext, this.test);
-		} else {
-			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpServletRequest(this.pageContext, this.test);
+		if ( !UIComponentValueUtils.foundIfResult(pageContext) ) { // 之前沒有 IfTag 或 ElseifTag , 所以 Else 不會成立
+			return false;
 		}
-		if ( objVal instanceof Boolean ) {
-			UIComponentValueUtils.putIfResult(pageContext, (Boolean) objVal);
-			return (Boolean) objVal;
+		if ( UIComponentValueUtils.getIfResult(pageContext) ) { // 之前 IfTag 或 ElseifTag 是 true , 所以 Else 不會成立
+			UIComponentValueUtils.removeIfResult(pageContext);
+			return false;
 		}
-		UIComponentValueUtils.putIfResult(pageContext, Boolean.FALSE);
-		return false;
+		UIComponentValueUtils.removeIfResult(pageContext);
+		return true;
 	}
 	
 }

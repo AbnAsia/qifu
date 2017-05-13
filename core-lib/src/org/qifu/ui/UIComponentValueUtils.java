@@ -36,6 +36,28 @@ import ognl.OgnlException;
 
 public class UIComponentValueUtils {
 	
+	public static boolean foundIfResult(PageContext pageContext) {
+		if ( pageContext.getAttribute( UIComponent.IfResultVariableName) != null ) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void removeIfResult(PageContext pageContext) {
+		pageContext.removeAttribute(UIComponent.IfResultVariableName);
+	}
+	
+	public static void putIfResult(PageContext pageContext, boolean result) {
+		pageContext.setAttribute(UIComponent.IfResultVariableName, result);
+	}
+	
+	public static boolean getIfResult(PageContext pageContext) {
+		if ( pageContext.getAttribute( UIComponent.IfResultVariableName) != null ) {
+			return (Boolean) pageContext.getAttribute( UIComponent.IfResultVariableName );
+		}
+		return false;
+	}
+	
 	public static Object getObjectFromPage(PageContext pageContext, String paramName) {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		Object val = ( request.getParameter(paramName) != null ? request.getParameter(paramName) : request.getAttribute(paramName) ); // 以 getParameter 為主

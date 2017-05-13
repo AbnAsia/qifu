@@ -26,7 +26,7 @@ import javax.servlet.jsp.PageContext;
 import org.qifu.ui.UIComponent;
 import org.qifu.ui.UIComponentValueUtils;
 
-public class If implements UIComponent {
+public class Elseif implements UIComponent {
 	private PageContext pageContext = null;	
 	private String scope = "";
 	private String test = "";
@@ -83,6 +83,13 @@ public class If implements UIComponent {
 	}
 
 	public Boolean getTestResult() {
+		if ( !UIComponentValueUtils.foundIfResult(pageContext) ) { // 之前沒有 IfTag , 所以 Elaseif 不會成立
+			return false;
+		}
+		if ( UIComponentValueUtils.getIfResult(pageContext) ) { // 之前 IfTag 是 true , 所以 Elaseif 不會成立
+			return false;
+		}
+		
 		Object objVal = null;
 		if ( SCOPE_SESSION.equals(this.scope) ) {
 			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpSession(this.pageContext, this.test);
@@ -93,7 +100,7 @@ public class If implements UIComponent {
 			UIComponentValueUtils.putIfResult(pageContext, (Boolean) objVal);
 			return (Boolean) objVal;
 		}
-		UIComponentValueUtils.putIfResult(pageContext, Boolean.FALSE);
+		UIComponentValueUtils.putIfResult(pageContext, false);
 		return false;
 	}
 	

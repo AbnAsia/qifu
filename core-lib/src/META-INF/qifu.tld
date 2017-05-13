@@ -410,5 +410,29 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>		
 	</tag>
-		
+	
+	<!-- Elseif -->
+	<tag>
+		<name>elseif</name>
+		<tag-class>org.qifu.tag.ElseifTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>test</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>scope</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>
+	
+	<!-- Else -->
+	<tag>
+		<name>else</name>
+		<tag-class>org.qifu.tag.ElseTag</tag-class>
+		<body-content>JSP</body-content>
+	</tag>
+				
 </taglib>	
