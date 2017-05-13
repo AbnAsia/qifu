@@ -26,6 +26,8 @@ import javax.servlet.jsp.PageContext;
 public interface UIComponent {
 	public static final String IS_SCRIPT = "script";
 	public static final String IS_HTML = "html";		
+	public static final String SCOPE_PAGE = "page";
+	public static final String SCOPE_SESSION = "session";
 	public static final long TIMEOUT = 300 * 1000; // 300 sec
 	public void setId(String id);
 	public String getId();	

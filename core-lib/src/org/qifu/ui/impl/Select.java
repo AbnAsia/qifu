@@ -95,7 +95,7 @@ public class Select implements UIComponent {
 		params.put("requiredFlag", this.requiredFlag);
 		params.put("onchange", this.onchange);
 		params.put("disabled", this.disabled);
-		UIComponentValueUtils.setValue(pageContext, params, "value", this.value, false, false);	
+		UIComponentValueUtils.setValue(pageContext, params, "value", this.value, false, false, SCOPE_PAGE);	
 		return params;
 	}
 	

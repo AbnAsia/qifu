@@ -57,7 +57,7 @@ public class TextArea implements UIComponent {
 		paramMap.put("requiredFlag", this.requiredFlag);
 		paramMap.put("rows", this.rows);
 		paramMap.put("placeholder", this.placeholder);
-		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value, ( YesNo.YES.equals(escapeHtml) ? true : false ), ( YesNo.YES.equals(escapeJavaScript) ? true : false ) );
+		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value, ( YesNo.YES.equals(escapeHtml) ? true : false ), ( YesNo.YES.equals(escapeJavaScript) ? true : false ), SCOPE_PAGE);
 		return paramMap;
 	}
 	

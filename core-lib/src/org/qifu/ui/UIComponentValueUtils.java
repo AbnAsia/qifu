@@ -41,16 +41,32 @@ public class UIComponentValueUtils {
 		return val;
 	}
 	
-	public static void setValue(PageContext pageContext, Map<String, Object> paramMap, String paramMapKey, String value, boolean escapeHtml, boolean ecmaScript) {
+	public static Object getObjectFromSession(PageContext pageContext, String paramName) {
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		Object val = request.getSession().getAttribute(paramName);
+		return val;
+	}
+	
+	public static void setValue(PageContext pageContext, Map<String, Object> paramMap, String paramMapKey, String value, boolean escapeHtml, boolean ecmaScript, String scope) {
 		if (!StringUtils.isBlank(value) && StringUtils.defaultString(value).indexOf(".") == -1) {
-			Object val = getObjectFromPage(pageContext, value);
+			Object val = null;
+			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
+				val = getObjectFromSession(pageContext, value);
+			} else {
+				val = getObjectFromPage(pageContext, value);
+			}
 			if (val != null) {
 				paramMap.put(paramMapKey, val);
 			}
 		}
 		if ( StringUtils.defaultString(value).indexOf(".") >= 1 ) { // 如 policy.no , policy.amount
 			String kName = value.split("[.]")[0];
-			Object valObj = getObjectFromPage(pageContext, kName);
+			Object valObj = null;
+			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
+				valObj = getObjectFromSession(pageContext, kName);
+			} else {
+				valObj = getObjectFromPage(pageContext, kName);
+			}
 			Object val = null;
 			Map<String, Object> ognlRoot = new HashMap<String, Object>(); 
 			if (valObj != null) {

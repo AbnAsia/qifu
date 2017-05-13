@@ -57,7 +57,7 @@ public class TextBox implements UIComponent {
 		paramMap.put("cssClass", this.cssClass);
 		paramMap.put("requiredFlag", this.requiredFlag);
 		paramMap.put("maxlength", this.maxlength);
-		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value, ( YesNo.YES.equals(escapeHtml) ? true : false ), ( YesNo.YES.equals(escapeJavaScript) ? true : false ) );
+		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value, ( YesNo.YES.equals(escapeHtml) ? true : false ), ( YesNo.YES.equals(escapeJavaScript) ? true : false ), SCOPE_PAGE);
 		return paramMap;
 	}
 	
