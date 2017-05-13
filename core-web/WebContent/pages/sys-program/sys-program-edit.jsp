@@ -143,7 +143,7 @@ function clearUpdate() {
 		<br>
 		&nbsp;
 			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="editMode" name="editMode" <c:if test="${ \"Y\" == sysProg.editMode }"> checked="checked" </c:if> >
+				<input type="checkbox" class="custom-control-input" id="editMode" name="editMode" <q:if test=" \"Y\" == sysProg.editMode "> checked="checked" </q:if> >
 			    <span class="custom-control-indicator"></span>
 			    <span class="custom-control-description">Edit mode</span>
 			</label>			
@@ -156,7 +156,7 @@ function clearUpdate() {
 		<br>
 		&nbsp;
 			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="isDialog" name="isDialog" <c:if test="${ \"Y\" == sysProg.isDialog }"> checked="checked" </c:if> >
+				<input type="checkbox" class="custom-control-input" id="isDialog" name="isDialog" <q:if test=" \"Y\" == sysProg.isDialog "> checked="checked" </q:if> >
 			    <span class="custom-control-indicator"></span>
 			    <span class="custom-control-description">Dialog</span>
 			</label>			

@@ -60,26 +60,40 @@ public class UIComponentValueUtils {
 	
 	public static Object getObjectFromPage(PageContext pageContext, String paramName) {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		Object val = ( request.getParameter(paramName) != null ? request.getParameter(paramName) : request.getAttribute(paramName) ); // 以 getParameter 為主
-		return val;
+		/**
+		 * 優先順序: pageContext.getAttribute > request.getParameter > request.getAttribute
+		 */
+		if ( pageContext.getAttribute(paramName) != null ) {
+			return pageContext.getAttribute(paramName);
+		}
+		return ( request.getParameter(paramName) != null ? request.getParameter(paramName) : request.getAttribute(paramName) );
 	}
 	
 	public static Object getObjectFromSession(PageContext pageContext, String paramName) {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		Object val = request.getSession().getAttribute(paramName);
-		return val;
+		return request.getSession().getAttribute(paramName);
 	}
 	
 	public static Object getOgnlProcessObjectFromHttpServletRequest(PageContext pageContext, String expression) {
 		Map<String, Object> ognlRoot = new HashMap<String, Object>();
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		Enumeration<String> pcNames = pageContext.getAttributeNamesInScope( PageContext.PAGE_SCOPE );
 		Enumeration<String> pNames = request.getParameterNames();
 		Enumeration<String> aNames = request.getAttributeNames();
-		while (pNames.hasMoreElements()) { // 以 getParameter 為主
-			String key = pNames.nextElement();
-			ognlRoot.put(key, request.getParameter(key));
+		/**
+		 * ognlRoot 放入變數, 優先順序: pageContext.getAttribute > request.getParameter > request.getAttribute
+		 */
+		while (pcNames.hasMoreElements()) {
+			String key = pcNames.nextElement();
+			ognlRoot.put(key, pageContext.getAttribute(key));
 		}
-		while (aNames.hasMoreElements()) { // 以 getParameter 為主
+		while (pNames.hasMoreElements()) {
+			String key = pNames.nextElement();
+			if (ognlRoot.get(key) == null) {
+				ognlRoot.put(key, request.getParameter(key));
+			}
+		}
+		while (aNames.hasMoreElements()) {
 			String key = aNames.nextElement();
 			if (ognlRoot.get(key) == null) {
 				ognlRoot.put(key, request.getAttribute(key));
@@ -129,19 +143,21 @@ public class UIComponentValueUtils {
 				Object valObj = null;
 				if ( (valObj = getObjectFromSession(pageContext, value)) != null ) {
 					putValue(paramMap, paramMapKey, valObj, escapeHtml, ecmaScript);
+					return;
 				}
 			} else {
 				Object valObj = null;
 				if ( (valObj = getObjectFromPage(pageContext, value)) != null ) {
 					putValue(paramMap, paramMapKey, valObj, escapeHtml, ecmaScript);
+					return;
 				}
 			}
-		}
+		}		
 		/**
 		 * 不要處理 "@" 與 "new" 的 Ognl expression 如: @java.lang.Runtime@getRuntime().exec("exec /usr/local/bin/firefox"), new java.lang...
 		 * 處理 如: policy.no , policy.amount
 		 */
-		if (!StringUtils.isBlank(value) && paramMap.get(paramMapKey) == null && value.indexOf("@") == -1 && value.indexOf("new ") == -1 && value.indexOf(".") >= 1) {
+		if (!StringUtils.isBlank(value) && value.indexOf("@") == -1 && value.indexOf("new ") == -1 && value.indexOf(".") >= 1) {
 			Object val = null;
 			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
 				val = getOgnlProcessObjectFromHttpSession(pageContext, value);
@@ -150,6 +166,7 @@ public class UIComponentValueUtils {
 			}
 			if (null != val) {
 				putValue(paramMap, paramMapKey, val, escapeHtml, ecmaScript);
+				return;
 			}
 		}
 		if (paramMap.get(paramMapKey) == null) {

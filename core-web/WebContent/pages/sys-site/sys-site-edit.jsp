@@ -136,7 +136,7 @@ function clearUpdate() {
 		<br>
 		&nbsp;
 			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="local" name="local" <c:if test="${ \"Y\" == sys.isLocal }"> checked="checked" </c:if> >
+				<input type="checkbox" class="custom-control-input" id="local" name="local" <q:if test=" \"Y\" == sys.isLocal "> checked="checked" </q:if> >
 			    <span class="custom-control-indicator"></span>
 			    <span class="custom-control-description">Local</span>
 			</label>
