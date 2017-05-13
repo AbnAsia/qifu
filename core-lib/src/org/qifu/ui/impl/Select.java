@@ -90,13 +90,12 @@ public class Select implements UIComponent {
 		params.put("id", this.id);
 		params.put("name", this.name);
 		params.put("dataSource", this.dataMap);
-		params.put("value", this.value);
-		UIComponentValueUtils.setValue(pageContext, params, "value", this.value);	
 		params.put("label", this.label);
 		params.put("cssClass", this.cssClass);
 		params.put("requiredFlag", this.requiredFlag);
 		params.put("onchange", this.onchange);
 		params.put("disabled", this.disabled);
+		UIComponentValueUtils.setValue(pageContext, params, "value", this.value, false, false);	
 		return params;
 	}
 	

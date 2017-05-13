@@ -43,6 +43,8 @@ public class TextAreaTag implements Tag {
 	private String requiredFlag = YesNo.NO;
 	private String rows = "3";
 	private String placeholder = "";
+	private String escapeHtml = YesNo.YES;
+	private String escapeJavaScript = YesNo.NO;	
 	
 	private TextArea handler() {
 		TextArea textArea = new TextArea();
@@ -56,6 +58,8 @@ public class TextAreaTag implements Tag {
 		textArea.setRequiredFlag(this.requiredFlag);
 		textArea.setRows(this.rows);
 		textArea.setPlaceholder(this.placeholder);
+		textArea.setEscapeHtml(this.escapeHtml);
+		textArea.setEscapeJavaScript(this.escapeJavaScript);
 		return textArea;
 	}	
 	
@@ -168,6 +172,22 @@ public class TextAreaTag implements Tag {
 
 	public void setPlaceholder(String placeholder) {
 		this.placeholder = placeholder;
+	}
+
+	public String getEscapeHtml() {
+		return escapeHtml;
+	}
+
+	public void setEscapeHtml(String escapeHtml) {
+		this.escapeHtml = escapeHtml;
+	}
+
+	public String getEscapeJavaScript() {
+		return escapeJavaScript;
+	}
+
+	public void setEscapeJavaScript(String escapeJavaScript) {
+		this.escapeJavaScript = escapeJavaScript;
 	}
 	
 }

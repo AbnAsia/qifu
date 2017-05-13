@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
 
+import org.qifu.base.model.YesNo;
 import org.qifu.ui.ComponentResourceUtils;
 import org.qifu.ui.UIComponent;
 import org.qifu.ui.UIComponentValueUtils;
@@ -42,6 +43,8 @@ public class TextArea implements UIComponent {
 	private String requiredFlag = "";
 	private String rows = "";
 	private String placeholder = "";
+	private String escapeHtml = "";
+	private String escapeJavaScript = "";
 	private StringBuilder htmlOut=new StringBuilder();	
 	
 	private Map<String, Object> getParameters(String type) {
@@ -50,12 +53,11 @@ public class TextArea implements UIComponent {
 		paramMap.put("name", this.name);
 		paramMap.put("readonly", this.readonly);
 		paramMap.put("label", this.label);
-		paramMap.put("value", this.value);
 		paramMap.put("cssClass", this.cssClass);
 		paramMap.put("requiredFlag", this.requiredFlag);
 		paramMap.put("rows", this.rows);
 		paramMap.put("placeholder", this.placeholder);
-		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value);
+		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value, ( YesNo.YES.equals(escapeHtml) ? true : false ), ( YesNo.YES.equals(escapeJavaScript) ? true : false ) );
 		return paramMap;
 	}
 	
@@ -157,6 +159,22 @@ public class TextArea implements UIComponent {
 
 	public void setPlaceholder(String placeholder) {
 		this.placeholder = placeholder;
+	}
+
+	public String getEscapeHtml() {
+		return escapeHtml;
+	}
+
+	public void setEscapeHtml(String escapeHtml) {
+		this.escapeHtml = escapeHtml;
+	}
+
+	public String getEscapeJavaScript() {
+		return escapeJavaScript;
+	}
+
+	public void setEscapeJavaScript(String escapeJavaScript) {
+		this.escapeJavaScript = escapeJavaScript;
 	}	
 
 }

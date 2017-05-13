@@ -173,7 +173,17 @@
 			<name>maxlength</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>							
+		</attribute>
+		<attribute>
+			<name>escapeHtml</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>escapeJavaScript</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>												
 	</tag>		
 	
 	<!-- Select -->
@@ -344,7 +354,17 @@
 			<name>placeholder</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>		
+		</attribute>
+		<attribute>
+			<name>escapeHtml</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>escapeJavaScript</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>			
 	</tag>
 	
 </taglib>	

@@ -35,18 +35,22 @@ import ognl.OgnlException;
 
 public class UIComponentValueUtils {
 	
-	public static void setValue(PageContext pageContext, Map<String, Object> paramMap, String paramMapKey, String value) {
+	public static Object getObjectFromPage(PageContext pageContext, String paramName) {
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		Object val = ( request.getParameter(paramName) != null ? request.getParameter(paramName) : request.getAttribute(paramName) ); // 以 getParameter 為主
+		return val;
+	}
+	
+	public static void setValue(PageContext pageContext, Map<String, Object> paramMap, String paramMapKey, String value, boolean escapeHtml, boolean ecmaScript) {
 		if (!StringUtils.isBlank(value) && StringUtils.defaultString(value).indexOf(".") == -1) {
-			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-			Object val = ( request.getParameter(value) != null ? request.getParameter(value) : request.getAttribute(value) ); // 以 getParameter 為主
+			Object val = getObjectFromPage(pageContext, value);
 			if (val != null) {
 				paramMap.put(paramMapKey, val);
 			}
 		}
 		if ( StringUtils.defaultString(value).indexOf(".") >= 1 ) { // 如 policy.no , policy.amount
-			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 			String kName = value.split("[.]")[0];
-			Object valObj = ( request.getParameter(kName) != null ? request.getParameter(kName) : request.getAttribute(kName) );
+			Object valObj = getObjectFromPage(pageContext, kName);
 			Object val = null;
 			Map<String, Object> ognlRoot = new HashMap<String, Object>(); 
 			if (valObj != null) {
@@ -60,14 +64,26 @@ public class UIComponentValueUtils {
 			ognlRoot.clear();
 			ognlRoot = null;
 			if (val != null) {
-				putValue(paramMap, paramMapKey, val);
+				putValue(paramMap, paramMapKey, val, escapeHtml, ecmaScript);
 			}			
-		}		
+		}
+		if (paramMap.get(paramMapKey) == null) {
+			paramMap.put(paramMapKey, StringUtils.defaultString(value));
+		}
 	}
 	
-	private static void putValue(Map<String, Object> params, String paramMapKey, Object val) {
+	private static void putValue(Map<String, Object> params, String paramMapKey, Object val, boolean escapeHtml, boolean ecmaScript) {
 		if (val instanceof java.lang.String) {
-			params.put(paramMapKey, StringEscapeUtils.escapeHtml4( (String)val ) );
+			params.put(paramMapKey, String.valueOf(val) );
+			if (ecmaScript) {
+				params.put(paramMapKey, StringEscapeUtils.escapeEcmaScript( (String)val ) );
+			}
+			if (escapeHtml) {
+				params.put(paramMapKey, StringEscapeUtils.escapeHtml4( (String)val ) );
+			}
+			if (ecmaScript && escapeHtml) {
+				params.put(paramMapKey, StringEscapeUtils.escapeHtml4( StringEscapeUtils.escapeEcmaScript( (String)val ) ) );
+			}
 			return;
 		}		
 		if (val instanceof java.lang.Integer) {
@@ -93,7 +109,8 @@ public class UIComponentValueUtils {
 		if (val instanceof java.lang.Double) {
 			params.put(paramMapKey, String.valueOf( (Double)val ) );
 			return;						
-		}			
+		}	
+		params.put(paramMapKey, String.valueOf(val));
 	}	
 	
 }

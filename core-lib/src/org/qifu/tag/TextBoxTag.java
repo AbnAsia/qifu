@@ -43,6 +43,8 @@ public class TextBoxTag implements Tag {
 	private String cssClass = "form-control mb-2 mr-sm-2 mb-sm-0";
 	private String requiredFlag = YesNo.NO;
 	private String maxlength = "";
+	private String escapeHtml = YesNo.YES;
+	private String escapeJavaScript = YesNo.NO;	
 
 	private TextBox handler() {
 		TextBox textBox = new TextBox();
@@ -56,6 +58,8 @@ public class TextBoxTag implements Tag {
 		textBox.setCssClass(this.cssClass);
 		textBox.setRequiredFlag(this.requiredFlag);
 		textBox.setMaxlength(this.maxlength);
+		textBox.setEscapeHtml(this.escapeHtml);
+		textBox.setEscapeJavaScript(this.escapeJavaScript);
 		return textBox;
 	}
 
@@ -168,6 +172,22 @@ public class TextBoxTag implements Tag {
 
 	public void setMaxlength(String maxlength) {
 		this.maxlength = maxlength;
+	}
+
+	public String getEscapeHtml() {
+		return escapeHtml;
+	}
+
+	public void setEscapeHtml(String escapeHtml) {
+		this.escapeHtml = escapeHtml;
+	}
+
+	public String getEscapeJavaScript() {
+		return escapeJavaScript;
+	}
+
+	public void setEscapeJavaScript(String escapeJavaScript) {
+		this.escapeJavaScript = escapeJavaScript;
 	}
 
 }

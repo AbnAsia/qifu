@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
 
+import org.qifu.base.model.YesNo;
 import org.qifu.ui.ComponentResourceUtils;
 import org.qifu.ui.UIComponent;
 import org.qifu.ui.UIComponentValueUtils;
@@ -42,6 +43,8 @@ public class TextBox implements UIComponent {
 	private String cssClass = "";
 	private String requiredFlag = "";
 	private String maxlength = "";
+	private String escapeHtml = "";
+	private String escapeJavaScript = "";
 	private StringBuilder htmlOut=new StringBuilder();	
 	
 	private Map<String, Object> getParameters(String type) {
@@ -51,11 +54,10 @@ public class TextBox implements UIComponent {
 		paramMap.put("readonly", this.readonly);
 		paramMap.put("placeholder", this.placeholder);
 		paramMap.put("label", this.label);
-		paramMap.put("value", this.value);
 		paramMap.put("cssClass", this.cssClass);
 		paramMap.put("requiredFlag", this.requiredFlag);
 		paramMap.put("maxlength", this.maxlength);
-		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value);
+		UIComponentValueUtils.setValue(pageContext, paramMap, "value", this.value, ( YesNo.YES.equals(escapeHtml) ? true : false ), ( YesNo.YES.equals(escapeJavaScript) ? true : false ) );
 		return paramMap;
 	}
 	
@@ -157,6 +159,22 @@ public class TextBox implements UIComponent {
 
 	public void setMaxlength(String maxlength) {
 		this.maxlength = maxlength;
+	}
+
+	public String getEscapeHtml() {
+		return escapeHtml;
+	}
+
+	public void setEscapeHtml(String escapeHtml) {
+		this.escapeHtml = escapeHtml;
+	}
+
+	public String getEscapeJavaScript() {
+		return escapeJavaScript;
+	}
+
+	public void setEscapeJavaScript(String escapeJavaScript) {
+		this.escapeJavaScript = escapeJavaScript;
 	}
 
 }

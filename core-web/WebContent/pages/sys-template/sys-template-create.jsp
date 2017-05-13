@@ -96,7 +96,7 @@ function clearSave() {
 	</div>	
 </div>
 <div class="form-group" id="form-group2">
-	<q:textarea name="message" id="message" value="" label="Message" requiredFlag="Y"></q:textarea>
+	<q:textarea name="message" id="message" value="" label="Message" requiredFlag="Y" escapeHtml="N"></q:textarea>
 </div>
 <div class="form-group" id="form-group3">
 	<div class="row">
