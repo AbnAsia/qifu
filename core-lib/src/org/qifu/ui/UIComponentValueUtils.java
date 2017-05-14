@@ -154,10 +154,11 @@ public class UIComponentValueUtils {
 			}
 		}		
 		/**
-		 * 不要處理 "@" 與 "new" 的 Ognl expression 如: @java.lang.Runtime@getRuntime().exec("exec /usr/local/bin/firefox"), new java.lang...
+		 * (暫時不需要)不要處理 "@" 與 "new" 的 Ognl expression 如: @java.lang.Runtime@getRuntime().exec("exec /usr/local/bin/firefox"), new java.lang...
 		 * 處理 如: policy.no , policy.amount
 		 */
-		if (!StringUtils.isBlank(value) && value.indexOf("@") == -1 && value.indexOf("new ") == -1 && value.indexOf(".") >= 1) {
+		//if (!StringUtils.isBlank(value) && value.indexOf("@") == -1 && value.indexOf("new ") == -1 && value.indexOf(".") >= 1) { // 暫時不需要
+		if (!StringUtils.isBlank(value) && value.indexOf(".") >= 1) { // TextBox, TextArea, Select, Out tag 會用到
 			Object val = null;
 			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
 				val = getOgnlProcessObjectFromHttpSession(pageContext, value);
