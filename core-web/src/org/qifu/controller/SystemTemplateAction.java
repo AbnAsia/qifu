@@ -50,6 +50,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -100,6 +101,10 @@ public class SystemTemplateAction extends BaseController {
 		
 	}
 	
+	private void fetchData(SysTemplateVO template, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+		
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004Q")
 	@RequestMapping(value = "/core.templateManagement.do")	
 	public ModelAndView queryPage(HttpServletRequest request) {
@@ -147,6 +152,29 @@ public class SystemTemplateAction extends BaseController {
 		try {
 			this.init("createPage", request, mv);
 			viewName = "sys-template/sys-template-create";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}		
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004E")
+	@RequestMapping(value = "/core.templateEdit.do")
+	public ModelAndView editPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0004E");
+		try {
+			SysTemplateVO template = new SysTemplateVO();
+			template.setOid(oid);
+			this.init("editPage", request, mv);
+			this.fetchData(template, mv);
+			viewName = "sys-template/sys-template-edit";
 		} catch (AuthorityException e) {
 			viewName = PAGE_SYS_NO_AUTH;
 		} catch (ServiceException | ControllerException e) {
