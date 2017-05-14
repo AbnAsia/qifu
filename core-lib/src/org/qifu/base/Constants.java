@@ -39,12 +39,12 @@ public class Constants {
 	/**
 	 * EncryptorUtils 要用的 key1
 	 */
-	public static final String ENCRYPTOR_KEY1 = "@Oj!~%O$kW1p2Rh9";
+	public static final String ENCRYPTOR_KEY1 = "pOk%$ewQaIUyBvCS@Oj!~%O$kW1p2Rh9";
 	
 	/**
 	 * EncryptorUtils 要用的 key2
 	 */
-	public static final String ENCRYPTOR_KEY2 = "1753674280654321";		
+	public static final String ENCRYPTOR_KEY2 = "7913670289654325";		
 	
 	/**
 	 * 保留查詢參數名稱 for PageOf , BaseDAO
