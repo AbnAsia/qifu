@@ -58,7 +58,7 @@ public class UIComponentValueUtils {
 		return false;
 	}
 	
-	public static Object getObjectFromPage(PageContext pageContext, String paramName) {
+	public static Object getObjectFromPageContextOrRequest(PageContext pageContext, String paramName) {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		/**
 		 * 優先順序: pageContext.getAttribute > request.getParameter > request.getAttribute
@@ -74,7 +74,7 @@ public class UIComponentValueUtils {
 		return request.getSession().getAttribute(paramName);
 	}
 	
-	public static Object getOgnlProcessObjectFromHttpServletRequest(PageContext pageContext, String expression) {
+	public static Object getOgnlProcessObjectFromPageContextOrRequest(PageContext pageContext, String expression) {
 		Map<String, Object> ognlRoot = new HashMap<String, Object>();
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		Enumeration<String> pcNames = pageContext.getAttributeNamesInScope( PageContext.PAGE_SCOPE );
@@ -147,7 +147,7 @@ public class UIComponentValueUtils {
 				}
 			} else {
 				Object valObj = null;
-				if ( (valObj = getObjectFromPage(pageContext, value)) != null ) {
+				if ( (valObj = getObjectFromPageContextOrRequest(pageContext, value)) != null ) {
 					putValue(paramMap, paramMapKey, valObj, escapeHtml, ecmaScript);
 					return;
 				}
@@ -162,7 +162,7 @@ public class UIComponentValueUtils {
 			if ( UIComponent.SCOPE_SESSION.equals(scope) ) {
 				val = getOgnlProcessObjectFromHttpSession(pageContext, value);
 			} else {
-				val = getOgnlProcessObjectFromHttpServletRequest(pageContext, value);
+				val = getOgnlProcessObjectFromPageContextOrRequest(pageContext, value);
 			}
 			if (null != val) {
 				putValue(paramMap, paramMapKey, val, escapeHtml, ecmaScript);

@@ -94,7 +94,7 @@ public class Elseif implements UIComponent {
 		if ( SCOPE_SESSION.equals(this.scope) ) {
 			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpSession(this.pageContext, this.test);
 		} else {
-			objVal = UIComponentValueUtils.getOgnlProcessObjectFromHttpServletRequest(this.pageContext, this.test);
+			objVal = UIComponentValueUtils.getOgnlProcessObjectFromPageContextOrRequest(this.pageContext, this.test);
 		}
 		if ( objVal instanceof Boolean ) {
 			UIComponentValueUtils.putIfResult(pageContext, (Boolean) objVal);
