@@ -240,3 +240,33 @@ http://www.lingala.net/zip4j/
 ===============================================
 zip4j_1.3.2.jar
 
+
+JasperReports
+===============================================
+jasperreports-6.3.1.jar
+jasperreports-chart-themes-6.3.1.jar
+jasperreports-fonts-6.3.1.jar
+jasperreports-functions-6.3.1.jar
+jasperreports-javaflow-6.3.1.jar
+jasperreports-core-renderer.jar
+jasperreports-htmlcomponent-5.0.1.jar
+commons-javaflow-20060411.jar
+itext-2.1.7.js3.jar
+jdt-compiler-3.1.1.jar
+commons-digester-2.1.jar ( has found Apache - common )
+fireflysung.jar (FONT TrueType)
+
+
+iText 5.5.11
+===============================================
+itext5-itext-pdfa-5.5.11.jar
+itext5-itext-xtra-5.5.11.jar
+itext5-itextpdf-5.5.11.jar
+itext5-xmlworker-5.5.11.jar
+
+
+JFreeChart
+===============================================
+jcommon-1.0.23.jar
+jfreechart-1.0.19.jar
+
