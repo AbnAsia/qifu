@@ -206,3 +206,37 @@ ehcache-2.10.2.jar
 hessian binary web service
 ===============================================
 hessian-4.0.51.jar
+
+
+http://www.jcraft.com/jsch/	
+===============================================
+jsch-0.1.54.jar
+
+
+http://pdfbox.apache.org/index.html
+===============================================
+fontbox-2.0.5.jar
+pdfbox-2.0.5.jar
+pdfbox-tools-2.0.5.jar
+preflight-2.0.5.jar
+xmpbox-2.0.5.jar
+
+
+Apache POI
+===============================================
+curvesapi-1.04.jar
+poi-3.16.jar
+poi-examples-3.16.jar
+poi-excelant-3.16.jar
+poi-ooxml-3.16.jar
+poi-ooxml-schemas-3.16.jar
+poi-scratchpad-3.16.jar
+stax-api-1.0.1.jar
+xmlbeans-2.6.0.jar (remove it, if has Apache CXF xmlbeans-2.6.0.jar )
+
+
+ZIP4J							
+http://www.lingala.net/zip4j/
+===============================================
+zip4j_1.3.2.jar
+
