@@ -192,6 +192,48 @@ public class SystemTemplateAction extends BaseController {
 		return mv;
 	}		
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004S01Q")
+	@RequestMapping(value = "/core.templateParam.do")
+	public ModelAndView paramPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0004S01Q");
+		try {
+			SysTemplateVO template = new SysTemplateVO();
+			template.setOid(oid);
+			this.init("editParamPage", request, mv);
+			this.fetchData(template, mv);
+			viewName = "sys-template/sys-template-param";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}			
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004S01Q")
+	@RequestMapping(value = "/core.templateParamQueryGridJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj< List<SysTemplateParamVO>>  paramQueryGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj< List<SysTemplateParamVO> > result = this.getQueryJsonResult("CORE_PROG001D0004S01Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			QueryResult< List<SysTemplateParamVO> > queryResult = this.sysTemplateParamService.findGridResult(searchValue, pageOf);
+			this.setQueryGridJsonResult(result, queryResult, pageOf);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
 	private void checkFields(DefaultControllerJsonResultObj<SysTemplateVO> result, SysTemplateVO template) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
 		.testField("templateId", template, "@org.apache.commons.lang3.StringUtils@isBlank(templateId)", "Id is blank!")
@@ -200,6 +242,15 @@ public class SystemTemplateAction extends BaseController {
 		.testField("title", template, "@org.apache.commons.lang3.StringUtils@isBlank(title)", "Title is blank!")
 		.testField("message", template, "@org.apache.commons.lang3.StringUtils@isBlank(message)", "Message is blank!")
 		.throwMessage();		
+	}
+	
+	private void checkFieldsForParam(DefaultControllerJsonResultObj<SysTemplateParamVO> result, SysTemplateParamVO templateParam) throws ControllerException, Exception {
+		this.getCheckControllerFieldHandler(result)
+		.testField("templateVar", templateParam, "@org.apache.commons.lang3.StringUtils@isBlank(templateVar)", "Template variable is blank!")
+		.testField("objectVar", templateParam, "@org.apache.commons.lang3.StringUtils@isBlank(objectVar)", "Object variable is blank!")
+		.testField("templateVar", templateParam, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(templateVar)", "Template variable only normal character!")
+		.testField("objectVar", templateParam, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(objectVar)", "Object variable only normal character!")
+		.throwMessage();
 	}
 	
 	private void save(DefaultControllerJsonResultObj<SysTemplateVO> result, SysTemplateVO template) throws AuthorityException, ControllerException, ServiceException, Exception {
@@ -230,6 +281,25 @@ public class SystemTemplateAction extends BaseController {
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}
+	
+	private void saveParam(DefaultControllerJsonResultObj<SysTemplateParamVO> result, String templateOid, SysTemplateParamVO templateParam) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFieldsForParam(result, templateParam);
+		DefaultResult<SysTemplateParamVO> tResult = this.systemTemplateLogicService.createParam(templateParam, templateOid);
+		if ( tResult.getValue() != null ) {
+			result.setValue( tResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( tResult.getSystemMessage().getValue() );
+	}	
+	
+	private void deleteParam(DefaultControllerJsonResultObj<Boolean> result, SysTemplateParamVO templateParam) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> tResult = this.systemTemplateLogicService.deleteParam(templateParam);
+		if ( tResult.getValue() != null && tResult.getValue() ) {
+			result.setValue( Boolean.TRUE );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( tResult.getSystemMessage().getValue() );
+	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004A")
 	@RequestMapping(value = "/core.templateSaveJson.do", produces = "application/json")		
@@ -284,5 +354,41 @@ public class SystemTemplateAction extends BaseController {
 		}
 		return result;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004S01A")
+	@RequestMapping(value = "/core.templateParamSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysTemplateParamVO> doParamSave(@RequestParam("templateOid") String templateOid, SysTemplateParamVO templateParam) {
+		DefaultControllerJsonResultObj<SysTemplateParamVO> result = this.getDefaultJsonResult("CORE_PROG001D0004S01A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.saveParam(result, templateOid, templateParam);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004S01D")
+	@RequestMapping(value = "/core.templateParamDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDeleteParam(SysTemplateParamVO templateParam) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0004S01D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.deleteParam(result, templateParam);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
 	
 }

@@ -56,7 +56,7 @@ function editPage(oid) {
 }
 
 function editParamPage(oid) {
-	
+	parent.addTab('CORE_PROG001D0004S01Q', parent.getProgUrlForOid('CORE_PROG001D0004S01Q', oid) );
 }
 
 function deleteRecord(oid) {

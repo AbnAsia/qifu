@@ -31,6 +31,9 @@ import org.qifu.base.Constants;
 /**
  * from network resource
  * http://stackoverflow.com/questions/15554296/simple-java-aes-encrypt-decrypt-example
+ * 
+ * AES-256 , Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
+ * http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
  *
  */
 public class EncryptorUtils {
