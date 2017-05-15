@@ -102,7 +102,12 @@ public class SystemTemplateAction extends BaseController {
 	}
 	
 	private void fetchData(SysTemplateVO template, ModelAndView mv) throws ServiceException, ControllerException, Exception {
-		
+		DefaultResult<SysTemplateVO> result = this.sysTemplateService.findObjectByOid(template);
+		if ( result.getValue() == null ) {
+			throw new ControllerException( result.getSystemMessage().getValue() );
+		}
+		template = result.getValue();
+		mv.addObject("template", template);
 	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004Q")
@@ -199,12 +204,31 @@ public class SystemTemplateAction extends BaseController {
 	
 	private void save(DefaultControllerJsonResultObj<SysTemplateVO> result, SysTemplateVO template) throws AuthorityException, ControllerException, ServiceException, Exception {
 		this.checkFields(result, template);
-		DefaultResult<SysTemplateVO> roleResult = this.systemTemplateLogicService.create(template);
-		if ( roleResult.getValue() != null ) {
-			result.setValue( roleResult.getValue() );
+		DefaultResult<SysTemplateVO> tResult = this.systemTemplateLogicService.create(template);
+		if ( tResult.getValue() != null ) {
+			result.setValue( tResult.getValue() );
 			result.setSuccess( YesNo.YES );
 		}
-		result.setMessage( roleResult.getSystemMessage().getValue() );
+		result.setMessage( tResult.getSystemMessage().getValue() );
+	}
+	
+	private void update(DefaultControllerJsonResultObj<SysTemplateVO> result, SysTemplateVO template) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, template);
+		DefaultResult<SysTemplateVO> tResult = this.systemTemplateLogicService.update(template);
+		if ( tResult.getValue() != null ) {
+			result.setValue( tResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( tResult.getSystemMessage().getValue() );		
+	}
+	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysTemplateVO template) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> tResult = this.systemTemplateLogicService.delete(template);
+		if ( tResult.getValue() != null && tResult.getValue() ) {
+			result.setValue( Boolean.TRUE );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( tResult.getSystemMessage().getValue() );
 	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004A")
@@ -224,5 +248,41 @@ public class SystemTemplateAction extends BaseController {
 		}
 		return result;
 	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004E")
+	@RequestMapping(value = "/core.templateUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysTemplateVO> doUpdate(SysTemplateVO template) {
+		DefaultControllerJsonResultObj<SysTemplateVO> result = this.getDefaultJsonResult("CORE_PROG001D0004E");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.update(result, template);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0004D")
+	@RequestMapping(value = "/core.templateDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysTemplateVO template) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0004D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.delete(result, template);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
 	
 }
