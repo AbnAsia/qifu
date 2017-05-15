@@ -26,8 +26,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.PushbackInputStream;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,17 +46,17 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-//import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-//import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-//import org.apache.poi.openxml4j.opc.OPCPackage;
-//import org.apache.poi.poifs.filesystem.DocumentFactoryHelper;
-//import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-//import org.apache.poi.ss.usermodel.Workbook;
-//import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
-//import org.apache.poi.xssf.usermodel.XSSFDrawing;
-//import org.apache.poi.xssf.usermodel.XSSFPicture;
-//import org.apache.poi.xssf.usermodel.XSSFSheet;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.filesystem.DocumentFactoryHelper;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFPicture;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Months;
@@ -481,40 +481,40 @@ public class SimpleUtils {
     	return true;
     }
     
-//    /**
-//     * http://stackoverflow.com/questions/12593752/why-do-i-failed-to-read-excel-2007-using-poi
-//     * 
-//     * @param inp
-//     * @return
-//     * @throws IOException
-//     * @throws InvalidFormatException
-//     */
-//    public static Workbook createPOIWorkbook(InputStream inp) throws IOException, InvalidFormatException {
-//    	// If clearly doesn't do mark/reset, wrap up
-//    	if(!inp.markSupported()) {
-//    		inp = new PushbackInputStream(inp, 8);
-//    	}
-//    	if(POIFSFileSystem.hasPOIFSHeader(inp)) {
-//    		return new HSSFWorkbook(inp);
-//    	}
-//    	if(DocumentFactoryHelper.hasOOXMLHeader(inp)) {
-//    		return new XSSFWorkbook(OPCPackage.open(inp));
-//        }
-//    	throw new IllegalArgumentException("Your InputStream was neither an OLE2 stream, nor an OOXML stream");
-//    }    
-//    
-//	public static void setCellPicture(XSSFWorkbook wb, XSSFSheet sh, byte[] iconBytes, int row, int col) throws Exception {
-//        int myPictureId = wb.addPicture(iconBytes, XSSFWorkbook.PICTURE_TYPE_PNG);
-//        
-//        XSSFDrawing drawing = sh.createDrawingPatriarch();
-//        XSSFClientAnchor myAnchor = new XSSFClientAnchor();
-//       
-//        myAnchor.setCol1(col);
-//        myAnchor.setRow1(row);
-//        
-//        XSSFPicture myPicture = drawing.createPicture(myAnchor, myPictureId);
-//        myPicture.resize();
-//	}
+    /**
+     * http://stackoverflow.com/questions/12593752/why-do-i-failed-to-read-excel-2007-using-poi
+     * 
+     * @param inp
+     * @return
+     * @throws IOException
+     * @throws InvalidFormatException
+     */
+    public static Workbook createPOIWorkbook(InputStream inp) throws IOException, InvalidFormatException {
+    	// If clearly doesn't do mark/reset, wrap up
+    	if(!inp.markSupported()) {
+    		inp = new PushbackInputStream(inp, 8);
+    	}
+    	if(POIFSFileSystem.hasPOIFSHeader(inp)) {
+    		return new HSSFWorkbook(inp);
+    	}
+    	if(DocumentFactoryHelper.hasOOXMLHeader(inp)) {
+    		return new XSSFWorkbook(OPCPackage.open(inp));
+        }
+    	throw new IllegalArgumentException("Your InputStream was neither an OLE2 stream, nor an OOXML stream");
+    }    
+    
+	public static void setCellPicture(XSSFWorkbook wb, XSSFSheet sh, byte[] iconBytes, int row, int col) throws Exception {
+        int myPictureId = wb.addPicture(iconBytes, XSSFWorkbook.PICTURE_TYPE_PNG);
+        
+        XSSFDrawing drawing = sh.createDrawingPatriarch();
+        XSSFClientAnchor myAnchor = new XSSFClientAnchor();
+       
+        myAnchor.setCol1(col);
+        myAnchor.setRow1(row);
+        
+        XSSFPicture myPicture = drawing.createPicture(myAnchor, myPictureId);
+        myPicture.resize();
+	}
 	
 	public static byte[] getColorRGB(String rgb) throws Exception {
 		if (StringUtils.isEmpty(rgb) || rgb.length()!=6) {
