@@ -35,6 +35,8 @@
 				<value>classpath*:dozer/dozerBeanMapping-sysUpload.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysUploadTran.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysUploadTranSegm.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysJreport.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysJreportParam.xml</value>
 				
 			</list> 
 		</property> 

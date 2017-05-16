@@ -48,6 +48,9 @@
                 <value>classpath*:mappers/TbSysUpload.xml</value>
                 <value>classpath*:mappers/TbSysUploadTran.xml</value>
                 <value>classpath*:mappers/TbSysUploadTranSegm.xml</value>
+                <value>classpath*:mappers/TbSysJreport.xml</value>
+                <value>classpath*:mappers/TbSysJreportParam.xml</value>
+                
             </list>
         </property>          		  		
   		<property name="databaseIdProvider" ref="databaseIdProvider"/>
