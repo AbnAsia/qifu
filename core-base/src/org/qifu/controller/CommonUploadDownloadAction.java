@@ -102,7 +102,7 @@ public class CommonUploadDownloadAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
 	@RequestMapping(value = "/core.commonUploadFileJson.do", method = { RequestMethod.POST } )		
-	public @ResponseBody DefaultControllerJsonResultObj<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("type") String type) {
+	public @ResponseBody DefaultControllerJsonResultObj<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("type") String type, @RequestParam("isFile") String isFile) {
 		DefaultControllerJsonResultObj<String> result = this.getDefaultJsonResult("CORE_PROGCOMM0003Q");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
@@ -120,7 +120,7 @@ public class CommonUploadDownloadAction extends BaseController {
 			return result;
 		}
 		try {
-			String uploadOid = UploadSupportUtils.create(Constants.getSystem(), type, false, file.getBytes(), file.getName());
+			String uploadOid = UploadSupportUtils.create(Constants.getSystem(), type, ( YesNo.YES.equals(isFile) ? true : false ), file.getBytes(), file.getName());
 			if (!StringUtils.isBlank(uploadOid)) {
 				result.setSuccess( YesNo.YES );
 				result.setValue(uploadOid);
