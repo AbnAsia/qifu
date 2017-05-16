@@ -77,10 +77,10 @@ function hidePleaseWaitForQueryGrid() {
       <div class="modal-body">
 		  <div class="container-fluid">
 			<div class="row" style="width:370px; height:90px;"  >
-				
+	<form method="post" action="core.commonUploadFileAction.action" name="commonUploadForm-${programId}" id="commonUploadForm-${programId}" enctype="multipart/form-data" >				
 		<label id="upload-label" for="upload"><img border="0" alt="help-icon" src="./icons/help-about.png"/>&nbsp;<font size='2'><b>Drag file to color Box.</b>&nbsp;</font></label>
 		<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUpload-${programId}" id="commonUpload-${programId}" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
-		
+	</form>		
 			</div>
 			</div>
       </div>
@@ -96,11 +96,9 @@ function hidePleaseWaitForQueryGrid() {
 <script>
 var _commonUploadFieldId = '';
 function commonUploadDataEvent() {
-	var formData = new FormData();
-	formData.append('file', $('#commonUpload-${programId}')[0].files[0]);
-	xhrSendParameter(
+	xhrSendForm(
 			'./core.commonUploadFileJson.do', 
-			formData, 
+			'commonUploadForm-${programId}', 
 			function(data) {
 				if ( _qifu_success_flag != data.success ) {
 					parent.toastrWarning( data.message );
@@ -115,6 +113,7 @@ function commonUploadDataEvent() {
 			_qifu_defaultSelfPleaseWaitShow
 	);
 }
+
 function showCommonUploadModal(field) {
 	_commonUploadFieldId = field;
 	$('#modal-upload-${programId}').modal('show');
