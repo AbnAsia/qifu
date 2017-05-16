@@ -60,3 +60,67 @@ function hidePleaseWaitForQueryGrid() {
 	$('#myPleaseWaitForQueryGrid-${programId}').modal('hide');
 }
 </script>
+
+
+<!-- 上傳 modal -->
+<div class="modal fade" role="dialog" aria-labelledby="modalLabel-upload-${programId}" aria-hidden="true" id="modal-upload-${programId}">
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content" style="width:400px; height:250px;" >
+    
+      <div class="modal-header">     
+        	<h4 class="modal-title" id="modalLabel-upload-${programId}">Upload</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>		
+      </div>
+      
+      <div class="modal-body">
+		  <div class="container-fluid">
+			<div class="row" style="width:370px; height:90px;"  >
+				
+		<label id="upload-label" for="upload"><img border="0" alt="help-icon" src="./icons/help-about.png"/>&nbsp;<font size='2'><b>Drag file to color Box.</b>&nbsp;</font></label>
+		<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUpload-${programId}" id="commonUpload-${programId}" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
+		
+			</div>
+			</div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+var _commonUploadFieldId = '';
+function commonUploadDataEvent() {
+	var formData = new FormData();
+	formData.append('file', $('#commonUpload-${programId}')[0].files[0]);
+	xhrSendParameter(
+			'./core.commonUploadFileJson.do', 
+			formData, 
+			function(data) {
+				if ( _qifu_success_flag != data.success ) {
+					parent.toastrWarning( data.message );
+					return;
+				}
+				parent.toastrInfo( data.message );
+				$("#" + _commonUploadFieldId).val( data.value );
+			}, 
+			function() {
+				_commonUploadFieldId = '';
+			},
+			_qifu_defaultSelfPleaseWaitShow
+	);
+}
+function showCommonUploadModal(field) {
+	_commonUploadFieldId = field;
+	$('#modal-upload-${programId}').modal('show');
+}
+function hiddenCommonUploadModal() {
+	$('#modal-upload-${programId}').modal('hide');
+}
+</script>
+
