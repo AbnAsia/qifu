@@ -137,12 +137,8 @@ function deleteRecord(oid) {
 <div class="form-group" id="form-group2">	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			&nbsp;
-			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="isTitle" name="isTitle">
-			    <span class="custom-control-indicator"></span>
-			    <span class="custom-control-description">for title only</span>
-			</label>						
+			<br>
+			<q:checkbox name="isTitle" id="isTitle" label="for title only"></q:checkbox>
 		</div>
 	</div>	
 </div>

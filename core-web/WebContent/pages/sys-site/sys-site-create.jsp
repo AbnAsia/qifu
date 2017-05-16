@@ -135,14 +135,8 @@ function clearSave() {
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-		<br>
-		&nbsp;
-			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="local" name="local">
-			    <span class="custom-control-indicator"></span>
-			    <span class="custom-control-description">Local</span>
-			</label>
-					
+			<br>
+			<q:checkbox name="local" id="local" label="Local"></q:checkbox>		
 		</div>
 	</div>
 </div>

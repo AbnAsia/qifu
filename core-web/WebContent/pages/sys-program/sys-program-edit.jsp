@@ -140,26 +140,16 @@ function clearUpdate() {
 	</div>	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-		<br>
-		&nbsp;
-			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="editMode" name="editMode" <q:if test=" \"Y\" == sysProg.editMode "> checked="checked" </q:if> >
-			    <span class="custom-control-indicator"></span>
-			    <span class="custom-control-description">Edit mode</span>
-			</label>			
+			<br>
+			<q:checkbox name="editMode" id="editMode" label="Edit mode" checkedTest=" \"Y\" == sysProg.editMode "></q:checkbox>			
 		</div>
 	</div>
 </div>	
 <div class="form-group" id="form-group3">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-		<br>
-		&nbsp;
-			<label class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="isDialog" name="isDialog" <q:if test=" \"Y\" == sysProg.isDialog "> checked="checked" </q:if> >
-			    <span class="custom-control-indicator"></span>
-			    <span class="custom-control-description">Dialog</span>
-			</label>			
+			<br>
+			<q:checkbox name="isDialog" id="isDialog" label="Dialog" checkedTest=" \"Y\" == sysProg.isDialog "></q:checkbox>		
 		</div>
 	</div>
 	<div class="row">
