@@ -61,6 +61,7 @@ import org.qifu.vo.SysUploadVO;
 public class UploadSupportUtils {
 	protected static Logger logger=Logger.getLogger(UploadSupportUtils.class);
 	public static final String HELP_EXPRESSION_VARIABLE = "datas";
+	public static final long UPLOAD_MAX_SIZE = 8388608; // 8MB
 	private static Properties props = new Properties();
 	private static String VIEW_MODE_FILE_EXTENSION[] = null;	
 	private static ISysUploadService<SysUploadVO, TbSysUpload, String> sysUploadService;

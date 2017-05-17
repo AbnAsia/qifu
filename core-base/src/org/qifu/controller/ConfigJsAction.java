@@ -28,6 +28,7 @@ import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.YesNo;
+import org.qifu.util.UploadSupportUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,6 +57,7 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_jqXhrCache=").append( super.getJqXhrCache() ).append(";").append("\n");
 		sb.append("var _qifu_jqXhrAsync=").append( super.getJqXhrAsync() ).append(";").append("\n");
 		sb.append("var _qifu_defaultSelfPleaseWaitShow='").append(YesNo.NO).append("';").append("\n");
+		sb.append("var _qifu_maxUploadSize=").append( UploadSupportUtils.UPLOAD_MAX_SIZE ).append(";").append("\n");
 		return sb.toString();
 	}
 

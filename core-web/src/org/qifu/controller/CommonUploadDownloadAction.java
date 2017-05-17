@@ -59,7 +59,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @Controller
 public class CommonUploadDownloadAction extends BaseController {
-	private static final long MAX_SIZE = 8388608; // 8mb
+	private static final long UPLOAD_MAX_SIZE = UploadSupportUtils.UPLOAD_MAX_SIZE;
 	private ISysUploadService<SysUploadVO, TbSysUpload, String> sysUploadService;
 	
 	public ISysUploadService<SysUploadVO, TbSysUpload, String> getSysUploadService() {
@@ -111,8 +111,8 @@ public class CommonUploadDownloadAction extends BaseController {
 			result.setMessage( SysMessageUtil.get(SysMsgConstants.UPLOAD_FILE_NO_SELECT) );
 			return result;			
 		}
-		if (file.getSize() > MAX_SIZE) {
-			result.setMessage( "File max size only " + MAX_SIZE + " bytes!"  );
+		if (file.getSize() > UPLOAD_MAX_SIZE) {
+			result.setMessage( "File max size only " + UPLOAD_MAX_SIZE + " bytes!"  );
 			return result;
 		}
 		/*
