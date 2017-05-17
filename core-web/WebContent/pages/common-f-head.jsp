@@ -79,7 +79,7 @@ function hidePleaseWaitForQueryGrid() {
 			<div class="row" style="width:370px; height:90px;"  >
 	<form method="post" action="core.commonUploadFileAction.action" name="commonUploadForm-${programId}" id="commonUploadForm-${programId}" enctype="multipart/form-data" >				
 		<label id="upload-label" for="upload"><img border="0" alt="help-icon" src="./icons/help-about.png"/>&nbsp;<font size='2'><b>Drag file to color Box.</b>&nbsp;</font></label>
-		<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUpload-${programId}" id="commonUpload-${programId}" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
+		<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUploadFile" id="commonUploadFile" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
 	</form>		
 			</div>
 			</div>
@@ -96,22 +96,43 @@ function hidePleaseWaitForQueryGrid() {
 <script>
 var _commonUploadFieldId = '';
 function commonUploadDataEvent() {
-	xhrSendForm(
-			'./core.commonUploadFileJson.do', 
-			'commonUploadForm-${programId}', 
-			function(data) {
-				if ( _qifu_success_flag != data.success ) {
-					parent.toastrWarning( data.message );
-					return;
-				}
-				parent.toastrInfo( data.message );
-				$("#" + _commonUploadFieldId).val( data.value );
-			}, 
-			function() {
-				_commonUploadFieldId = '';
-			},
-			_qifu_defaultSelfPleaseWaitShow
-	);
+	var form = document.forms.namedItem("commonUploadForm-${programId}")
+	var oData = new FormData(form);
+	showPleaseWait();
+	$.ajax({
+		type : 'POST',
+	    url : './core.commonUploadFileJson.do',
+	    timeout: _qifu_jqXhrTimeout,
+	    processData: false,  // tell jQuery not to process the data
+	    contentType: false,  // tell jQuery not to set contentType
+	    data : oData,
+	    cache: false,
+	    async: true,
+	    success : function(data, textStatus) {
+	    	hidePleaseWait();
+			if (data==null || (typeof data=='undefined') ) {
+				alert('Unexpected error!');
+				return;
+			}    			
+			if ( _qifu_success_flag != data.login ) {
+				alert("Please try login again!");
+				return;
+			}       
+			if ( _qifu_success_flag != data.isAuthorize ) {
+				alert("No permission!");
+				return;        				
+			}        
+			
+			parent.toastrInfo( data.message );
+			$("#" + _commonUploadFieldId).val( data.value );
+	    },
+	    error : function(jqXHR, textStatus, errorThrown) {
+	    	hidePleaseWait();	
+	        alert(textStatus);
+	        _commonUploadFieldId = '';
+	    }
+	});	
+	
 }
 
 function showCommonUploadModal(field) {
