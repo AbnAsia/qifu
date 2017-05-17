@@ -115,6 +115,7 @@ function commonUploadDataEvent() {
 	
 	var form = document.forms.namedItem("commonUploadForm-${programId}")
 	var oData = new FormData(form);
+	hiddenCommonUploadModal();
 	showPleaseWait();
 	$.ajax({
 		type : 'POST',
@@ -140,7 +141,6 @@ function commonUploadDataEvent() {
 				return;        				
 			}
 			parent.toastrInfo( data.message );
-			hiddenCommonUploadModal();
 			$("#" + _commonUploadFieldId).val( data.value );
 			
 	    },
