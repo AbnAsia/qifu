@@ -29,8 +29,6 @@ $( document ).ready(function() {
 	
 	$("#icon").trigger("change");
 	
-	showCommonUploadModal('name');
-	
 });
 
 //fields[ data.checkFields map 的 key ]	= '頁面的欄位id';
