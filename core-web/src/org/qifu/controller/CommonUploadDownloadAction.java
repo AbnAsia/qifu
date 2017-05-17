@@ -102,7 +102,7 @@ public class CommonUploadDownloadAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
 	@RequestMapping(value = "/core.commonUploadFileJson.do", method = { RequestMethod.POST }, headers = "content-type=multipart/*" )		
-	public @ResponseBody DefaultControllerJsonResultObj<String> uploadFile(@RequestParam("commonUploadFile") MultipartFile file /*, @RequestParam("type") String type, @RequestParam("isFile") String isFile*/) {
+	public @ResponseBody DefaultControllerJsonResultObj<String> uploadFile(@RequestParam("commonUploadFile") MultipartFile file, @RequestParam("commonUploadFileType") String type, @RequestParam("commonUploadFileIsFileMode") String isFile) {
 		DefaultControllerJsonResultObj<String> result = this.getDefaultJsonResult("CORE_PROGCOMM0003Q");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
@@ -115,15 +115,12 @@ public class CommonUploadDownloadAction extends BaseController {
 			result.setMessage( "File max size only " + UPLOAD_MAX_SIZE + " bytes!"  );
 			return result;
 		}
-		/*
 		if (!UploadTypes.check(type)) {
 			result.setMessage( SysMessageUtil.get(SysMsgConstants.UPLOAD_FILE_TYPE_ERROR) );
 			return result;
 		}
-		*/
 		try {
-			//String uploadOid = UploadSupportUtils.create(Constants.getSystem(), type, ( YesNo.YES.equals(isFile) ? true : false ), file.getBytes(), file.getName());
-			String uploadOid = UploadSupportUtils.create(Constants.getSystem(), UploadTypes.IS_TEMP, false, file.getBytes(), file.getOriginalFilename());
+			String uploadOid = UploadSupportUtils.create(Constants.getSystem(), type, ( YesNo.YES.equals(isFile) ? true : false ), file.getBytes(), file.getOriginalFilename());
 			if (!StringUtils.isBlank(uploadOid)) {
 				result.setSuccess( YesNo.YES );
 				result.setValue(uploadOid);
@@ -137,7 +134,7 @@ public class CommonUploadDownloadAction extends BaseController {
 			e.printStackTrace();
 			result.setMessage( e.getMessage().toString() );
 		}		
-		return null;
+		return result;
 	}
 
 }
