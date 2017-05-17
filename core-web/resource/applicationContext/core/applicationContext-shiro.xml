@@ -95,14 +95,23 @@
          		/*.do=authc         		
          		
          		/publish/**=anon		
+         		/services/**=anon 
+         		/camel/**=anon         
+         		/hessian/**=anon         		
          		
          		/kaptcha.jpg=anon 
-         		/services/**=anon         
+         		        
          		/images/**=anon
+         		/icons/**=anon
          		/css/**=anon
          		/js/**=anon
-         		/camel/**=anon         
-         		/hessian/**=anon
+         		/bootbox/**=anon
+         		/bootstrap-4.0.0-alpha.6/**=anon
+         		/jquery/**=anon
+         		/jquery-bootstrap-scrolling-tabs/**=anon
+         		/font-awesome/**=anon
+         		/froala_editor/**=anon
+         		/tether/**=anon
          		
 			</value> 
    		</property> 
