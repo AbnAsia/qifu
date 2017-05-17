@@ -80,16 +80,16 @@ function hidePleaseWaitForQueryGrid() {
       </div>
       
       <div class="modal-body">
-		  <div class="container-fluid">
+		<div class="container-fluid">
 			<div class="row" style="width:370px; height:90px;"  >
-	<form method="post" action="core.commonUploadFileAction.action" name="commonUploadForm-${programId}" id="commonUploadForm-${programId}" enctype="multipart/form-data" >				
-		<label id="upload-label" for="upload"><img border="0" alt="help-icon" src="./icons/help-about.png"/>&nbsp;<font size='2'><b>Drag file to color Box.</b>&nbsp;</font></label>
-		<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUploadFile" id="commonUploadFile" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
-		<input type="hidden" id="commonUploadFileType" name="commonUploadFileType" value="tmp" />
-		<input type="hidden" id="commonUploadFileIsFileMode" name="commonUploadFileIsFileMode" value="N" />
-	</form>		
+				<form method="post" action="core.commonUploadFileAction.action" name="commonUploadForm-${programId}" id="commonUploadForm-${programId}" enctype="multipart/form-data" >				
+					<label id="upload-label" for="upload"><img border="0" alt="help-icon" src="./icons/help-about.png"/>&nbsp;<font size='2'><b>Drag file to color Box.</b>&nbsp;(max size ${maxUploadSizeMb}mb)</font></label>
+					<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUploadFile" id="commonUploadFile" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
+					<input type="hidden" id="commonUploadFileType" name="commonUploadFileType" value="tmp" />
+					<input type="hidden" id="commonUploadFileIsFileMode" name="commonUploadFileIsFileMode" value="N" />
+				</form>		
 			</div>
-			</div>
+		</div>
       </div>
 
       <div class="modal-footer">
@@ -103,6 +103,16 @@ function hidePleaseWaitForQueryGrid() {
 <script>
 var _commonUploadFieldId = '';
 function commonUploadDataEvent() {
+	
+	if (document.getElementById('commonUploadFile').value == '' ) {
+		parent.toastrWarning( "Please select an file!" );
+		return;
+	}
+	if (document.getElementById('commonUploadFile').files[0].size > _qifu_maxUploadSize ) {
+		parent.toastrWarning( "File exceeded upload size!" );
+		return;		
+	}	
+	
 	var form = document.forms.namedItem("commonUploadForm-${programId}")
 	var oData = new FormData(form);
 	showPleaseWait();

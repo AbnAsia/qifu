@@ -33,7 +33,7 @@
 	
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     	<property name="defaultEncoding" value="utf-8" />
-        <property name="maxUploadSize" value="8388608" /> <!-- 8MB -->
+        <property name="maxUploadSize" value="8388608" /> <!-- 8MB, please set value equals with org.qifu.util.UploadSupportUtils.UPLOAD_MAX_SIZE -->
     </bean>	
 	
 	

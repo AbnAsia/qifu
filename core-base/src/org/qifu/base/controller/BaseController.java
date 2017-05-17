@@ -43,6 +43,7 @@ import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.util.MenuSupportUtils;
 import org.qifu.util.SimpleUtils;
+import org.qifu.util.UploadSupportUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import ognl.Ognl;
@@ -82,6 +83,8 @@ public abstract class BaseController {
 		mv.addObject("jqXhrCache", this.getJqXhrCache());
 		mv.addObject("jqXhrAsync", this.getJqXhrAsync());
 		mv.addObject("scrollingTabsEnable", this.getScrollingTabsEnable());
+		mv.addObject("maxUploadSize", this.getMaxUploadSize());
+		mv.addObject("maxUploadSizeMb", this.getMaxUploadSizeMb());
 		return mv;
 	}
 	
@@ -162,6 +165,14 @@ public abstract class BaseController {
 	public String getScrollingTabsEnable() {
 		return String.valueOf( Constants.getSettingsMap().get("basePage.scrollingTabsEnable") );
 	}
+	
+	public String getMaxUploadSize() {
+		return String.valueOf( UploadSupportUtils.UPLOAD_MAX_SIZE );
+	}
+	
+	public String getMaxUploadSizeMb() {
+		return String.valueOf( UploadSupportUtils.UPLOAD_MAX_SIZE / 1048576 );
+	}	
 	
 	public boolean isSuperRole() {
 		Subject subject = SecurityUtils.getSubject();
