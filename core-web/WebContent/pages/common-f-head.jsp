@@ -1,9 +1,14 @@
+<%@page import="org.qifu.base.Constants"%>
+<%@page import="org.qifu.util.ApplicationSiteUtils"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+String mainBasePath = ApplicationSiteUtils.getBasePath(Constants.getMainSystem(), request);
+
 %>
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
 	<tr valign="top" align="left">
@@ -101,7 +106,7 @@ function commonUploadDataEvent() {
 	showPleaseWait();
 	$.ajax({
 		type : 'POST',
-	    url : './core.commonUploadFileJson.do',
+	    url : '<%=mainBasePath%>/core.commonUploadFileJson.do',
 	    timeout: _qifu_jqXhrTimeout,
 	    processData: false,  // tell jQuery not to process the data
 	    contentType: false,  // tell jQuery not to set contentType
