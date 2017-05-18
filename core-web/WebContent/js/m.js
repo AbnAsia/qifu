@@ -38,6 +38,17 @@ function addTab( tabId, srcUrl ) {
 	for (var i=0; _tabData != null && i< _tabData.length; i++) {
 		if ( _tabData[i].tabId == tabId ) {
 			activaTab(tabId);
+			
+			/**
+			 * refresh iframe content , when before are show active this Tab.
+			 * 重新整理 Tab 中的 iframe 內容, 例如如果之前該 Tab 已經顯示了, 在次點擊選單 link 時, 除了 activaTab 顯示該 Tab, 然後重整其 iframe 內容 
+			 */
+			var src = $("#" + tabId).find('iframe').attr("src");
+			if ( '' == srcUrl || null == srcUrl) {
+				srcUrl = src;
+			}
+			$("#" + tabId).find('iframe').attr("src", srcUrl);
+			
 			return;
 		}
 	}
