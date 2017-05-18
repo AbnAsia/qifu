@@ -40,12 +40,15 @@ import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSysJreport;
+import org.qifu.po.TbSysUpload;
 import org.qifu.service.ISysJreportService;
+import org.qifu.service.ISysUploadService;
 import org.qifu.service.logic.ISystemJreportLogicService;
 import org.qifu.util.JReportUtils;
 import org.qifu.util.SimpleUtils;
 import org.qifu.util.UploadSupportUtils;
 import org.qifu.vo.SysJreportVO;
+import org.qifu.vo.SysUploadVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -60,6 +63,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SystemReportAction extends BaseController {
 	
 	private ISysJreportService<SysJreportVO, TbSysJreport, String> sysJreportService;
+	private ISysUploadService<SysUploadVO, TbSysUpload, String> sysUploadService;
 	private ISystemJreportLogicService systemJreportLogicService;
 	
 	public ISysJreportService<SysJreportVO, TbSysJreport, String> getSysJreportService() {
@@ -72,6 +76,17 @@ public class SystemReportAction extends BaseController {
 	public void setSysJreportService(ISysJreportService<SysJreportVO, TbSysJreport, String> sysJreportService) {
 		this.sysJreportService = sysJreportService;
 	}
+	
+	public ISysUploadService<SysUploadVO, TbSysUpload, String> getSysUploadService() {
+		return sysUploadService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysUploadService")
+	@Required		
+	public void setSysUploadService(ISysUploadService<SysUploadVO, TbSysUpload, String> sysUploadService) {
+		this.sysUploadService = sysUploadService;
+	}	
 	
 	public ISystemJreportLogicService getSystemJreportLogicService() {
 		return systemJreportLogicService;
@@ -165,9 +180,16 @@ public class SystemReportAction extends BaseController {
 			throw new ControllerException("Please upload report file!");
 		}		
 		this.testUploadReportPackage(uploadOid);
+		DefaultResult<SysUploadVO> uResult = this.sysUploadService.findForNoByteContent(uploadOid);
+		if ( uResult.getValue() == null ) {
+			throw new ServiceException( uResult.getSystemMessage().getValue() );
+		}
+		String fileNameHead = uResult.getValue().getShowName().split("[.]")[0];
+		this.getCheckControllerFieldHandler(result).testField("reportId", ( !fileNameHead.equals(sysJreport.getReportId()) ), "Please change Id value as " + fileNameHead).throwMessage();
 		sysJreport.setContent( UploadSupportUtils.getDataBytes(uploadOid) );
 		DefaultResult<SysJreportVO> rResult = this.systemJreportLogicService.create(sysJreport);
 		if ( rResult.getValue() != null ) {
+			JReportUtils.deployReport( rResult.getValue() );
 			rResult.getValue().setContent( null ); // 不傳回 content byte[] 內容
 			result.setValue( rResult.getValue() );
 			result.setSuccess( YesNo.YES );

@@ -34,7 +34,9 @@ function getQueryGridFormatter(value) {
 	var str = '';
 	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="editPage(\'' + value + '\');"/>';
 	str += '&nbsp;&nbsp;';
-	str += '<img alt="edit param" title="Edit parameter" src="./images/edit.png" onclick="editParam(\'' + value + '\');"/>';
+	str += '<img alt="edit param" title="Edit parameter" src="./images/alert.png" onclick="editParam(\'' + value + '\');"/>';
+	str += '&nbsp;&nbsp;';	
+	str += '<img alt="preview" title="Preview report" src="./images/service.png" onclick="previewShow(\'' + value + '\');"/>';
 	str += '&nbsp;&nbsp;';	
 	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
 	return str;
@@ -62,6 +64,10 @@ function editPage(oid) {
 
 function editParam(oid) {
 	parent.addTab('CORE_PROG001D0005S01Q', parent.getProgUrlForOid('CORE_PROG001D0005S01Q', oid) );
+}
+
+function previewShow(oid) {
+	parent.addTab('CORE_PROG001D0005S02Q', parent.getProgUrlForOid('CORE_PROG001D0005S02Q', oid) );
 }
 
 function deleteRecord(oid) {
