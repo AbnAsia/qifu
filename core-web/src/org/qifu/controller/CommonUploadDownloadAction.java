@@ -129,9 +129,9 @@ public class CommonUploadDownloadAction extends BaseController {
 			if (!StringUtils.isBlank(uploadOid)) {
 				result.setSuccess( YesNo.YES );
 				result.setValue(uploadOid);
-				result.setMessage( SysMessageUtil.get(SysMsgConstants.UPDATE_SUCCESS) );
+				result.setMessage( SysMessageUtil.get(SysMsgConstants.INSERT_SUCCESS) );
 			} else {
-				result.setMessage( SysMessageUtil.get(SysMsgConstants.UPDATE_FAIL) );
+				result.setMessage( SysMessageUtil.get(SysMsgConstants.INSERT_FAIL) );
 			}
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
