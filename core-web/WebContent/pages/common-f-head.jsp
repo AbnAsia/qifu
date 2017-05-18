@@ -1,3 +1,4 @@
+<%@page import="org.qifu.base.model.YesNo"%>
 <%@page import="org.qifu.base.Constants"%>
 <%@page import="org.qifu.util.ApplicationSiteUtils"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
@@ -7,7 +8,12 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-String mainBasePath = ApplicationSiteUtils.getBasePath(Constants.getMainSystem(), request);
+String mainBasePath = basePath;
+if (!Constants.getMainSystem().equals( Constants.getSystem()) ) {
+	mainBasePath = ApplicationSiteUtils.getBasePath(Constants.getMainSystem(), request);
+}
+
+String commonUploadEnable = request.getParameter("commonUploadEnable");
 
 %>
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -66,7 +72,10 @@ function hidePleaseWaitForQueryGrid() {
 }
 </script>
 
-
+<%
+// =================================================================================================================
+if (YesNo.YES.equals(commonUploadEnable)) {
+%>
 <!-- 上傳 modal -->
 <div class="modal fade" role="dialog" aria-labelledby="modalLabel-upload-${programId}" aria-hidden="true" id="modal-upload-${programId}">
   <div class="modal-dialog modal-lg" >
@@ -163,4 +172,7 @@ function hiddenCommonUploadModal() {
 	$('#modal-upload-${programId}').modal('hide');
 }
 </script>
-
+<%
+} // end YesNo.YES.equals(commonUploadEnable)
+//=================================================================================================================
+%>
