@@ -9,7 +9,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
 String mainBasePath = basePath;
-if (!Constants.getMainSystem().equals( Constants.getSystem()) ) {
+if (!Constants.getMainSystem().equals( Constants.getSystem() ) ) {
 	mainBasePath = ApplicationSiteUtils.getBasePath(Constants.getMainSystem(), request);
 }
 
@@ -96,6 +96,7 @@ if (YesNo.YES.equals(commonUploadEnable)) {
 					<input type="file" style="width: 360px; height: 65px;  border: 2px dotted #FFAD1C;  background: #FFEFD0; border-radius: 4px;" name="commonUploadFile" id="commonUploadFile" draggable="true" title="Drag file there." onchange="commonUploadDataEvent();"/>		
 					<input type="hidden" id="commonUploadFileType" name="commonUploadFileType" value="tmp" />
 					<input type="hidden" id="commonUploadFileIsFileMode" name="commonUploadFileIsFileMode" value="N" />
+					<input type="hidden" id="commonUploadFileSystem" name="commonUploadFileSystem" value="<%=Constants.getSystem()%>" />
 				</form>		
 			</div>
 		</div>
@@ -111,6 +112,8 @@ if (YesNo.YES.equals(commonUploadEnable)) {
 
 <script>
 var _commonUploadFieldId = '';
+var _commonUploadSuccessFn = null;
+var _commonUploadErrorFn = null;
 function commonUploadDataEvent() {
 	
 	if (document.getElementById('commonUploadFile').value == '' ) {
@@ -152,20 +155,32 @@ function commonUploadDataEvent() {
 			parent.toastrInfo( data.message );
 			$("#" + _commonUploadFieldId).val( data.value );
 			
+			document.getElementById('commonUploadFile').value = '';
+			
+			if (null != _commonUploadSuccessFn) {
+				_commonUploadSuccessFn();
+			}
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
 	    	hidePleaseWait();
 	        alert(textStatus);
 	        _commonUploadFieldId = '';
+	        
+	        document.getElementById('commonUploadFile').value = '';
+	        if (null != _commonUploadErrorFn) {
+	        	_commonUploadErrorFn();
+	        }
 	    }
 	});	
 	
 }
 
-function showCommonUploadModal(field, fileType, isFileMode) {
+function showCommonUploadModal(field, fileType, isFileMode, successFn, errorFn) {
 	_commonUploadFieldId = field;
 	$("#commonUploadFileType").val( fileType );
-	$("#commonUploadFileIsFileMode").val( isFileMode );	
+	$("#commonUploadFileIsFileMode").val( isFileMode );
+	_commonUploadSuccessFn = successFn;
+	_commonUploadErrorFn = errorFn;
 	$('#modal-upload-${programId}').modal('show');
 }
 function hiddenCommonUploadModal() {
