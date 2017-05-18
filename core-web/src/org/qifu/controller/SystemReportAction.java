@@ -26,26 +26,31 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
+import org.qifu.base.model.DefaultResult;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
+import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSysJreport;
 import org.qifu.service.ISysJreportService;
 import org.qifu.service.logic.ISystemJreportLogicService;
 import org.qifu.util.JReportUtils;
 import org.qifu.util.SimpleUtils;
+import org.qifu.util.UploadSupportUtils;
 import org.qifu.vo.SysJreportVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -142,16 +147,50 @@ public class SystemReportAction extends BaseController {
 		return mv;
 	}	
 	
-	private void testReportPackage(String uploadOid) throws ServiceException, ControllerException, Exception {
+	private void testUploadReportPackage(String uploadOid) throws ServiceException, ControllerException, Exception {
 		JReportUtils.selfTestDecompress4Upload(uploadOid);
 	}	
 	
 	private void checkFields(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
-		.testField("reportId", sysJreport, "@org.apache.commons.lang3.StringUtils@isBlank(templateId)", "Id is blank!")
+		.testField("reportId", sysJreport, "@org.apache.commons.lang3.StringUtils@isBlank(reportId)", "Id is blank!")
 		.testField("reportId", ( !SimpleUtils.checkBeTrueOf_azAZ09(super.defaultString(sysJreport.getReportId()).replaceAll("-", "").replaceAll("_", "")) ), "Id only normal character!")
-		.testField("templateId", ( this.noSelect(sysJreport.getReportId()) ), "Please change Id value!") // 不能用  "all" 這個下拉值
+		.testField("reportId", ( this.noSelect(sysJreport.getReportId()) ), "Please change Id value!") // 不能用  "all" 這個下拉值
 		.throwMessage();
+	}
+	
+	private void save(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysJreport);
+		if (StringUtils.isBlank(uploadOid)) {
+			throw new ControllerException("Please upload report file!");
+		}		
+		this.testUploadReportPackage(uploadOid);
+		sysJreport.setContent( UploadSupportUtils.getDataBytes(uploadOid) );
+		DefaultResult<SysJreportVO> rResult = this.systemJreportLogicService.create(sysJreport);
+		if ( rResult.getValue() != null ) {
+			rResult.getValue().setContent( null ); // 不傳回 content byte[] 內容
+			result.setValue( rResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( rResult.getSystemMessage().getValue() );
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005A")
+	@RequestMapping(value = "/core.sysReportSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysJreportVO> doSave(SysJreportVO sysJreport, @RequestParam("uploadOid") String uploadOid) {
+		DefaultControllerJsonResultObj<SysJreportVO> result = this.getDefaultJsonResult("CORE_PROG001D0005A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.save(result, sysJreport, uploadOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
 	}
 	
 }
