@@ -21,6 +21,7 @@
  */
 package org.qifu.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -103,6 +104,15 @@ public class SystemReportAction extends BaseController {
 		
 	}
 	
+	private void fetchData(SysJreportVO sysJreport, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+		DefaultResult<SysJreportVO> result = this.sysJreportService.findForSimple( sysJreport.getOid() );
+		if ( result.getValue() == null ) {
+			throw new ControllerException( result.getSystemMessage().getValue() );
+		}
+		sysJreport = result.getValue();
+		mv.addObject("sysJreport", sysJreport);
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005Q")
 	@RequestMapping(value = "/core.sysReportManagement.do")	
 	public ModelAndView queryPage(HttpServletRequest request) {
@@ -162,6 +172,27 @@ public class SystemReportAction extends BaseController {
 		return mv;
 	}	
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005E")
+	@RequestMapping(value = "/core.sysReportEdit.do")
+	public ModelAndView editPage(HttpServletRequest request, SysJreportVO sysJreport) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0005E");
+		try {
+			this.init("editPage", request, mv);
+			this.fetchData(sysJreport, mv);
+			viewName = "sys-report/sys-report-edit";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}	
+	
 	private void testUploadReportPackage(String uploadOid) throws ServiceException, ControllerException, Exception {
 		JReportUtils.selfTestDecompress4Upload(uploadOid);
 	}	
@@ -174,19 +205,23 @@ public class SystemReportAction extends BaseController {
 		.throwMessage();
 	}
 	
-	private void save(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws AuthorityException, ControllerException, ServiceException, Exception {
-		this.checkFields(result, sysJreport);
-		if (StringUtils.isBlank(uploadOid)) {
-			throw new ControllerException("Please upload report file!");
-		}		
-		this.testUploadReportPackage(uploadOid);
+	private void fillUploadFileContent(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws ServiceException, IOException, Exception {
 		DefaultResult<SysUploadVO> uResult = this.sysUploadService.findForNoByteContent(uploadOid);
 		if ( uResult.getValue() == null ) {
 			throw new ServiceException( uResult.getSystemMessage().getValue() );
 		}
 		String fileNameHead = uResult.getValue().getShowName().split("[.]")[0];
 		this.getCheckControllerFieldHandler(result).testField("reportId", ( !fileNameHead.equals(sysJreport.getReportId()) ), "Please change Id value as " + fileNameHead).throwMessage();
-		sysJreport.setContent( UploadSupportUtils.getDataBytes(uploadOid) );
+		sysJreport.setContent( UploadSupportUtils.getDataBytes(uploadOid) );		
+	}
+	
+	private void save(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysJreport);
+		if (StringUtils.isBlank(uploadOid)) {
+			throw new ControllerException("Please upload report file!");
+		}		
+		this.testUploadReportPackage(uploadOid);
+		this.fillUploadFileContent(result, sysJreport, uploadOid);
 		DefaultResult<SysJreportVO> rResult = this.systemJreportLogicService.create(sysJreport);
 		if ( rResult.getValue() != null ) {
 			JReportUtils.deployReport( rResult.getValue() );
@@ -195,6 +230,33 @@ public class SystemReportAction extends BaseController {
 			result.setSuccess( YesNo.YES );
 		}
 		result.setMessage( rResult.getSystemMessage().getValue() );
+	}	
+	
+	private void update(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysJreport);
+		if (!StringUtils.isBlank(uploadOid)) {
+			this.testUploadReportPackage(uploadOid);
+			this.fillUploadFileContent(result, sysJreport, uploadOid);
+		}
+		DefaultResult<SysJreportVO> rResult = this.systemJreportLogicService.update(sysJreport);
+		if ( rResult.getValue() != null ) {
+			if (!StringUtils.isBlank(uploadOid)) { // 由於 content 內容改變了(有重新上傳報表), 所以重新部屬
+				JReportUtils.deployReport( rResult.getValue() );
+			}
+			rResult.getValue().setContent( null ); // 不傳回 content byte[] 內容
+			result.setValue( rResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( rResult.getSystemMessage().getValue() );		
+	}
+	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysJreportVO sysJreport) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> tResult = this.systemJreportLogicService.delete(sysJreport);
+		if ( tResult.getValue() != null && tResult.getValue() ) {
+			result.setValue( Boolean.TRUE );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( tResult.getSystemMessage().getValue() );
 	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005A")
@@ -214,5 +276,41 @@ public class SystemReportAction extends BaseController {
 		}
 		return result;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005E")
+	@RequestMapping(value = "/core.sysReportUpdateJson.do", produces = "application/json")
+	public @ResponseBody DefaultControllerJsonResultObj<SysJreportVO> doUpdate(SysJreportVO sysJreport, @RequestParam("uploadOid") String uploadOid) {
+		DefaultControllerJsonResultObj<SysJreportVO> result = this.getDefaultJsonResult("CORE_PROG001D0005E");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.update(result, sysJreport, uploadOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005D")
+	@RequestMapping(value = "/core.sysReportDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysJreportVO sysJreport) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0005D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.delete(result, sysJreport);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
 	
 }
