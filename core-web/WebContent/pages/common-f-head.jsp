@@ -191,7 +191,20 @@ function hiddenCommonUploadModal() {
 }
 
 function commonDownloadFile(uploadOid) {
-	document.getElementById('commonDownloadFile').src = '<%=mainBasePath%>/core.commonDownloadFileJson.do?oid=' + uploadOid;
+	xhrSendParameterNoPleaseWait(
+			'<%=mainBasePath%>/core.commonCheckUploadFileJson.do', 
+			{ 'oid' : uploadOid}, 
+			function(data, textStatus) {
+				if ( _qifu_success_flag != data.success ) {
+					alert( data.message );
+					return;
+				}
+				$("#commonDownloadFile").attr('src', '<%=mainBasePath%>/core.commonDownloadFileJson.do?oid=' + uploadOid);
+			}, 
+			function(jqXHR, textStatus, errorThrown) {
+				
+			}
+	);
 }
 
 </script>

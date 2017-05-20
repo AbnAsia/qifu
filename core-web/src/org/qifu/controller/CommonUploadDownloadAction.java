@@ -72,6 +72,34 @@ public class CommonUploadDownloadAction extends BaseController {
 	public void setSysUploadService(ISysUploadService<SysUploadVO, TbSysUpload, String> sysUploadService) {
 		this.sysUploadService = sysUploadService;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
+	@RequestMapping(value = "/core.commonCheckUploadFileJson.do")		
+	public @ResponseBody DefaultControllerJsonResultObj<String> checkUpload(HttpServletResponse response, @RequestParam("oid") String oid) {
+		DefaultControllerJsonResultObj<String> result = this.getDefaultJsonResult("CORE_PROGCOMM0003Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		if (StringUtils.isBlank(oid)) {
+			result.setMessage( SysMessageUtil.get(SysMsgConstants.PARAMS_BLANK) );
+			return result;
+		}
+		try {
+			if ( this.sysUploadService.countByPKng(oid) == 1 ) {
+				result.setValue( oid );
+				result.setSuccess( YesNo.YES );
+				result.setMessage( SysMessageUtil.get(SysMsgConstants.DATA_IS_EXIST) );
+			} else {
+				result.setMessage( SysMessageUtil.get(SysMsgConstants.DATA_NO_EXIST) );
+			}
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
 	@RequestMapping(value = "/core.commonDownloadFileJson.do")
