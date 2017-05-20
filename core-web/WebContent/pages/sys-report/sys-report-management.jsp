@@ -73,7 +73,22 @@ function previewShow(oid) {
 }
 
 function downloadReportSrc(oid) {
-	
+	xhrSendParameter(
+			'./core.sysReportDownloadContentJson.do', 
+			{ 'oid' : oid }, 
+			function(data) {
+				if ( _qifu_success_flag != data.success ) {
+					parent.toastrWarning( data.message );
+					return;
+				}
+				parent.toastrInfo( data.message );
+				commonDownloadFile( data.value );
+			}, 
+			function() {
+				
+			},
+			_qifu_defaultSelfPleaseWaitShow
+	);
 }
 
 function deleteRecord(oid) {
@@ -119,7 +134,9 @@ function deleteRecord(oid) {
 	cancelEnable="Y" 
 	cancelJsMethod="parent.closeTab('CORE_PROG001D0005Q');" >
 </q:toolBar>
-<jsp:include page="../common-f-head.jsp"></jsp:include>
+<jsp:include page="../common-f-head.jsp">
+	<jsp:param value="Y" name="commonUploadEnable"/>
+</jsp:include>
 
       <div class="row">
         <div class="col-xs-6 col-md-6 col-lg-6">

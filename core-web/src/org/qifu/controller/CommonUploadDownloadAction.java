@@ -78,26 +78,33 @@ public class CommonUploadDownloadAction extends BaseController {
 	public void downloadFile(HttpServletResponse response, @RequestParam("oid") String oid) throws UnsupportedEncodingException, IOException {
 		TbSysUpload uploadData = new TbSysUpload();
 		uploadData.setOid(oid);
+		String fileName = "";
+		byte[] content = null;		
 		try {
 			DefaultResult<TbSysUpload> result = sysUploadService.findEntityByOid(uploadData);
 			if (result.getValue() != null) {
 				uploadData = result.getValue();
+				fileName = UploadSupportUtils.generateRealFileName( uploadData.getShowName() );
+				content = uploadData.getContent();
+				if (content == null && YesNo.YES.equals(uploadData.getIsFile())) { // 檔案模式, 所以沒有byte content
+					content = UploadSupportUtils.getDataBytes(oid);
+				}
 			}
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (uploadData.getContent() == null) {
+		if ( content == null ) { // 沒有資料
             OutputStream outputStream = response.getOutputStream();
             outputStream.write( SysMessageUtil.get(SysMsgConstants.DATA_NO_EXIST).getBytes(Constants.BASE_ENCODING) );
             outputStream.close();
-            return;	
+            return;				
 		}
 		response.setContentType( "application/octet-stream" );
-		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + uploadData.getFileName() +"\""));
-		response.setContentLength( uploadData.getContent().length );
-		FileCopyUtils.copy(uploadData.getContent(), response.getOutputStream());
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + fileName + "\""));
+		response.setContentLength( content.length );
+		FileCopyUtils.copy(content, response.getOutputStream());
 	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")

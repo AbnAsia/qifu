@@ -28,6 +28,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.qifu.base.Constants;
+import org.qifu.base.SysMessageUtil;
+import org.qifu.base.SysMsgConstants;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
@@ -40,6 +43,7 @@ import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
+import org.qifu.model.UploadTypes;
 import org.qifu.po.TbSysJreport;
 import org.qifu.po.TbSysUpload;
 import org.qifu.service.ISysJreportService;
@@ -304,6 +308,31 @@ public class SystemReportAction extends BaseController {
 		}
 		try {
 			this.delete(result, sysJreport);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005Q")
+	@RequestMapping(value = "/core.sysReportDownloadContentJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<String> doDownloadContent(SysJreportVO sysJreport) {
+		DefaultControllerJsonResultObj<String> result = this.getDefaultJsonResult("CORE_PROG001D0005Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			DefaultResult<SysJreportVO> rResult = this.sysJreportService.findObjectByOid(sysJreport);
+			if ( rResult.getValue() == null ) {
+				throw new ControllerException( rResult.getSystemMessage().getValue() );
+			}
+			sysJreport = rResult.getValue();
+			result.setValue( UploadSupportUtils.create(Constants.getSystem(), UploadTypes.IS_TEMP, true, sysJreport.getContent(), sysJreport.getReportId()+".zip") );
+			result.setSuccess( YesNo.YES );
+			result.setMessage( SysMessageUtil.get(SysMsgConstants.INSERT_SUCCESS) );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {

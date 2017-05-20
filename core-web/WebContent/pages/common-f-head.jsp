@@ -110,6 +110,9 @@ if (YesNo.YES.equals(commonUploadEnable)) {
   </div>
 </div>
 
+<!-- 下載檔案用的 iframe -->
+<iframe id="commonDownloadFile" name="commonDownloadFile" style="display:none;"></iframe>
+
 <script>
 var _commonUploadFieldId = '';
 var _commonUploadSuccessFn = null;
@@ -186,6 +189,11 @@ function showCommonUploadModal(field, fileType, isFileMode, successFn, errorFn) 
 function hiddenCommonUploadModal() {
 	$('#modal-upload-${programId}').modal('hide');
 }
+
+function commonDownloadFile(uploadOid) {
+	document.getElementById('commonDownloadFile').src = '<%=mainBasePath%>/core.commonDownloadFileJson.do?oid=' + uploadOid;
+}
+
 </script>
 <%
 } // end YesNo.YES.equals(commonUploadEnable)
