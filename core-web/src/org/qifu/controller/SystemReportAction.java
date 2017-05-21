@@ -45,13 +45,16 @@ import org.qifu.base.model.SearchValue;
 import org.qifu.base.model.YesNo;
 import org.qifu.model.UploadTypes;
 import org.qifu.po.TbSysJreport;
+import org.qifu.po.TbSysJreportParam;
 import org.qifu.po.TbSysUpload;
+import org.qifu.service.ISysJreportParamService;
 import org.qifu.service.ISysJreportService;
 import org.qifu.service.ISysUploadService;
 import org.qifu.service.logic.ISystemJreportLogicService;
 import org.qifu.util.JReportUtils;
 import org.qifu.util.SimpleUtils;
 import org.qifu.util.UploadSupportUtils;
+import org.qifu.vo.SysJreportParamVO;
 import org.qifu.vo.SysJreportVO;
 import org.qifu.vo.SysUploadVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +71,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SystemReportAction extends BaseController {
 	
 	private ISysJreportService<SysJreportVO, TbSysJreport, String> sysJreportService;
+	private ISysJreportParamService<SysJreportParamVO, TbSysJreportParam, String> sysJreportParamService;
 	private ISysUploadService<SysUploadVO, TbSysUpload, String> sysUploadService;
 	private ISystemJreportLogicService systemJreportLogicService;
 	
@@ -81,6 +85,17 @@ public class SystemReportAction extends BaseController {
 	public void setSysJreportService(ISysJreportService<SysJreportVO, TbSysJreport, String> sysJreportService) {
 		this.sysJreportService = sysJreportService;
 	}
+	
+	public ISysJreportParamService<SysJreportParamVO, TbSysJreportParam, String> getSysJreportParamService() {
+		return sysJreportParamService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysJreportParamService")
+	@Required	
+	public void setSysJreportParamService(ISysJreportParamService<SysJreportParamVO, TbSysJreportParam, String> sysJreportParamService) {
+		this.sysJreportParamService = sysJreportParamService;
+	}	
 	
 	public ISysUploadService<SysUploadVO, TbSysUpload, String> getSysUploadService() {
 		return sysUploadService;
@@ -103,7 +118,7 @@ public class SystemReportAction extends BaseController {
 	public void setSystemJreportLogicService(ISystemJreportLogicService systemJreportLogicService) {
 		this.systemJreportLogicService = systemJreportLogicService;
 	}
-	
+
 	private void init(String type, HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {
 		
 	}
@@ -197,9 +212,47 @@ public class SystemReportAction extends BaseController {
 		return mv;
 	}	
 	
-	private void testUploadReportPackage(String uploadOid) throws ServiceException, ControllerException, Exception {
-		JReportUtils.selfTestDecompress4Upload(uploadOid);
-	}	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005S01Q")
+	@RequestMapping(value = "/core.sysReportParam.do")
+	public ModelAndView paramPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0005S01Q");
+		try {
+			SysJreportVO sysJreport = new SysJreportVO();
+			sysJreport.setOid(oid);
+			this.init("editParamPage", request, mv);
+			this.fetchData(sysJreport, mv);
+			viewName = "sys-report/sys-report-param";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}		
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005S01Q")
+	@RequestMapping(value = "/core.sysJreportParamQueryGridJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj< List<SysJreportParamVO>>  paramQueryGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj< List<SysJreportParamVO> > result = this.getQueryJsonResult("CORE_PROG001D0005S01Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			QueryResult< List<SysJreportParamVO> > queryResult = this.sysJreportParamService.findGridResult(searchValue, pageOf);
+			this.setQueryGridJsonResult(result, queryResult, pageOf);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
 	
 	private void checkFields(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
@@ -208,6 +261,15 @@ public class SystemReportAction extends BaseController {
 		.testField("reportId", ( this.noSelect(sysJreport.getReportId()) ), "Please change Id value!") // 不能用  "all" 這個下拉值
 		.throwMessage();
 	}
+	
+	private void checkFieldsForParam(DefaultControllerJsonResultObj<SysJreportParamVO> result, SysJreportParamVO param) throws ControllerException, Exception {
+		this.getCheckControllerFieldHandler(result)
+		.testField("urlParam", param, "@org.apache.commons.lang3.StringUtils@isBlank(urlParam)", "URL parameter is blank!")
+		.testField("rptParam", param, "@org.apache.commons.lang3.StringUtils@isBlank(rptParam)", "Report variable is blank!")
+		.testField("urlParam", param, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(urlParam)", "URL parameter only normal character!")
+		.testField("rptParam", param, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09(rptParam)", "Report variable only normal character!")
+		.throwMessage();
+	}	
 	
 	private void fillUploadFileContent(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws ServiceException, IOException, Exception {
 		DefaultResult<SysUploadVO> uResult = this.sysUploadService.findForNoByteContent(uploadOid);
@@ -224,7 +286,7 @@ public class SystemReportAction extends BaseController {
 		if (StringUtils.isBlank(uploadOid)) {
 			throw new ControllerException("Please upload report file!");
 		}		
-		this.testUploadReportPackage(uploadOid);
+		JReportUtils.selfTestDecompress4Upload(uploadOid);
 		this.fillUploadFileContent(result, sysJreport, uploadOid);
 		DefaultResult<SysJreportVO> rResult = this.systemJreportLogicService.create(sysJreport);
 		if ( rResult.getValue() != null ) {
@@ -239,7 +301,7 @@ public class SystemReportAction extends BaseController {
 	private void update(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport, String uploadOid) throws AuthorityException, ControllerException, ServiceException, Exception {
 		this.checkFields(result, sysJreport);
 		if (!StringUtils.isBlank(uploadOid)) {
-			this.testUploadReportPackage(uploadOid);
+			JReportUtils.selfTestDecompress4Upload(uploadOid);
 			this.fillUploadFileContent(result, sysJreport, uploadOid);
 		}
 		DefaultResult<SysJreportVO> rResult = this.systemJreportLogicService.update(sysJreport);
@@ -262,6 +324,25 @@ public class SystemReportAction extends BaseController {
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}	
+	
+	private void saveParam(DefaultControllerJsonResultObj<SysJreportParamVO> result, SysJreportParamVO sysJreportParam, String reportOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFieldsForParam(result, sysJreportParam);
+		DefaultResult<SysJreportParamVO> pResult = this.systemJreportLogicService.createParam(sysJreportParam, reportOid);
+		if ( pResult.getValue() != null ) {
+			result.setValue( pResult.getValue() );
+			result.setSuccess(YesNo.YES);
+		}
+		result.setMessage( pResult.getSystemMessage().getValue() );
+	}
+	
+	private void deleteParam(DefaultControllerJsonResultObj<Boolean> result, SysJreportParamVO sysJreportParam) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> pResult = this.systemJreportLogicService.deleteParam(sysJreportParam);
+		if ( pResult.getValue() != null && pResult.getValue() ) {
+			result.setValue( Boolean.TRUE );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( pResult.getSystemMessage().getValue() );
+	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005A")
 	@RequestMapping(value = "/core.sysReportSaveJson.do", produces = "application/json")		
@@ -333,6 +414,42 @@ public class SystemReportAction extends BaseController {
 			result.setValue( UploadSupportUtils.create(Constants.getSystem(), UploadTypes.IS_TEMP, true, sysJreport.getContent(), sysJreport.getReportId()+".zip") );
 			result.setSuccess( YesNo.YES );
 			result.setMessage( SysMessageUtil.get(SysMsgConstants.INSERT_SUCCESS) );
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005S01A")
+	@RequestMapping(value = "/core.sysJreportParamSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysJreportParamVO> doParamSave(SysJreportParamVO sysJreportParam, @RequestParam("reportOid") String reportOid) {
+		DefaultControllerJsonResultObj<SysJreportParamVO> result = this.getDefaultJsonResult("CORE_PROG001D0005S01A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.saveParam(result, sysJreportParam, reportOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005S01D")
+	@RequestMapping(value = "/core.sysJreportParamDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doParamDelete(SysJreportParamVO sysJreportParam) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0005S01D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.deleteParam(result, sysJreportParam);
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
