@@ -37,6 +37,8 @@ import org.qifu.base.model.DefaultResult;
  */
 public interface IBaseService<T extends java.io.Serializable, E extends java.io.Serializable, PK extends java.io.Serializable> extends ISimpleService<E, PK> {
 	
+	public void doMapper(Object sourceObject, Object targetObject, String mapperId) throws org.dozer.MappingException, ServiceException;
+	
 	public DefaultResult<T> saveIgnoreUK(T object) throws ServiceException, Exception;
 	public DefaultResult<T> mergeIgnoreUK(T object) throws ServiceException, Exception;		
 	public DefaultResult<T> findObjectByOid(T object) throws ServiceException, Exception;	
