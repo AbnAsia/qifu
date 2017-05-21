@@ -22,7 +22,9 @@
 package org.qifu.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -253,6 +255,37 @@ public class SystemReportAction extends BaseController {
 		}
 		return result;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0005S02Q")
+	@RequestMapping(value = "/core.sysReportPreview.do")
+	public ModelAndView previewPage(HttpServletRequest request, @RequestParam(name="oid") String oid) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG001D0005S02Q");
+		try {
+			SysJreportVO sysJreport = new SysJreportVO();
+			sysJreport.setOid(oid);
+			this.init("previewPage", request, mv);
+			this.fetchData(sysJreport, mv);
+			
+			sysJreport = (SysJreportVO) mv.getModel().get("sysJreport");
+			
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("reportId", sysJreport.getReportId());
+			List<TbSysJreportParam> paramList = this.sysJreportParamService.findListByParams( paramMap );
+			mv.addObject("paramList", paramList);
+			
+			viewName = "sys-report/sys-report-preview";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}		
 	
 	private void checkFields(DefaultControllerJsonResultObj<SysJreportVO> result, SysJreportVO sysJreport) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)

@@ -69,7 +69,7 @@ function editParam(oid) {
 }
 
 function previewShow(oid) {
-	parent.addTab('CORE_PROG001D0005S02Q', parent.getProgUrlForOid('CORE_PROG001D0005S02Q', oid) );
+	parent.showModal( 'CORE_PROG001D0005S02Q', parent.getProgUrlForOid('CORE_PROG001D0005S02Q', oid) );
 }
 
 function downloadReportSrc(oid) {
