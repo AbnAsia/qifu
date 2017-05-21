@@ -30,7 +30,14 @@ $( document ).ready(function() {
 });
 
 function previewReport() {
+	var paramData = [];
+	<q:if test=" null != paramList && paramList.size > 0 ">
+	<c:forEach items="${paramList}" var="item" varStatus="myIndex">
+	paramData.${item.urlParam} = $("#CORE_PROG001D0005S02Q_field\\:${item.urlParam}" ).val();
+	</c:forEach>
+	</q:if>
 	
+	commonOpenJasperReport('${sysJreport.reportId}', paramData);
 }
 
 </script>
@@ -72,7 +79,7 @@ function previewReport() {
 			<tr>
 				<td>${item.urlParam} / ${item.rptParam}</td>
 				<td>
-					<q:textbox name="${item.urlParam}_var" id="${item.urlParam}_var" value="" maxlength="50" placeholder="Enter variable value"></q:textbox>
+					<q:textbox name="CORE_PROG001D0005S02Q_field:${item.urlParam}" id="CORE_PROG001D0005S02Q_field:${item.urlParam}" value="" maxlength="50" placeholder="Enter variable value"></q:textbox>
 				</td>
 			</tr>
 			</c:forEach>

@@ -233,3 +233,11 @@ function clearWarningMessageField(formGroups, fields) {
 		$("#"+formGroups[g]).removeClass( "has-warning" );
 	}
 }
+
+function commonOpenJasperReport(jreportId, paramData) {
+	var url = "./core.commonOpenJasperReport.do" + "?jreportId=" + jreportId;
+	for (var key in paramData) {
+		url += "&" + key + "=" + paramData[key];
+	}
+	window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=970, height=700, top=10, left=10");
+}

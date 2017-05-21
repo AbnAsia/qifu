@@ -46,6 +46,7 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_googleMapDefaultLng=").append( super.getGoogleMapDefaultLng() ).append(";").append("\n");
 		sb.append("var _qifu_googleMapLanguage='").append( super.getGoogleMapLanguage() ).append("';").append("\n");
 		sb.append("var _qifu_delimiter='").append(Constants.ID_DELIMITER).append("';").append("\n");
+		sb.append("var _qifu_inputNameDelimiter='").append(Constants.INPUT_NAME_DELIMITER).append("';").append("\n");
 		sb.append("var _qifu_success_flag='").append(YesNo.YES).append("';").append("\n");
 		sb.append("var _qifu_please_select_id='").append(Constants.HTML_SELECT_NO_SELECT_ID).append("';").append("\n");
 		sb.append("var _qifu_please_select_name='").append(Constants.HTML_SELECT_NO_SELECT_NAME).append("';").append("\n");

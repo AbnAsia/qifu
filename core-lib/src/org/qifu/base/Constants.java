@@ -92,6 +92,8 @@ public class Constants {
 	
 	public static final String ID_DELIMITER = ";"; // 有時要將多筆 OID 或 key 組成一組字串 , 這是就用這個符號來區分	
 	
+	public static final String INPUT_NAME_DELIMITER = ":"; // 有時輸入欄位id或名稱,想要有區分一些有意義的資料時用
+	
 	public static final String TMP_SUB_DIR_NAME = "qifu";
 	
 	public static final String HTML_BR = "<br>";
