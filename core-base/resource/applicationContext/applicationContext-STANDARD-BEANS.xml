@@ -29,6 +29,8 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysJreport.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysJreportParam.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysCtxBean.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysWsConfig.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysWsService.xml" />
     
     
     <!-- common util -->

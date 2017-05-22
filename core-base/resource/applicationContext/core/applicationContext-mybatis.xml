@@ -51,6 +51,8 @@
                 <value>classpath*:mappers/TbSysJreport.xml</value>
                 <value>classpath*:mappers/TbSysJreportParam.xml</value>
                 <value>classpath*:mappers/TbSysCtxBean.xml</value>
+                <value>classpath*:mappers/TbSysWsConfig.xml</value>
+                <value>classpath*:mappers/TbSysWsService.xml</value>
                 
                 
             </list>

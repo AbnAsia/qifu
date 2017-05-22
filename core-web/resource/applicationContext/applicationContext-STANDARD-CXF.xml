@@ -43,6 +43,8 @@
 	<bean id="core.webservice.SendMailService" class="org.qifu.webservice.impl.SendMailServiceImpl" />
 	
 	<!-- expression Job manual webService -->
+	<!-- 
 	<bean id="core.webservice.ManualJobService" class="org.qifu.webservice.impl.ManualJobServiceImpl" />
+	-->
 	                
 </beans>

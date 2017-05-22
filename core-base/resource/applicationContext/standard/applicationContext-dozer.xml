@@ -38,6 +38,8 @@
 				<value>classpath*:dozer/dozerBeanMapping-sysJreport.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysJreportParam.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysCtxBean.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysWsConfig.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysWsService.xml</value>
 				
 				
 			</list> 
