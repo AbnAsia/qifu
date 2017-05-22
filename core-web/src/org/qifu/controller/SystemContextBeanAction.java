@@ -44,7 +44,6 @@ import org.qifu.po.TbSysCtxBean;
 import org.qifu.service.ISysCtxBeanService;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.ISystemContextBeanLogicService;
-import org.qifu.util.SimpleUtils;
 import org.qifu.vo.SysCtxBeanVO;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,16 +205,9 @@ public class SystemContextBeanAction extends BaseController {
 		this.getCheckControllerFieldHandler(result)
 		.testField("systemOid", ( this.noSelect(systemOid) ), "Please select system!")
 		.testField("className", sysCtxbean, "@org.apache.commons.lang3.StringUtils@isBlank(className)", "Class name is blank!")
+		.testField("className", sysCtxbean, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( className.replaceAll(\"[.]\", \"\") )", "Class name not accept!")
 		.testField("type", ( this.noSelect(sysCtxbean.getType()) ), "Please select type!")
 		.throwMessage();
-		boolean rejectClassName = false;
-		String tmp[] = sysCtxbean.getClassName().split("[.]");
-		for (int i=0; tmp!=null && i<tmp.length; i++) {
-			if (!SimpleUtils.checkBeTrueOf_azAZ09(tmp[i])) {
-				rejectClassName = true;
-			}
-		}
-		this.getCheckControllerFieldHandler(result).testField("className", rejectClassName, "Class name not accept!").throwMessage();
 	}
 	
 	private void save(DefaultControllerJsonResultObj<SysCtxBeanVO> result, SysCtxBeanVO sysCtxbean, String systemOid) throws AuthorityException, ControllerException, ServiceException, Exception {
