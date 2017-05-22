@@ -251,6 +251,11 @@ public class JReportUtils {
 		return paramMap;
 	}
 	
+	public static void fillReportToResponse(String reportId, HttpServletRequest request, HttpServletResponse response) throws ServiceException, Exception {
+		Map<String, Object> paramMap = getParameter(reportId, request);
+		fillReportToResponse(reportId, paramMap, response);
+	}
+	
 	public static void fillReportToResponse(String reportId, Map<String, Object> paramMap, HttpServletResponse response) throws ServiceException, Exception {
 		if (StringUtils.isBlank(reportId)) {
 			throw new java.lang.IllegalArgumentException("error, reportId is blank");
