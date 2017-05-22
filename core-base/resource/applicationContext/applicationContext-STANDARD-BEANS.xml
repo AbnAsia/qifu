@@ -28,6 +28,7 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysUploadTranSegm.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysJreport.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysJreportParam.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysCtxBean.xml" />
     
     
     <!-- common util -->

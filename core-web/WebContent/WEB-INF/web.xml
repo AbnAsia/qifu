@@ -26,6 +26,11 @@
 	</listener>  		
 	<listener>
 		<listener-class>org.qifu.base.sys.WebSystemHttpSessionListener</listener-class>
+	</listener>  
+	  	
+	<!-- 共用的ServletContextListener -->
+	<listener>
+		<listener-class>org.qifu.sys.WebSystemCtxBeanSupportListener</listener-class>
 	</listener>    	
   	
   	

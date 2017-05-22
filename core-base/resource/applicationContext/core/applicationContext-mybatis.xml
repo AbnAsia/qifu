@@ -50,6 +50,8 @@
                 <value>classpath*:mappers/TbSysUploadTranSegm.xml</value>
                 <value>classpath*:mappers/TbSysJreport.xml</value>
                 <value>classpath*:mappers/TbSysJreportParam.xml</value>
+                <value>classpath*:mappers/TbSysCtxBean.xml</value>
+                
                 
             </list>
         </property>          		  		
