@@ -270,3 +270,79 @@ JFreeChart
 jcommon-1.0.23.jar
 jfreechart-1.0.19.jar
 
+
+Apache CXF with require	
+===============================================
+cxf-core-3.1.11.jar
+cxf-manifest.jar
+cxf-rt-bindings-coloc-3.1.11.jar
+cxf-rt-bindings-corba-3.1.11.jar
+cxf-rt-bindings-object-3.1.11.jar
+cxf-rt-bindings-soap-3.1.11.jar
+cxf-rt-bindings-xml-3.1.11.jar
+cxf-rt-databinding-aegis-3.1.11.jar
+cxf-rt-databinding-jaxb-3.1.11.jar
+cxf-rt-databinding-jibx-3.1.11.jar
+cxf-rt-databinding-sdo-3.1.11.jar
+cxf-rt-databinding-xmlbeans-3.1.11.jar
+cxf-rt-features-clustering-3.1.11.jar
+cxf-rt-frontend-jaxrs-3.1.11.jar
+cxf-rt-frontend-jaxws-3.1.11.jar
+cxf-rt-frontend-js-3.1.11.jar
+cxf-rt-frontend-simple-3.1.11.jar
+cxf-rt-javascript-3.1.11.jar
+cxf-rt-management-3.1.11.jar
+cxf-rt-rs-client-3.1.11.jar
+cxf-rt-rs-extension-providers-3.1.11.jar
+cxf-rt-rs-extension-search-3.1.11.jar
+cxf-rt-rs-json-basic-3.1.11.jar
+cxf-rt-rs-security-cors-3.1.11.jar
+cxf-rt-rs-security-jose-3.1.11.jar
+cxf-rt-rs-security-jose-jaxrs-3.1.11.jar
+cxf-rt-rs-security-oauth2-3.1.11.jar
+cxf-rt-rs-security-oauth-3.1.11.jar
+cxf-rt-rs-security-sso-saml-3.1.11.jar
+cxf-rt-rs-security-xml-3.1.11.jar
+cxf-rt-rs-service-description-3.1.11.jar
+cxf-rt-security-3.1.11.jar
+cxf-rt-security-saml-3.1.11.jar
+cxf-rt-transports-http-3.1.11.jar
+cxf-rt-transports-http-hc-3.1.11.jar
+cxf-rt-transports-http-jetty-3.1.11.jar
+cxf-rt-transports-http-netty-client-3.1.11.jar
+cxf-rt-transports-http-netty-server-3.1.11.jar
+cxf-rt-transports-jms-3.1.11.jar
+cxf-rt-transports-local-3.1.11.jar
+cxf-rt-transports-udp-3.1.11.jar
+cxf-rt-ws-addr-3.1.11.jar
+cxf-rt-ws-mex-3.1.11.jar
+cxf-rt-ws-policy-3.1.11.jar
+cxf-rt-ws-rm-3.1.11.jar
+cxf-rt-ws-security-3.1.11.jar
+cxf-rt-wsdl-3.1.11.jar
+cxf-services-sts-core-3.1.11.jar
+cxf-services-wsn-api-3.1.11.jar
+cxf-services-wsn-core-3.1.11.jar
+cxf-xjc-boolean-3.0.5.jar
+cxf-xjc-bug671-3.0.5.jar
+cxf-xjc-dv-3.0.5.jar
+cxf-xjc-javadoc-3.0.5.jar
+cxf-xjc-runtime-3.0.5.jar
+cxf-xjc-ts-3.0.5.jar
+jaxb-core-2.2.11.jar
+jaxb-impl-2.2.11.jar
+jaxb-xjc-2.2.11.jar
+jettison-1.3.8.jar
+joda-time-2.7.jar	( is found )
+neethi-3.0.3.jar
+stax2-api-3.1.4.jar
+woodstox-core-asl-4.4.1.jar
+wsdl4j-1.6.3.jar
+xml-resolver-1.2.jar
+xmlbeans-2.6.0.jar		( is found )
+xmlschema-core-2.2.1.jar
+xmlsec-2.0.8.jar
+ehcache-2.10.2.jar		( is found)
+cxf-services-ws-discovery-api-3.1.11.jar (REMOVE 不需要)
+cxf-services-ws-discovery-service-3.1.11.jar (REMOVE 不需要)
+
