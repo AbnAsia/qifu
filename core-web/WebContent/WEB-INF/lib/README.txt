@@ -346,3 +346,8 @@ ehcache-2.10.2.jar		( is found)
 cxf-services-ws-discovery-api-3.1.11.jar (REMOVE 不需要)
 cxf-services-ws-discovery-service-3.1.11.jar (REMOVE 不需要)
 
+
+JSR311
+===============================================
+javax.ws.rs-api-2.0.1.jar
+
