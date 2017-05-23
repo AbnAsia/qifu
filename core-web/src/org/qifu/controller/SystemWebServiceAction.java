@@ -179,6 +179,27 @@ public class SystemWebServiceAction extends BaseController {
 		return mv;
 	}	
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0001E")
+	@RequestMapping(value = "/core.sysWebServiceEdit.do")
+	public ModelAndView editPage(HttpServletRequest request, SysWsConfigVO sysWsConfig) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG003D0001E");
+		try {
+			this.init("editPage", request, mv);
+			this.fetchData(sysWsConfig, mv);
+			viewName = "sys-webserv/sys-webserv-edit";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}	
+	
 	private void checkFields(DefaultControllerJsonResultObj<SysWsConfigVO> result, SysWsConfigVO sysWsConfig, String systemOid) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
 		.testField("systemOid", ( this.noSelect(systemOid) ), "Please select system!")
@@ -201,6 +222,25 @@ public class SystemWebServiceAction extends BaseController {
 		result.setMessage( cResult.getSystemMessage().getValue() );
 	}
 	
+	private void update(DefaultControllerJsonResultObj<SysWsConfigVO> result, SysWsConfigVO sysWsConfig, String systemOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysWsConfig, systemOid);
+		DefaultResult<SysWsConfigVO> uResult = this.systemWebServiceConfigLogicService.update(sysWsConfig, systemOid);
+		if ( uResult.getValue() != null ) {
+			result.setValue( uResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( uResult.getSystemMessage().getValue() );
+	}
+	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysWsConfigVO sysWsConfig) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> dResult = this.systemWebServiceConfigLogicService.delete(sysWsConfig);
+		if ( dResult.getValue() != null && dResult.getValue() ) {
+			result.setValue( dResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( dResult.getSystemMessage().getValue() );		
+	}
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0001A")
 	@RequestMapping(value = "/core.sysWebServiceSaveJson.do", produces = "application/json")		
 	public @ResponseBody DefaultControllerJsonResultObj<SysWsConfigVO> doSave(SysWsConfigVO sysWsConfig, @RequestParam("systemOid") String systemOid) {
@@ -218,5 +258,41 @@ public class SystemWebServiceAction extends BaseController {
 		}
 		return result;
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0001E")
+	@RequestMapping(value = "/core.sysWebServiceUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysWsConfigVO> doUpdate(SysWsConfigVO sysWsConfig, @RequestParam("systemOid") String systemOid) {
+		DefaultControllerJsonResultObj<SysWsConfigVO> result = this.getDefaultJsonResult("CORE_PROG003D0001E");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.update(result, sysWsConfig, systemOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0001D")
+	@RequestMapping(value = "/core.sysWebServiceDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysWsConfigVO sysWsConfig) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG003D0001D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.delete(result, sysWsConfig);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}		
 	
 }

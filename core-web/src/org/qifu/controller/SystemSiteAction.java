@@ -258,10 +258,10 @@ public class SystemSiteAction extends BaseController {
 		return result;
 	}
 	
-	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001A")
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0001E")
 	@RequestMapping(value = "/core.sysSiteUpdateJson.do", produces = "application/json")		
 	public @ResponseBody DefaultControllerJsonResultObj<SysVO> doUpdate(SysVO sys) {
-		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001A");
+		DefaultControllerJsonResultObj<SysVO> result = this.getDefaultJsonResult("CORE_PROG001D0001E");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}

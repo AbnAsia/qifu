@@ -277,7 +277,7 @@ public class SystemContextBeanAction extends BaseController {
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG001D0006D")
 	@RequestMapping(value = "/core.sysCtxbeanDeleteJson.do", produces = "application/json")		
-	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doUpdate(SysCtxBeanVO sysCtxbean) {
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysCtxBeanVO sysCtxbean) {
 		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG001D0006D");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
