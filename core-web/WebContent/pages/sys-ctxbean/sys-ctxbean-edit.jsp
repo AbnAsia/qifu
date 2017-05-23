@@ -81,7 +81,7 @@ function clearUpdate() {
 <div class="form-group" id="form-group2">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="className" id="className" value="sysCtxBean.className" maxlength="255" requiredFlag="Y" label="Enter class name"></q:textbox>
+			<q:textbox name="className" id="className" value="sysCtxBean.className" maxlength="255" requiredFlag="Y" placeholder="Enter class name"></q:textbox>
 		</div>
 	</div>	
 </div>

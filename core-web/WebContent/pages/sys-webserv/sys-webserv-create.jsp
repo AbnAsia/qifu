@@ -30,14 +30,18 @@ $( document ).ready(function() {
 });
 
 var msgFields = new Object();
-msgFields['systemOid'] 	= 'systemOid';
-msgFields['className'] 	= 'className';
-msgFields['type'] 		= 'type';
+msgFields['systemOid'] 		= 'systemOid';
+msgFields['wsId'] 			= 'wsId';
+msgFields['beanId'] 		= 'beanId';
+msgFields['type'] 			= 'type';
+msgFields['publishAddress']	= 'publishAddress';
 
 var formGroups = new Object();
-formGroups['systemOid'] = 'form-group1';
-formGroups['className'] = 'form-group2';
-formGroups['type'] 		= 'form-group3';
+formGroups['systemOid'] 		= 'form-group1';
+formGroups['wsId'] 				= 'form-group1';
+formGroups['beanId'] 			= 'form-group1';
+formGroups['type'] 				= 'form-group2';
+formGroups['publishAddress']	= 'form-group2';
 
 function saveSuccess(data) {
 	clearWarningMessageField(formGroups, msgFields);
@@ -53,8 +57,10 @@ function saveSuccess(data) {
 function clearSave() {
 	clearWarningMessageField(formGroups, msgFields);
 	$("#systemOid").val( _qifu_please_select_id );
+	$("#wsId").val( '' );
+	$("#beanId").val( '' );
 	$("#type").val( _qifu_please_select_id );
-	$("#className").val( '' );
+	$("#publishAddress").val( '' );
 	$("#description").val( '' );
 }
 
@@ -63,15 +69,15 @@ function clearSave() {
 <body>
 
 <q:toolBar 
-	id="CORE_PROG001D0006A_toolbar" 
+	id="CORE_PROG003D0001A_toolbar" 
 	refreshEnable="Y"
-	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG001D0006A');" 
+	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG003D0001A');" 
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="Y" 
 	saveJsMethod="btnSave();" 	
 	cancelEnable="Y" 
-	cancelJsMethod="parent.closeTab('CORE_PROG001D0006A');" >
+	cancelJsMethod="parent.closeTab('CORE_PROG003D0001A');" >
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
@@ -81,22 +87,30 @@ function clearSave() {
 			<q:select dataSource="sysMap" name="systemOid" id="systemOid" value="" requiredFlag="Y" label="System"></q:select>
 		</div>
 	</div>	
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="wsId" id="wsId" value="" maxlength="10" requiredFlag="Y" label="Id" placeholder="Enter Id"></q:textbox>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="beanId" id="beanId" value="" maxlength="255" requiredFlag="Y" label="Service bean Id" placeholder="Enter service bean Id"></q:textbox>
+		</div>
+	</div>		
 </div>
 <div class="form-group" id="form-group2">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="className" id="className" value="" maxlength="255" requiredFlag="Y" placeholder="Enter class name"></q:textbox>
+			<q:select dataSource="typeMap" name="type" id="type" value="" label="Type"></q:select>
 		</div>
-	</div>	
-</div>
-<div class="form-group" id="form-group3">
+	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="ctxBeanTypesMap" name="type" id="type" value="" requiredFlag="Y" label="Type"></q:select>
+			<q:textbox name="publishAddress" id="publishAddress" value="" maxlength="255" label="Address" placeholder="Enter address"></q:textbox>
 		</div>
-	</div>	
+	</div>			
 </div>
-<div class="form-group" id="form-group4">
+<div class="form-group" id="form-group3">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
 			<q:textarea name="description" value="" id="description" label="Description" rows="3" placeholder="Enter descripnion"></q:textarea>
@@ -109,13 +123,15 @@ function clearSave() {
 <div class="row">
 	<div class="col-xs-6 col-md-6 col-lg-6">
 		<q:button id="btnSave" label="Save"
-			xhrUrl="./core.sysCtxbeanSaveJson.do"
-			xhrParameter="
+			xhrUrl="./core.sysWebServiceSaveJson.do"
+			xhrParameter="	
 			{
-				'systemOid'		:	$('#systemOid').val(),
-				'className'		:	$('#className').val(),
-				'type'			:	$('#type').val(),
-				'description'	:	$('#description').val()
+				'systemOid'			:	$('#systemOid').val(),
+				'wsId'				:	$('#wsId').val(),
+				'beanId'			:	$('#beanId').val(),
+				'type'				:	$('#type').val(),
+				'publishAddress'	:	$('#publishAddress').val(),
+				'description'		:	$('#description').val()
 			}
 			"
 			onclick="btnSave();"
