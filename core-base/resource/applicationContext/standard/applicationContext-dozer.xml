@@ -40,6 +40,7 @@
 				<value>classpath*:dozer/dozerBeanMapping-sysCtxBean.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysWsConfig.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysWsService.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysExpression.xml</value>
 				
 				
 			</list> 

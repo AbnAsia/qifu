@@ -53,6 +53,7 @@
                 <value>classpath*:mappers/TbSysCtxBean.xml</value>
                 <value>classpath*:mappers/TbSysWsConfig.xml</value>
                 <value>classpath*:mappers/TbSysWsService.xml</value>
+                <value>classpath*:mappers/TbSysExpression.xml</value>
                 
                 
             </list>
