@@ -88,6 +88,14 @@ function deleteRecord(oid) {
 	);	
 }
 
+function stopOrReloadSuccess(data) {
+	if ( _qifu_success_flag != data.success ) {
+		parent.toastrWarning( data.message );
+		return;
+	}
+	parent.toastrInfo( data.message );	
+}
+
 </script>
 
 <body>
@@ -136,6 +144,31 @@ function deleteRecord(oid) {
 	queryFunction="queryGrid()"
 	clearFunction="clearQueryGridTable()">
 </q:grid>
+
+<br>
+<br>
+
+<q:button id="btnRestart" label="Restart"
+	xhrUrl="./core.sysWebServiceStopOrReloadJson.do"
+	xhrParameter="{	'type'	:	'restart' }"
+	onclick="btnRestart();"
+	loadFunction="stopOrReloadSuccess(data);"
+	errorFunction=""
+	cssClass="btn btn-warning"
+	bootboxConfirm="Y"
+	bootboxConfirmTitle="Restart">
+</q:button>
+&nbsp;&nbsp;
+<q:button id="btnShutdown" label="Shutdown"
+	xhrUrl="./core.sysWebServiceStopOrReloadJson.do"
+	xhrParameter="{	'type'	:	'shutdown' }"
+	onclick="btnShutdown();"
+	loadFunction="stopOrReloadSuccess(data);"
+	errorFunction=""
+	cssClass="btn btn-warning"
+	bootboxConfirm="Y"
+	bootboxConfirmTitle="Shutdown">
+</q:button>
 
 </body>
 </html>

@@ -1,6 +1,16 @@
 <#if xhrParameter != "" >
 <script>
 function ${onclick}() {
+
+<#if bootboxConfirm == "Y" >
+	parent.bootbox.confirm(
+			"${bootboxConfirmTitle}", 
+			function(result) { 
+				if (!result) {
+					return;
+				}
+</#if>
+
 	<#if xhrSendNoPleaseWait == "Y" >
 	xhrSendParameterNoPleaseWait(
 	</#if>
@@ -19,6 +29,12 @@ function ${onclick}() {
 		, '${selfPleaseWaitShow}'
 		</#if>
 	);
+	
+<#if bootboxConfirm == "Y" >	
+			}
+	);	
+</#if>	
+		
 }
 </script>
 </#if>
@@ -26,6 +42,16 @@ function ${onclick}() {
 <#if formId != "" >
 <script>
 function ${onclick}() {
+
+<#if bootboxConfirm == "Y" >
+	parent.bootbox.confirm(
+			"${bootboxConfirmTitle}", 
+			function(result) { 
+				if (!result) {
+					return;
+				}
+</#if>
+
 	<#if xhrSendNoPleaseWait == "Y" >
 	xhrSendFormNoPleaseWait(
 	</#if>
@@ -44,6 +70,12 @@ function ${onclick}() {
 		, '${selfPleaseWaitShow}'
 		</#if>		
 	);
+	
+<#if bootboxConfirm == "Y" >	
+			}
+	);	
+</#if>	
+	
 }
 </script>
 </#if>

@@ -22,6 +22,7 @@
 package org.qifu.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ import org.qifu.po.TbSysWsConfig;
 import org.qifu.service.ISysService;
 import org.qifu.service.ISysWsConfigService;
 import org.qifu.service.logic.ISystemWebServiceConfigLogicService;
+import org.qifu.sys.CxfServerBean;
 import org.qifu.vo.SysVO;
 import org.qifu.vo.SysWsConfigVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -294,5 +296,28 @@ public class SystemWebServiceAction extends BaseController {
 		}
 		return result;
 	}		
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0001D")
+	@RequestMapping(value = "/core.sysWebServiceStopOrReloadJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<String> doStopOrReload(HttpServletRequest request, @RequestParam("type") String type) {
+		DefaultControllerJsonResultObj<String> result = this.getDefaultJsonResult("CORE_PROG003D0001D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			Map<String, String> resultMap = CxfServerBean.shutdownOrReloadCallAllSystem(request, type);
+			result.setMessage( resultMap.get("message") );
+			if (YesNo.YES.equals(resultMap.get("success"))) {
+				result.setSuccess( YesNo.YES );
+			}
+			result.setValue(type);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
 	
 }

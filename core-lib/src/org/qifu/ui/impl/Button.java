@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.StringUtils;
+import org.qifu.base.model.YesNo;
 import org.qifu.ui.ComponentResourceUtils;
 import org.qifu.ui.UIComponent;
 
@@ -47,6 +48,8 @@ public class Button implements UIComponent {
 	private String disabled = "";
 	private String xhrSendNoPleaseWait = "";
 	private String selfPleaseWaitShow = "";
+	private String bootboxConfirm = "";
+	private String bootboxConfirmTitle = "";
 	private StringBuilder htmlOut = new StringBuilder();
 	private StringBuilder jsOut = new StringBuilder();	
 
@@ -56,6 +59,9 @@ public class Button implements UIComponent {
 			if (!StringUtils.isBlank(this.xhrParameter) && !StringUtils.isBlank(this.formId)) { // 以 xhrParameter 為主, 不能同時存在 xhrParameter 與 formId
 				this.formId = "";
 			}
+			if (YesNo.YES.equals(this.bootboxConfirm) && StringUtils.isBlank(this.bootboxConfirmTitle)) {
+				this.bootboxConfirmTitle = "undefined";
+			}
 			paramMap.put("xhrUrl", this.xhrUrl);
 			paramMap.put("xhrParameter", StringUtils.defaultString(this.xhrParameter).trim());
 			paramMap.put("formId", StringUtils.defaultString(this.formId).trim());
@@ -64,6 +70,8 @@ public class Button implements UIComponent {
 			paramMap.put("onclick", this.onclick.replaceAll("[(]", "").replaceAll("[)]", "").replaceAll(";", ""));
 			paramMap.put("xhrSendNoPleaseWait", this.xhrSendNoPleaseWait);
 			paramMap.put("selfPleaseWaitShow", this.selfPleaseWaitShow);
+			paramMap.put("bootboxConfirm", this.bootboxConfirm);
+			paramMap.put("bootboxConfirmTitle", this.bootboxConfirmTitle);
 		} else {
 			paramMap.put("id", this.id);
 			paramMap.put("cssClass", this.cssClass);
@@ -216,6 +224,22 @@ public class Button implements UIComponent {
 
 	public void setSelfPleaseWaitShow(String selfPleaseWaitShow) {
 		this.selfPleaseWaitShow = selfPleaseWaitShow;
+	}
+
+	public String getBootboxConfirm() {
+		return bootboxConfirm;
+	}
+
+	public void setBootboxConfirm(String bootboxConfirm) {
+		this.bootboxConfirm = bootboxConfirm;
+	}
+
+	public String getBootboxConfirmTitle() {
+		return bootboxConfirmTitle;
+	}
+
+	public void setBootboxConfirmTitle(String bootboxConfirmTitle) {
+		this.bootboxConfirmTitle = bootboxConfirmTitle;
 	}
 
 }

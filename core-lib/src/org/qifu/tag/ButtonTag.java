@@ -46,6 +46,8 @@ public class ButtonTag implements Tag {
 	private String disabled = YesNo.NO;
 	private String xhrSendNoPleaseWait = YesNo.NO;
 	private String selfPleaseWaitShow = YesNo.NO;
+	private String bootboxConfirm = YesNo.NO;
+	private String bootboxConfirmTitle = "";	
 	
 	private Button handler() {
 		Button button = new Button();
@@ -62,6 +64,8 @@ public class ButtonTag implements Tag {
 		button.setDisabled(this.disabled);
 		button.setXhrSendNoPleaseWait(this.xhrSendNoPleaseWait);
 		button.setSelfPleaseWaitShow(this.selfPleaseWaitShow);
+		button.setBootboxConfirm(this.bootboxConfirm);
+		button.setBootboxConfirmTitle(this.bootboxConfirmTitle);
 		return button;
 	}
 
@@ -199,6 +203,22 @@ public class ButtonTag implements Tag {
 
 	public void setSelfPleaseWaitShow(String selfPleaseWaitShow) {
 		this.selfPleaseWaitShow = selfPleaseWaitShow;
+	}
+
+	public String getBootboxConfirm() {
+		return bootboxConfirm;
+	}
+
+	public void setBootboxConfirm(String bootboxConfirm) {
+		this.bootboxConfirm = bootboxConfirm;
+	}
+
+	public String getBootboxConfirmTitle() {
+		return bootboxConfirmTitle;
+	}
+
+	public void setBootboxConfirmTitle(String bootboxConfirmTitle) {
+		this.bootboxConfirmTitle = bootboxConfirmTitle;
 	}
 	
 }
