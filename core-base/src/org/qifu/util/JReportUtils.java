@@ -248,6 +248,9 @@ public class JReportUtils {
 				}
 			}
 		}
+		String reportFolder = Constants.getDeployJasperReportDir() + File.separator + reportId + File.separator;
+		paramMap.put("REPORT_FOLDER", reportFolder);
+		paramMap.put("SUBREPORT_DIR", reportFolder);		
 		return paramMap;
 	}
 	
