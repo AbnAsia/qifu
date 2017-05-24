@@ -27,7 +27,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.qifu.base.SysMessageUtil;
 import org.qifu.base.SysMsgConstants;
@@ -38,10 +37,13 @@ import org.qifu.base.model.ServiceMethodAuthority;
 import org.qifu.base.model.ServiceMethodType;
 import org.qifu.base.service.logic.BaseLogicService;
 import org.qifu.po.TbSys;
+import org.qifu.po.TbSysBeanHelpExpr;
 import org.qifu.po.TbSysExpression;
+import org.qifu.service.ISysBeanHelpExprService;
 import org.qifu.service.ISysExpressionService;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.ISystemExpressionLogicService;
+import org.qifu.vo.SysBeanHelpExprVO;
 import org.qifu.vo.SysExpressionVO;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +60,8 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	private static final int MAX_CONTENT_LENGTH = 8000;
 	private static final int MAX_DESCRIPTION_LENGTH = 500;
 	private ISysExpressionService<SysExpressionVO, TbSysExpression, String> sysExpressionService;
-	/*
 	private ISysBeanHelpExprService<SysBeanHelpExprVO, TbSysBeanHelpExpr, String> sysBeanHelpExprService;
-	private ISysExprJobService<SysExprJobVO, TbSysExprJob, String> sysExprJobService;
-	*/
+	//private ISysExprJobService<SysExprJobVO, TbSysExprJob, String> sysExprJobService;
 	private ISysService<SysVO, TbSys, String> sysService;
 	
 	public SystemExpressionLogicServiceImpl() {
@@ -79,8 +79,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 			ISysExpressionService<SysExpressionVO, TbSysExpression, String> sysExpressionService) {
 		this.sysExpressionService = sysExpressionService;
 	}
-
-	/*
+	
 	public ISysBeanHelpExprService<SysBeanHelpExprVO, TbSysBeanHelpExpr, String> getSysBeanHelpExprService() {
 		return sysBeanHelpExprService;
 	}
@@ -92,6 +91,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 		this.sysBeanHelpExprService = sysBeanHelpExprService;
 	}
 
+	/*
 	public ISysExprJobService<SysExprJobVO, TbSysExprJob, String> getSysExprJobService() {
 		return sysExprJobService;
 	}
@@ -172,14 +172,14 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 		if (oldResult.getValue()==null) {
 			throw new ServiceException(oldResult.getSystemMessage().getValue());
 		}
-		/*
-		 * FIXME : 暫時rem, 之後要打開
-		 * 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("exprId", oldResult.getValue().getExprId() );
 		if ( this.sysBeanHelpExprService.countByParams(params) > 0) {
-			throw new ServiceException(SysMessageUtil.get(GreenStepSysMsgConstants.DATA_CANNOT_DELETE));
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_CANNOT_DELETE));
 		}
+		/*
+		 * FIXME : 之後要開啟
+		 * 
 		if ( this.sysExprJobService.countByParams(params) > 0 ) {
 			throw new ServiceException(SysMessageUtil.get(GreenStepSysMsgConstants.DATA_CANNOT_DELETE));
 		}

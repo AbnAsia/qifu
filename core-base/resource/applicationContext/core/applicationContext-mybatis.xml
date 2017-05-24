@@ -54,6 +54,9 @@
                 <value>classpath*:mappers/TbSysWsConfig.xml</value>
                 <value>classpath*:mappers/TbSysWsService.xml</value>
                 <value>classpath*:mappers/TbSysExpression.xml</value>
+                <value>classpath*:mappers/TbSysBeanHelp.xml</value>
+                <value>classpath*:mappers/TbSysBeanHelpExpr.xml</value>
+                <value>classpath*:mappers/TbSysBeanHelpExprMap.xml</value>
                 
                 
             </list>

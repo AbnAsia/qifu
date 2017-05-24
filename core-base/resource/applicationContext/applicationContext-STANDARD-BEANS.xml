@@ -32,6 +32,9 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysWsConfig.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysWsService.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysExpression.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelp.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelpExpr.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelpExprMap.xml" />
     
     
     <!-- common util -->
