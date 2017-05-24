@@ -206,7 +206,7 @@ public class SystemContextBeanAction extends BaseController {
 		.testField("systemOid", ( this.noSelect(systemOid) ), "Please select system!")
 		.testField("className", sysCtxbean, "@org.apache.commons.lang3.StringUtils@isBlank(className)", "Class name is blank!")
 		.testField("className", sysCtxbean, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( className.replaceAll(\"[.]\", \"\") )", "Class name not accept!")
-		.testField("type", ( this.noSelect(sysCtxbean.getType()) ), "Please select type!")
+		.testField("type", ( !CtxBeanTypes.isType(sysCtxbean.getType()) ), "Please select type!")
 		.throwMessage();
 	}
 	

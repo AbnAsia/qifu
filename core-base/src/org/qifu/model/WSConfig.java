@@ -30,7 +30,7 @@ public class WSConfig {
 	public static final String TYPE_SOAP = "SOAP";
 	public static final String TYPE_REST = "REST";
 	
-	public boolean isType(String type) {
+	public static boolean isType(String type) {
 		return (TYPE_SOAP.equals(type) || TYPE_REST.equals(type));
 	}
 	

@@ -209,7 +209,7 @@ public class SystemWebServiceAction extends BaseController {
 		.testField("wsId", sysWsConfig, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( wsId.replaceAll(\"-\", \"\").replaceAll(\"_\", \"\") )", "Id only normal character!")
 		.testField("beanId", sysWsConfig, "@org.apache.commons.lang3.StringUtils@isBlank(beanId)", "Bean id is blank!")
 		.testField("beanId", sysWsConfig, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( beanId.replaceAll(\"[.]\", \"\") )", "Bean id not accept!")
-		.testField("type", ( this.noSelect(sysWsConfig.getType()) ), "Please select type!")
+		.testField("type", ( !WSConfig.isType(sysWsConfig.getType()) ), "Please select type!")
 		.testField("publishAddress", ( WSConfig.TYPE_SOAP.equals(sysWsConfig.getType()) && StringUtils.isBlank(sysWsConfig.getPublishAddress()) ), "Address is required SOAP type!")
 		.throwMessage();
 	}	
