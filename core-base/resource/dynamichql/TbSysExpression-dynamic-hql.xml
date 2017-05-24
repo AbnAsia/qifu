@@ -4,7 +4,7 @@
 	<query name="findSysExpressionPageGrid-select">	
 	<![CDATA[
 		SELECT
-			new com.netsteadfast.greenstep.vo.SysExpressionVO(m.oid, m.exprId, m.type, m.name, m.description)
+			new org.qifu.vo.SysExpressionVO(m.oid, m.exprId, m.type, m.name, m.description)
 		FROM TbSysExpression m 
 		WHERE 1=1
 		

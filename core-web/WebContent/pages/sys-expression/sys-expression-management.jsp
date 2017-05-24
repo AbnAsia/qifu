@@ -113,16 +113,16 @@ function stopOrReloadSuccess(data) {
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
-      <div class="row">
-        <div class="col-xs-6 col-md-6 col-lg-6">
-        	<q:select dataSource="typeMap" name="type" id="type" value="" label="Type"></q:select>
-        </div>      
+      <div class="row">     
         <div class="col-xs-6 col-md-6 col-lg-6">
         	<q:textbox name="exprId" value="" id="exprId" label="Id" placeholder="Enter Id" maxlength="20"></q:textbox>
         </div>
         <div class="col-xs-6 col-md-6 col-lg-6">
         	<q:textbox name="name" value="" id="name" label="Name" placeholder="Enter name" maxlength="100"></q:textbox>
         </div>
+        <div class="col-xs-6 col-md-6 col-lg-6">
+        	<q:select dataSource="typeMap" name="type" id="type" value="" label="Type"></q:select>
+        </div>         
       </div>
       
 <br>
