@@ -211,17 +211,21 @@ function logoutEvent() {
 
 
 function showPleaseWait() {
-	$('#myPleaseWait').modal('show');
+	//$('#myPleaseWait').modal('show');
+	bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>', closeButton: false });
 }
 function hidePleaseWait() {
-	$('#myPleaseWait').modal('hide');
+	//$('#myPleaseWait').modal('hide');
+	bootbox.hideAll();
 }
 
 function showPleaseWaitForQueryGrid() {
-	$('#myPleaseWaitForQueryGrid').modal('show');
+	//$('#myPleaseWaitForQueryGrid').modal('show');
+	bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>', closeButton: false });
 }
 function hidePleaseWaitForQueryGrid() {
-	$('#myPleaseWaitForQueryGrid').modal('hide');
+	//$('#myPleaseWaitForQueryGrid').modal('hide');
+	bootbox.hideAll();
 }
 
 

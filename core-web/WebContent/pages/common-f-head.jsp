@@ -58,17 +58,21 @@ String commonUploadEnable = request.getParameter("commonUploadEnable");
 
 <script>
 function showPleaseWait() {
-	$('#myPleaseWait-${programId}').modal('show');
+	//$('#myPleaseWait-${programId}').modal('show');
+	parent.bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>', closeButton: false });
 }
 function hidePleaseWait() {
-	$('#myPleaseWait-${programId}').modal('hide');
+	//$('#myPleaseWait-${programId}').modal('hide');
+	parent.bootbox.hideAll();
 }
 
 function showPleaseWaitForQueryGrid() {
-	$('#myPleaseWaitForQueryGrid-${programId}').modal('show');
+	//$('#myPleaseWaitForQueryGrid-${programId}').modal('show');
+	parent.bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>', closeButton: false });
 }
 function hidePleaseWaitForQueryGrid() {
-	$('#myPleaseWaitForQueryGrid-${programId}').modal('hide');
+	//$('#myPleaseWaitForQueryGrid-${programId}').modal('hide');
+	parent.bootbox.hideAll();
 }
 </script>
 
