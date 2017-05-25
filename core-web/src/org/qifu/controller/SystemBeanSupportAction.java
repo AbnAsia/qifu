@@ -44,7 +44,6 @@ import org.qifu.service.ISysBeanHelpService;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.ISystemBeanHelpLogicService;
 import org.qifu.vo.SysBeanHelpVO;
-import org.qifu.vo.SysExpressionVO;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -179,6 +178,27 @@ public class SystemBeanSupportAction extends BaseController {
 		return mv;
 	}	
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003E")
+	@RequestMapping(value = "/core.sysBeanSupportEdit.do")
+	public ModelAndView editPage(HttpServletRequest request, SysBeanHelpVO sysBeanHelp) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG003D0003E");
+		try {
+			this.init("editPage", request, mv);
+			this.fetchData(sysBeanHelp, mv);
+			viewName = "sys-beansupport/sys-beansupport-edit";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}		
+	
 	private void checkFields(DefaultControllerJsonResultObj<SysBeanHelpVO> result, SysBeanHelpVO sysBeanHelp, String systemOid) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
 		.testField("systemOid", ( this.noSelect(systemOid) ), "Please select system!")
@@ -199,6 +219,25 @@ public class SystemBeanSupportAction extends BaseController {
 		result.setMessage( cResult.getSystemMessage().getValue() );		
 	}	
 	
+	private void update(DefaultControllerJsonResultObj<SysBeanHelpVO> result, SysBeanHelpVO sysBeanHelp, String systemOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFields(result, sysBeanHelp, systemOid);
+		DefaultResult<SysBeanHelpVO> uResult = this.systemBeanHelpLogicService.update(sysBeanHelp, systemOid);
+		if ( uResult.getValue() != null ) {
+			result.setValue( uResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( uResult.getSystemMessage().getValue() );		
+	}	
+	
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysBeanHelpVO sysBeanHelp) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> dResult = this.systemBeanHelpLogicService.delete(sysBeanHelp);
+		if ( dResult.getValue() != null && dResult.getValue() ) {
+			result.setValue( dResult.getValue() );
+			result.setSuccess( YesNo.YES );
+		}
+		result.setMessage( dResult.getSystemMessage().getValue() );		
+	}	 
+	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003A")
 	@RequestMapping(value = "/core.sysBeanSupportSaveJson.do", produces = "application/json")		
 	public @ResponseBody DefaultControllerJsonResultObj<SysBeanHelpVO> doSave(SysBeanHelpVO sysBeanHelp, @RequestParam("systemOid") String systemOid) {
@@ -208,6 +247,42 @@ public class SystemBeanSupportAction extends BaseController {
 		}
 		try {
 			this.save(result, sysBeanHelp, systemOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003E")
+	@RequestMapping(value = "/core.sysBeanSupportUpdateJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysBeanHelpVO> doUpdate(SysBeanHelpVO sysBeanHelp, @RequestParam("systemOid") String systemOid) {
+		DefaultControllerJsonResultObj<SysBeanHelpVO> result = this.getDefaultJsonResult("CORE_PROG003D0003E");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.update(result, sysBeanHelp, systemOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage( e.getMessage().toString() );
+		}
+		return result;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003D")
+	@RequestMapping(value = "/core.sysBeanSupportDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(SysBeanHelpVO sysBeanHelp) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG003D0003D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.delete(result, sysBeanHelp);
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {

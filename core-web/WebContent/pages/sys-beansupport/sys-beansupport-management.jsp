@@ -57,7 +57,7 @@ function queryClear() {
 }  
 
 function editPage(oid) {
-	parent.addTab('CORE_PROG003D0002E', parent.getProgUrlForOid('CORE_PROG003D0002E', oid) );
+	parent.addTab('CORE_PROG003D0003E', parent.getProgUrlForOid('CORE_PROG003D0003E', oid) );
 }
 
 function deleteRecord(oid) {
