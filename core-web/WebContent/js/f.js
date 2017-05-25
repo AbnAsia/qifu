@@ -33,8 +33,12 @@ function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn, sel
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
-	    	parent.hidePleaseWaitForQueryGrid(); 	    	
-	        alert(textStatus);
+	    	alert(textStatus);
+	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
+	    		parent.hidePleaseWaitForQueryGrid();
+	    	} else {
+	    		hidePleaseWaitForQueryGrid();
+	    	}    	
 	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
 	});
@@ -75,12 +79,12 @@ function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn, selfPleaseWaitS
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
+	    	alert(textStatus);
 	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
 	    		parent.hidePleaseWait();
 	    	} else {
 	    		hidePleaseWait();
 	    	}
-	        alert(textStatus);
 	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
 	});
@@ -121,12 +125,12 @@ function xhrSendForm(xhrUrl, formId, successFn, errorFn, selfPleaseWaitShow) {
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
+	    	alert(textStatus);
 	    	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
 	    		parent.hidePleaseWait();
 	    	} else {
 	    		hidePleaseWait();
 	    	}
-	        alert(textStatus);
 	        errorFn(jqXHR, textStatus, errorThrown);
 	    }
 	});
