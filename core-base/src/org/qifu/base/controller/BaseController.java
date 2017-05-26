@@ -59,6 +59,10 @@ public abstract class BaseController {
 	
 	protected static final String REDIRECT_INDEX = "index.do";
 	
+	protected static final String YES = YesNo.YES;
+	protected static final String NO = YesNo.NO;
+	protected static final String EXCEPTION = "E";
+	
 	public String getPageRedirect(String url) {
 		return "redirect:/" + url;
 	}
@@ -247,15 +251,15 @@ public abstract class BaseController {
 	
 	private void setResultDefaultValue(DefaultControllerJsonResultObj<?> result, String progId) {
 		if (!StringUtils.isBlank(this.getAccountId())) {
-			result.setLogin( YesNo.YES );
+			result.setLogin( YES );
 			Subject subject = this.getSubject();
 			if (subject.hasRole(Constants.SUPER_ROLE_ALL) || subject.hasRole(Constants.SUPER_ROLE_ADMIN)) {
-				result.setIsAuthorize( YesNo.YES );
+				result.setIsAuthorize( YES );
 			}
 			if (subject.isPermitted(progId)) {
-				result.setIsAuthorize( YesNo.YES );
+				result.setIsAuthorize( YES );
 			}
-			if (!YesNo.YES.equals(result.getIsAuthorize())) {
+			if (!YES.equals(result.getIsAuthorize())) {
 				result.setMessage( "no authorize!" );
 			}
 		} else {
@@ -264,10 +268,16 @@ public abstract class BaseController {
 	}
 	
 	protected boolean isAuthorizeAndLoginFromControllerJsonResult(DefaultControllerJsonResultObj<?> result) {
-		if (YesNo.YES.equals(result.getIsAuthorize()) && YesNo.YES.equals(result.getLogin())) {
+		if (YES.equals(result.getIsAuthorize()) && YES.equals(result.getLogin())) {
 			return true;
 		}
 		return false;
+	}
+	
+	protected void exceptionResult(DefaultControllerJsonResultObj<?> result, Exception e) {
+		e.printStackTrace();
+		result.setMessage( e.getMessage().toString() );
+		result.setSuccess( EXCEPTION );
 	}
 	
 	protected void fillObjectFromRequest(HttpServletRequest request, Object root) {

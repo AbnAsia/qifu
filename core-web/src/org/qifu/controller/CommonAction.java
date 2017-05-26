@@ -35,7 +35,6 @@ import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.DefaultResult;
-import org.qifu.base.model.YesNo;
 import org.qifu.model.MenuItemType;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysProg;
@@ -102,12 +101,11 @@ public class CommonAction extends BaseController {
 		try {
 			TbSys sys = this.findSys(oid);
 			result.setValue( this.sysProgService.findSysProgFolderMap(this.getBasePath(request), sys.getSysId(), MenuItemType.FOLDER, true) );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -129,12 +127,11 @@ public class CommonAction extends BaseController {
 				dataMap.put(sysProg.getOid(), StringEscapeUtils.escapeHtml4(sysProg.getName()));
 			}
 			result.setValue( dataMap );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			exceptionResult(result, e);
 		}
 		return result;
 	}

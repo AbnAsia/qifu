@@ -159,6 +159,10 @@ function commonUploadDataEvent() {
 				alert("No permission!");
 				return;        				
 			}
+			if ( 'E' == data.success ) { // xhr load success, but has Exception or Error
+				parent.toastrError( data.message );
+				return;
+			}			
 			parent.toastrInfo( data.message );
 			$("#" + _commonUploadFieldId).val( data.value );
 			

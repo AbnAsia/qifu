@@ -39,7 +39,6 @@ import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.DefaultResult;
-import org.qifu.base.model.YesNo;
 import org.qifu.model.UploadTypes;
 import org.qifu.po.TbSysUpload;
 import org.qifu.service.ISysUploadService;
@@ -87,7 +86,7 @@ public class CommonUploadDownloadAction extends BaseController {
 		try {
 			if ( this.sysUploadService.countByPKng(oid) == 1 ) {
 				result.setValue( oid );
-				result.setSuccess( YesNo.YES );
+				result.setSuccess( YES );
 				result.setMessage( SysMessageUtil.get(SysMsgConstants.DATA_IS_EXIST) );
 			} else {
 				result.setMessage( SysMessageUtil.get(SysMsgConstants.DATA_NO_EXIST) );
@@ -95,8 +94,7 @@ public class CommonUploadDownloadAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -114,7 +112,7 @@ public class CommonUploadDownloadAction extends BaseController {
 				uploadData = result.getValue();
 				fileName = UploadSupportUtils.generateRealFileName( uploadData.getShowName() );
 				content = uploadData.getContent();
-				if (content == null && YesNo.YES.equals(uploadData.getIsFile())) { // 檔案模式, 所以沒有byte content
+				if (content == null && YES.equals(uploadData.getIsFile())) { // 檔案模式, 所以沒有byte content
 					content = UploadSupportUtils.getDataBytes(oid);
 				}
 			}
@@ -160,9 +158,9 @@ public class CommonUploadDownloadAction extends BaseController {
 			return result;
 		}
 		try {
-			String uploadOid = UploadSupportUtils.create(system, type, ( YesNo.YES.equals(isFile) ? true : false ), file.getBytes(), file.getOriginalFilename());
+			String uploadOid = UploadSupportUtils.create(system, type, ( YES.equals(isFile) ? true : false ), file.getBytes(), file.getOriginalFilename());
 			if (!StringUtils.isBlank(uploadOid)) {
-				result.setSuccess( YesNo.YES );
+				result.setSuccess( YES );
 				result.setValue(uploadOid);
 				result.setMessage( SysMessageUtil.get(SysMsgConstants.INSERT_SUCCESS) );
 			} else {
@@ -171,8 +169,7 @@ public class CommonUploadDownloadAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			exceptionResult(result, e);
 		}		
 		return result;
 	}

@@ -1,3 +1,11 @@
+/**
+ * ====================================================================
+ * 後來 please wait modal 改為用 bootbox dialog
+ * selfPleaseWaitShow = 'Y' , 使用iframe 內部的 please wait dialog
+ * selfPleaseWaitShow = 'N' , NO使用外部的 parent 的 please wait dialog
+ * ====================================================================
+ */
+
 function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn, selfPleaseWaitShow) {
 	if (null == selfPleaseWaitShow || _qifu_success_flag != selfPleaseWaitShow) {
 		parent.showPleaseWaitForQueryGrid();
@@ -30,6 +38,10 @@ function xhrSendParameterForQueryGrid(xhrUrl, jsonParam, successFn, errorFn, sel
 				alert("No permission!");
 				return;        				
 			}        						
+			if ( 'E' == data.success ) { // xhr load success, but has Exception or Error
+				parent.toastrError( data.message );
+				return;
+			}
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
@@ -76,6 +88,10 @@ function xhrSendParameter(xhrUrl, jsonParam, successFn, errorFn, selfPleaseWaitS
 				alert("No permission!");
 				return;        				
 			}        						
+			if ( 'E' == data.success ) { // xhr load success, but has Exception or Error
+				parent.toastrError( data.message );
+				return;
+			}			
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
@@ -121,7 +137,11 @@ function xhrSendForm(xhrUrl, formId, successFn, errorFn, selfPleaseWaitShow) {
 			if ( _qifu_success_flag != data.isAuthorize ) {
 				alert("No permission!");
 				return;        				
-			}        						
+			}        			
+			if ( 'E' == data.success ) { // xhr load success, but has Exception or Error
+				parent.toastrError( data.message );
+				return;
+			}			
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {
@@ -157,7 +177,11 @@ function xhrSendParameterNoPleaseWait(xhrUrl, jsonParam, successFn, errorFn) {
 			if ( _qifu_success_flag != data.isAuthorize ) {
 				alert("No permission!");
 				return;        				
-			}        						
+			}        					
+			if ( 'E' == data.success ) { // xhr load success, but has Exception or Error
+				parent.toastrError( data.message );
+				return;
+			}			
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {    	
@@ -188,7 +212,11 @@ function xhrSendFormNoPleaseWait(xhrUrl, formId, successFn, errorFn) {
 			if ( _qifu_success_flag != data.isAuthorize ) {
 				alert("No permission!");
 				return;        				
-			}        						
+			}        			
+			if ( 'E' == data.success ) { // xhr load success, but has Exception or Error
+				parent.toastrError( data.message );
+				return;
+			}			
 			successFn(data, textStatus);
 	    },
 	    error : function(jqXHR, textStatus, errorThrown) {	    	

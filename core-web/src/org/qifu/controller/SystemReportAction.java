@@ -44,7 +44,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.model.UploadTypes;
 import org.qifu.po.TbSysJreport;
 import org.qifu.po.TbSysJreportParam;
@@ -167,8 +166,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -250,8 +248,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -326,7 +323,7 @@ public class SystemReportAction extends BaseController {
 			JReportUtils.deployReport( rResult.getValue() );
 			rResult.getValue().setContent( null ); // 不傳回 content byte[] 內容
 			result.setValue( rResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( rResult.getSystemMessage().getValue() );
 	}	
@@ -344,7 +341,7 @@ public class SystemReportAction extends BaseController {
 			}
 			rResult.getValue().setContent( null ); // 不傳回 content byte[] 內容
 			result.setValue( rResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( rResult.getSystemMessage().getValue() );		
 	}
@@ -353,7 +350,7 @@ public class SystemReportAction extends BaseController {
 		DefaultResult<Boolean> tResult = this.systemJreportLogicService.delete(sysJreport);
 		if ( tResult.getValue() != null && tResult.getValue() ) {
 			result.setValue( Boolean.TRUE );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}	
@@ -363,7 +360,7 @@ public class SystemReportAction extends BaseController {
 		DefaultResult<SysJreportParamVO> pResult = this.systemJreportLogicService.createParam(sysJreportParam, reportOid);
 		if ( pResult.getValue() != null ) {
 			result.setValue( pResult.getValue() );
-			result.setSuccess(YesNo.YES);
+			result.setSuccess(YES);
 		}
 		result.setMessage( pResult.getSystemMessage().getValue() );
 	}
@@ -372,7 +369,7 @@ public class SystemReportAction extends BaseController {
 		DefaultResult<Boolean> pResult = this.systemJreportLogicService.deleteParam(sysJreportParam);
 		if ( pResult.getValue() != null && pResult.getValue() ) {
 			result.setValue( Boolean.TRUE );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( pResult.getSystemMessage().getValue() );
 	}
@@ -389,8 +386,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -407,8 +403,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -425,8 +420,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -445,13 +439,12 @@ public class SystemReportAction extends BaseController {
 			}
 			sysJreport = rResult.getValue();
 			result.setValue( UploadSupportUtils.create(Constants.getSystem(), UploadTypes.IS_TEMP, true, sysJreport.getContent(), sysJreport.getReportId()+".zip") );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 			result.setMessage( SysMessageUtil.get(SysMsgConstants.INSERT_SUCCESS) );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -468,8 +461,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -486,8 +478,7 @@ public class SystemReportAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	

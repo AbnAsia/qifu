@@ -27,7 +27,6 @@ import org.qifu.base.Constants;
 import org.qifu.base.controller.BaseController;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.PageOf;
-import org.qifu.base.model.YesNo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,7 +46,7 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_googleMapLanguage='").append( super.getGoogleMapLanguage() ).append("';").append("\n");
 		sb.append("var _qifu_delimiter='").append(Constants.ID_DELIMITER).append("';").append("\n");
 		sb.append("var _qifu_inputNameDelimiter='").append(Constants.INPUT_NAME_DELIMITER).append("';").append("\n");
-		sb.append("var _qifu_success_flag='").append(YesNo.YES).append("';").append("\n");
+		sb.append("var _qifu_success_flag='").append(YES).append("';").append("\n");
 		sb.append("var _qifu_please_select_id='").append(Constants.HTML_SELECT_NO_SELECT_ID).append("';").append("\n");
 		sb.append("var _qifu_please_select_name='").append(Constants.HTML_SELECT_NO_SELECT_NAME).append("';").append("\n");
 		sb.append("var _qifu_default_pageRowSize=").append(PageOf.Rows[0]).append(";").append("\n");
@@ -56,7 +55,7 @@ public class ConfigJsAction extends BaseController {
 		sb.append("var _qifu_jqXhrTimeout=").append( super.getJqXhrTimeout() ).append(";").append("\n");
 		sb.append("var _qifu_jqXhrCache=").append( super.getJqXhrCache() ).append(";").append("\n");
 		sb.append("var _qifu_jqXhrAsync=").append( super.getJqXhrAsync() ).append(";").append("\n");
-		sb.append("var _qifu_defaultSelfPleaseWaitShow='").append(YesNo.NO).append("';").append("\n");
+		sb.append("var _qifu_defaultSelfPleaseWaitShow='").append(NO).append("';").append("\n"); // YES使用iframe 內部的 please wait, NO使用外部的 parent 的 please wait
 		sb.append("var _qifu_maxUploadSize=").append( super.getMaxUploadSize() ).append(";").append("\n");
 		return sb.toString();
 	}

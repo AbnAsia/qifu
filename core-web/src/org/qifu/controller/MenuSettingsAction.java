@@ -34,7 +34,6 @@ import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.DefaultResult;
-import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSys;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.ISystemMenuLogicService;
@@ -113,12 +112,11 @@ public class MenuSettingsAction extends BaseController {
 		try {
 			Map<String, List<SysProgVO>> searchDataMap = this.systemMenuLogicService.findForMenuSettingsEnableAndAll(oid);
 			result.setValue( searchDataMap );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}		
 		return result;
 	}
@@ -133,14 +131,13 @@ public class MenuSettingsAction extends BaseController {
 		try {
 			DefaultResult<Boolean> updateResult = this.systemMenuLogicService.createOrUpdate(folderProgramOid, this.transformAppendKeyStringToList(appendOid));
 			if (updateResult.getValue() != null && updateResult.getValue()) {
-				result.setSuccess(YesNo.YES);
+				result.setSuccess(YES);
 			}
 			result.setMessage( updateResult.getSystemMessage().getValue() );
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}

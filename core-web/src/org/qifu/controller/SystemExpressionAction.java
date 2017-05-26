@@ -38,7 +38,6 @@ import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.ScriptTypeCode;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSysExpression;
 import org.qifu.service.ISysExpressionService;
 import org.qifu.service.logic.ISystemExpressionLogicService;
@@ -126,8 +125,7 @@ public class SystemExpressionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -190,7 +188,7 @@ public class SystemExpressionAction extends BaseController {
 		if ( cResult.getValue() != null ) {
 			cResult.getValue().setContent( "" ); // 不要回填 content
 			result.setValue( cResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( cResult.getSystemMessage().getValue() );		
 	}
@@ -201,7 +199,7 @@ public class SystemExpressionAction extends BaseController {
 		if ( uResult.getValue() != null ) {
 			uResult.getValue().setContent( "" ); // 不要回填 content
 			result.setValue( uResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( uResult.getSystemMessage().getValue() );		
 	}
@@ -210,7 +208,7 @@ public class SystemExpressionAction extends BaseController {
 		DefaultResult<Boolean> dResult = this.systemExpressionLogicService.delete(sysExpression);
 		if ( dResult.getValue() != null && dResult.getValue() ) {
 			result.setValue( dResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( dResult.getSystemMessage().getValue() );
 	}	
@@ -227,8 +225,7 @@ public class SystemExpressionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -245,8 +242,7 @@ public class SystemExpressionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -263,8 +259,7 @@ public class SystemExpressionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}

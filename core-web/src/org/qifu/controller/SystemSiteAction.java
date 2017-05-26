@@ -38,7 +38,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysIcon;
 import org.qifu.service.ISysIconService;
@@ -130,8 +129,7 @@ public class SystemSiteAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -217,7 +215,7 @@ public class SystemSiteAction extends BaseController {
 		DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.create(sys, sys.getIcon());
 		if ( sysResult.getValue() != null ) {
 			result.setValue( sysResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( sysResult.getSystemMessage().getValue() );		
 	}
@@ -227,7 +225,7 @@ public class SystemSiteAction extends BaseController {
 		DefaultResult<SysVO> sysResult = this.applicationSystemLogicService.update(sys, sys.getIcon());
 		if ( sysResult.getValue() != null ) {
 			result.setValue( sysResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( sysResult.getSystemMessage().getValue() );
 	}
@@ -235,7 +233,7 @@ public class SystemSiteAction extends BaseController {
 	private void delete(DefaultControllerJsonResultObj<Boolean> result, SysVO sys) throws AuthorityException, ControllerException, ServiceException, Exception {
 		DefaultResult<Boolean> sysResult = this.applicationSystemLogicService.delete(sys);
 		if (sysResult.getValue() != null) {
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( sysResult.getSystemMessage().getValue() );		
 	}
@@ -252,8 +250,7 @@ public class SystemSiteAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -270,8 +267,7 @@ public class SystemSiteAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -288,8 +284,7 @@ public class SystemSiteAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}

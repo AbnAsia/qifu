@@ -39,7 +39,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.model.WSConfig;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysWsConfig;
@@ -155,8 +154,7 @@ public class SystemWebServiceAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -219,7 +217,7 @@ public class SystemWebServiceAction extends BaseController {
 		DefaultResult<SysWsConfigVO> cResult = this.systemWebServiceConfigLogicService.create(sysWsConfig, systemOid);
 		if ( cResult.getValue() != null ) {
 			result.setValue( cResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( cResult.getSystemMessage().getValue() );
 	}
@@ -229,7 +227,7 @@ public class SystemWebServiceAction extends BaseController {
 		DefaultResult<SysWsConfigVO> uResult = this.systemWebServiceConfigLogicService.update(sysWsConfig, systemOid);
 		if ( uResult.getValue() != null ) {
 			result.setValue( uResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( uResult.getSystemMessage().getValue() );
 	}
@@ -238,7 +236,7 @@ public class SystemWebServiceAction extends BaseController {
 		DefaultResult<Boolean> dResult = this.systemWebServiceConfigLogicService.delete(sysWsConfig);
 		if ( dResult.getValue() != null && dResult.getValue() ) {
 			result.setValue( dResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( dResult.getSystemMessage().getValue() );		
 	}
@@ -255,8 +253,7 @@ public class SystemWebServiceAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -273,8 +270,7 @@ public class SystemWebServiceAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -291,8 +287,7 @@ public class SystemWebServiceAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}		
@@ -307,15 +302,14 @@ public class SystemWebServiceAction extends BaseController {
 		try {
 			Map<String, String> resultMap = CxfServerBean.shutdownOrReloadCallAllSystem(request, type);
 			result.setMessage( resultMap.get("message") );
-			if (YesNo.YES.equals(resultMap.get("success"))) {
-				result.setSuccess( YesNo.YES );
+			if (YES.equals(resultMap.get("success"))) {
+				result.setSuccess( YES );
 			}
 			result.setValue(type);
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	

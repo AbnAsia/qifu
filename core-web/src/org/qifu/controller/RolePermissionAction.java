@@ -39,7 +39,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.po.TbRole;
 import org.qifu.po.TbRolePermission;
 import org.qifu.service.IRolePermissionService;
@@ -152,8 +151,7 @@ public class RolePermissionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}		
@@ -170,7 +168,7 @@ public class RolePermissionAction extends BaseController {
 		DefaultResult<RolePermissionVO> permResult = this.roleLogicService.createPermission(rolePermission, roleOid);
 		if ( permResult.getValue() != null ) {
 			result.setValue( permResult.getValue() );
-			result.setSuccess( YesNo.YES );			
+			result.setSuccess( YES );			
 		}
 		result.setMessage( permResult.getSystemMessage().getValue() );
 	}
@@ -179,7 +177,7 @@ public class RolePermissionAction extends BaseController {
 		DefaultResult<Boolean> permResult = this.roleLogicService.deletePermission(rolePermission);
 		if ( permResult.getValue() != null && permResult.getValue() ) {
 			result.setValue( Boolean.TRUE );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( permResult.getSystemMessage().getValue() );
 	}
@@ -196,8 +194,7 @@ public class RolePermissionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -214,8 +211,7 @@ public class RolePermissionAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}

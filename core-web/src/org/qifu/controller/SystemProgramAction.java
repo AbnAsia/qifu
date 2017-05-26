@@ -39,7 +39,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.model.MenuItemType;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysIcon;
@@ -148,8 +147,7 @@ public class SystemProgramAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -239,8 +237,8 @@ public class SystemProgramAction extends BaseController {
 		.testField("url", ( (MenuItemType.ITEM.equals(sysProg.getItemType()) && StringUtils.isBlank(sysProg.getUrl())) ), "URL is blank!")
 		.testField("itemType", ( this.noSelect(sysProg.getItemType()) ), "Please select item-type!")
 		.testField("iconOid", ( this.noSelect(iconOid) ), "Please select icon!")
-		.testField("dialogWidth", ( (YesNo.YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(w)) ), "Please input dialog width!")
-		.testField("dialogHeight", ( (YesNo.YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(h)) ), "Please input dialog height!")
+		.testField("dialogWidth", ( (YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(w)) ), "Please input dialog width!")
+		.testField("dialogHeight", ( (YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(h)) ), "Please input dialog height!")
 		.throwMessage();		
 	}
 	
@@ -251,7 +249,7 @@ public class SystemProgramAction extends BaseController {
 		DefaultResult<SysProgVO> progResult = this.systemProgramLogicService.create(sysProg, sysOid, iconOid);
 		if (progResult.getValue() != null) {
 			result.setValue( progResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( progResult.getSystemMessage().getValue() );
 	}
@@ -263,7 +261,7 @@ public class SystemProgramAction extends BaseController {
 		DefaultResult<SysProgVO> progResult = this.systemProgramLogicService.update(sysProg, sysOid, iconOid);
 		if (progResult.getValue() != null) {
 			result.setValue( progResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( progResult.getSystemMessage().getValue() );		
 	}
@@ -272,7 +270,7 @@ public class SystemProgramAction extends BaseController {
 		DefaultResult<Boolean> progResult = this.systemProgramLogicService.delete(sysProg);
 		if (progResult.getValue() != null) {
 			result.setValue( progResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( progResult.getSystemMessage().getValue() );
 	}
@@ -295,8 +293,7 @@ public class SystemProgramAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;		
 	}
@@ -319,8 +316,7 @@ public class SystemProgramAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;		
 	}	
@@ -337,8 +333,7 @@ public class SystemProgramAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;		
 	}	

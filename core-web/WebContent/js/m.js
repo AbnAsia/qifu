@@ -237,3 +237,7 @@ function toastrWarning(message) {
 	toastr.options = { onclick: function () { alert(message); } }
 	toastr.warning( message.replace(/\n/gi, "<br>").replace("/\r\n", "<br>") );
 }
+function toastrError(message) {
+	toastr.options = { onclick: function () { alert(message); } }
+	toastr.error( message.replace(/\n/gi, "<br>").replace("/\r\n", "<br>") );
+}

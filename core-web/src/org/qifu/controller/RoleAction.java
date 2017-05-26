@@ -38,7 +38,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.po.TbRole;
 import org.qifu.service.IRoleService;
 import org.qifu.service.logic.IRoleLogicService;
@@ -128,7 +127,7 @@ public class RoleAction extends BaseController {
 		DefaultResult<RoleVO> roleResult = this.roleLogicService.create(role);
 		if ( roleResult.getValue() != null ) {
 			result.setValue( roleResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( roleResult.getSystemMessage().getValue() );
 	}
@@ -138,7 +137,7 @@ public class RoleAction extends BaseController {
 		DefaultResult<RoleVO> roleResult = this.roleLogicService.update(role);
 		if ( roleResult.getValue() != null ) {
 			result.setValue( roleResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( roleResult.getSystemMessage().getValue() );
 	}
@@ -147,7 +146,7 @@ public class RoleAction extends BaseController {
 		DefaultResult<Boolean> roleResult = this.roleLogicService.delete(role);
 		if ( roleResult.getValue() != null && roleResult.getValue() ) {
 			result.setValue( Boolean.TRUE );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( roleResult.getSystemMessage().getValue() );
 	}
@@ -157,7 +156,7 @@ public class RoleAction extends BaseController {
 		DefaultResult<RoleVO> roleResult = this.roleLogicService.copyAsNew(fromRoleOid, role);
 		if ( roleResult.getValue() != null ) {
 			result.setValue( roleResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( roleResult.getSystemMessage().getValue() );
 	}	
@@ -175,8 +174,7 @@ public class RoleAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -264,8 +262,7 @@ public class RoleAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -282,8 +279,7 @@ public class RoleAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -300,8 +296,7 @@ public class RoleAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -318,8 +313,7 @@ public class RoleAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}		

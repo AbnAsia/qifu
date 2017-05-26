@@ -37,7 +37,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.model.CtxBeanTypes;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysCtxBean;
@@ -154,8 +153,7 @@ public class SystemContextBeanAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -215,7 +213,7 @@ public class SystemContextBeanAction extends BaseController {
 		DefaultResult<SysCtxBeanVO> cResult = this.systemContextBeanLogicService.create(sysCtxbean, systemOid);
 		if ( cResult.getValue() != null ) {
 			result.setValue( cResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( cResult.getSystemMessage().getValue() );
 	}
@@ -225,7 +223,7 @@ public class SystemContextBeanAction extends BaseController {
 		DefaultResult<SysCtxBeanVO> uResult = this.systemContextBeanLogicService.update(sysCtxbean, systemOid);
 		if ( uResult.getValue() != null ) {
 			result.setValue( uResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( uResult.getSystemMessage().getValue() );
 	}	
@@ -234,7 +232,7 @@ public class SystemContextBeanAction extends BaseController {
 		DefaultResult<Boolean> dResult = this.systemContextBeanLogicService.delete(sysCtxbean);
 		if ( dResult.getValue() != null && dResult.getValue() ) {
 			result.setValue( dResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( dResult.getSystemMessage().getValue() );		
 	}
@@ -251,8 +249,7 @@ public class SystemContextBeanAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -269,8 +266,7 @@ public class SystemContextBeanAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -287,8 +283,7 @@ public class SystemContextBeanAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	

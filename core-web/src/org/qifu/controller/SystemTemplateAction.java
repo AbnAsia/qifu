@@ -37,7 +37,6 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.model.YesNo;
 import org.qifu.po.TbSysTemplate;
 import org.qifu.po.TbSysTemplateParam;
 import org.qifu.service.ISysTemplateParamService;
@@ -143,8 +142,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -228,8 +226,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -258,7 +255,7 @@ public class SystemTemplateAction extends BaseController {
 		DefaultResult<SysTemplateVO> tResult = this.systemTemplateLogicService.create(template);
 		if ( tResult.getValue() != null ) {
 			result.setValue( tResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}
@@ -268,7 +265,7 @@ public class SystemTemplateAction extends BaseController {
 		DefaultResult<SysTemplateVO> tResult = this.systemTemplateLogicService.update(template);
 		if ( tResult.getValue() != null ) {
 			result.setValue( tResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );		
 	}
@@ -277,7 +274,7 @@ public class SystemTemplateAction extends BaseController {
 		DefaultResult<Boolean> tResult = this.systemTemplateLogicService.delete(template);
 		if ( tResult.getValue() != null && tResult.getValue() ) {
 			result.setValue( Boolean.TRUE );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}
@@ -287,7 +284,7 @@ public class SystemTemplateAction extends BaseController {
 		DefaultResult<SysTemplateParamVO> tResult = this.systemTemplateLogicService.createParam(templateParam, templateOid);
 		if ( tResult.getValue() != null ) {
 			result.setValue( tResult.getValue() );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}	
@@ -296,7 +293,7 @@ public class SystemTemplateAction extends BaseController {
 		DefaultResult<Boolean> tResult = this.systemTemplateLogicService.deleteParam(templateParam);
 		if ( tResult.getValue() != null && tResult.getValue() ) {
 			result.setValue( Boolean.TRUE );
-			result.setSuccess( YesNo.YES );
+			result.setSuccess( YES );
 		}
 		result.setMessage( tResult.getSystemMessage().getValue() );
 	}	
@@ -313,8 +310,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -331,8 +327,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -349,8 +344,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}
@@ -367,8 +361,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
@@ -385,8 +378,7 @@ public class SystemTemplateAction extends BaseController {
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage( e.getMessage().toString() );
+			this.exceptionResult(result, e);
 		}
 		return result;
 	}	
