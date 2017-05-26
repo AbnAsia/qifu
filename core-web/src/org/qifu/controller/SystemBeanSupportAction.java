@@ -283,7 +283,7 @@ public class SystemBeanSupportAction extends BaseController {
 	
 	private void checkFieldsForExpression(DefaultControllerJsonResultObj<SysBeanHelpExprVO> result, SysBeanHelpExprVO sysBeanHelpExpr, String sysBeanHelpOid, String expressionOid) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
-		.testField("systemOid", ( this.noSelect(expressionOid) ), "Please select expression!")
+		.testField("expressionOid", ( this.noSelect(expressionOid) ), "Please select expression!")
 		.testField("exprSeq", sysBeanHelpExpr, "@org.apache.commons.lang3.StringUtils@isBlank( exprSeq )", "Seq is blank!")
 		.testField("exprSeq", sysBeanHelpExpr, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( exprSeq )", "Seq only normal character!")
 		.testField("runType", ( this.noSelect(sysBeanHelpExpr.getRunType()) ), "Please select process type!")

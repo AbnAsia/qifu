@@ -31,6 +31,24 @@ $( document ).ready(function() {
 	
 });
 
+function getQueryGridFormatter(value) {
+	var str = '';
+	str += '<img alt="edit" title="Edit" src="./images/edit.png" onclick="editPage(\'' + value + '\');"/>';
+	str += '&nbsp;&nbsp;';		
+	str += '<img alt="mapper" title="Variable mapper" src="./images/alert.png" onclick="editVarMapperPage(\'' + value + '\');"/>';	
+	str += '&nbsp;&nbsp;';		
+	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
+	return str;
+}
+function getQueryGridHeader() {
+	return [
+		{ name: "#", 				field: "oid", 	formatter: getQueryGridFormatter },
+		{ name: "Expression Id",	field: "exprId"			},
+		{ name: "Seq", 				field: "exprSeq"		},
+		{ name: "Process type",		field: "runType"		}
+	];
+}
+
 var msgFields = new Object();
 msgFields['expressionOid'] 		= 'expressionOid';
 msgFields['exprSeq'] 			= 'exprSeq';
@@ -53,7 +71,42 @@ function saveSuccess(data) {
 }
 
 function clearSave() {
-	window.location=parent.getProgUrlForOid('CORE_PROG003D0003S01Q', '${sysBeanHelp.oid}');
+	$("#expressionOid").val( _qifu_please_select_id );
+	$("#runType").val( _qifu_please_select_id );
+	$("#exprSeq").val('');
+	clearQueryGridTable();
+}
+
+function editVarMapperPage(oid) {
+	
+}
+
+function deleteRecord(oid) {
+	parent.bootbox.confirm(
+			"Delete?", 
+			function(result) { 
+				if (!result) {
+					return;
+				}
+				xhrSendParameter(
+						'./core.sysBeanSupportExpressionDeleteJson.do', 
+						{ 'oid' : oid }, 
+						function(data) {
+							if ( _qifu_success_flag != data.success ) {
+								parent.toastrWarning( data.message );
+							}
+							if ( _qifu_success_flag == data.success ) {
+								parent.toastrInfo( data.message );
+							}
+							queryGrid();
+						}, 
+						function() {
+							
+						},
+						_qifu_defaultSelfPleaseWaitShow
+				);
+			}
+	);	
 }
 
 </script>
