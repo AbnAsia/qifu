@@ -30,6 +30,7 @@ import org.qifu.base.controller.BaseController;
 import org.qifu.base.exception.AuthorityException;
 import org.qifu.base.exception.ControllerException;
 import org.qifu.base.exception.ServiceException;
+import org.qifu.base.model.CheckControllerFieldHandler;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.DefaultResult;
@@ -41,12 +42,15 @@ import org.qifu.model.ScriptExpressionRunType;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysBeanHelp;
 import org.qifu.po.TbSysBeanHelpExpr;
+import org.qifu.po.TbSysBeanHelpExprMap;
 import org.qifu.po.TbSysExpression;
+import org.qifu.service.ISysBeanHelpExprMapService;
 import org.qifu.service.ISysBeanHelpExprService;
 import org.qifu.service.ISysBeanHelpService;
 import org.qifu.service.ISysExpressionService;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.ISystemBeanHelpLogicService;
+import org.qifu.vo.SysBeanHelpExprMapVO;
 import org.qifu.vo.SysBeanHelpExprVO;
 import org.qifu.vo.SysBeanHelpVO;
 import org.qifu.vo.SysExpressionVO;
@@ -68,6 +72,7 @@ public class SystemBeanSupportAction extends BaseController {
 	private ISysService<SysVO, TbSys, String> sysService;
 	private ISysExpressionService<SysExpressionVO, TbSysExpression, String> sysExpressionService;
 	private ISysBeanHelpExprService<SysBeanHelpExprVO, TbSysBeanHelpExpr, String> sysBeanHelpExprService;
+	private ISysBeanHelpExprMapService<SysBeanHelpExprMapVO, TbSysBeanHelpExprMap, String> sysBeanHelpExprMapService;
 	private ISystemBeanHelpLogicService systemBeanHelpLogicService;
 	
 	public ISysBeanHelpService<SysBeanHelpVO, TbSysBeanHelp, String> getSysBeanHelpService() {
@@ -114,6 +119,17 @@ public class SystemBeanSupportAction extends BaseController {
 		this.sysBeanHelpExprService = sysBeanHelpExprService;
 	}
 
+	public ISysBeanHelpExprMapService<SysBeanHelpExprMapVO, TbSysBeanHelpExprMap, String> getSysBeanHelpExprMapService() {
+		return sysBeanHelpExprMapService;
+	}
+
+	@Autowired
+	@Resource(name="core.service.SysBeanHelpExprMapService")
+	@Required	
+	public void setSysBeanHelpExprMapService(ISysBeanHelpExprMapService<SysBeanHelpExprMapVO, TbSysBeanHelpExprMap, String> sysBeanHelpExprMapService) {
+		this.sysBeanHelpExprMapService = sysBeanHelpExprMapService;
+	}
+
 	public ISystemBeanHelpLogicService getSystemBeanHelpLogicService() {
 		return systemBeanHelpLogicService;
 	}
@@ -151,6 +167,15 @@ public class SystemBeanSupportAction extends BaseController {
 		}
 		sys = sysResult.getValue();
 		mv.addObject("systemOid", sys.getOid());
+	}
+	
+	private void fetchExprData(SysBeanHelpExprVO sysBeanHelpExpr, ModelAndView mv) throws ServiceException, ControllerException, Exception {
+		DefaultResult<SysBeanHelpExprVO> result = this.sysBeanHelpExprService.findObjectByOid(sysBeanHelpExpr);
+		if ( result.getValue() == null ) {
+			throw new ControllerException( result.getSystemMessage().getValue() );
+		}
+		sysBeanHelpExpr = result.getValue();
+		mv.addObject("sysBeanHelpExpr", sysBeanHelpExpr);
 	}
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003Q")
@@ -271,13 +296,52 @@ public class SystemBeanSupportAction extends BaseController {
 		return result;
 	}	
 	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003S02Q")
+	@RequestMapping(value = "/core.sysBeanSupportExpressionParam.do")
+	public ModelAndView editExpressionParamPage(HttpServletRequest request, SysBeanHelpExprVO sysBeanHelpExpr) {
+		String viewName = PAGE_SYS_ERROR;
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG003D0003S02Q");
+		try {
+			this.init("editExpressionParamPage", request, mv);
+			this.fetchExprData(sysBeanHelpExpr, mv);
+			viewName = "sys-beansupport/sys-beansupport-expr-map";
+		} catch (AuthorityException e) {
+			viewName = PAGE_SYS_NO_AUTH;
+		} catch (ServiceException | ControllerException e) {
+			viewName = PAGE_SYS_SEARCH_NO_DATA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.setPageMessage(request, e.getMessage().toString());
+		}
+		mv.setViewName(viewName);
+		return mv;
+	}	
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003S02Q")
+	@RequestMapping(value = "/core.sysBeanSupportExpressionParamQueryGridJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj< List<SysBeanHelpExprMapVO> > queryExpressionParamGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj< List<SysBeanHelpExprMapVO> > result = this.getQueryJsonResult("CORE_PROG003D0003S01Q");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			QueryResult< List<SysBeanHelpExprMapVO> > queryResult = this.sysBeanHelpExprMapService.findGridResult(searchValue, pageOf);
+			this.setQueryGridJsonResult(result, queryResult, pageOf);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );
+		} catch (Exception e) {
+			this.exceptionResult(result, e);
+		}
+		return result;
+	}	
+	
 	private void checkFields(DefaultControllerJsonResultObj<SysBeanHelpVO> result, SysBeanHelpVO sysBeanHelp, String systemOid) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
 		.testField("systemOid", ( this.noSelect(systemOid) ), "Please select system!")
 		.testField("beanId", sysBeanHelp, "@org.apache.commons.lang3.StringUtils@isBlank( beanId )", "Bean Id is blank!")
-		.testField("beanId", sysBeanHelp, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( beanId.replaceAll(\"[.]\", \"\") )", "Bean Id only normal character!")
+		.testField("beanId", sysBeanHelp, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( beanId.replaceAll(\"[.]\", \"\") )", "Bean Id error!")
 		.testField("method", sysBeanHelp, "@org.apache.commons.lang3.StringUtils@isBlank( method )", "Method is blank!")
-		.testField("method", sysBeanHelp, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( method.replaceAll(\"_\", \"\") )", "Method only normal character!")
+		.testField("method", sysBeanHelp, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( method.replaceAll(\"_\", \"\") )", "Method name error!")
 		.throwMessage();
 	}
 	
@@ -288,6 +352,19 @@ public class SystemBeanSupportAction extends BaseController {
 		.testField("exprSeq", sysBeanHelpExpr, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( exprSeq )", "Seq only normal character!")
 		.testField("runType", ( this.noSelect(sysBeanHelpExpr.getRunType()) ), "Please select process type!")
 		.throwMessage();		
+	}
+	
+	private void checkFieldsForExpressionMap(DefaultControllerJsonResultObj<SysBeanHelpExprMapVO> result, SysBeanHelpExprMapVO sysBeanHelpExprMap, String sysBeanHelpExprOid) throws ControllerException, Exception {
+		CheckControllerFieldHandler< SysBeanHelpExprMapVO > checkHandler = this.getCheckControllerFieldHandler(result)
+		.testField("varName", sysBeanHelpExprMap, "@org.apache.commons.lang3.StringUtils@isBlank( varName )", "Variable name is blank!")
+		.testField("varName", sysBeanHelpExprMap, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( varName )", "Variable name only normal character!");
+		if (!YES.equals(sysBeanHelpExprMap.getMethodResultFlag())) {
+			checkHandler
+			.testField("methodParamClass", sysBeanHelpExprMap, "@org.apache.commons.lang3.StringUtils@isBlank( methodParamClass )", "Method class name is blank!")
+			.testField("methodParamClass", sysBeanHelpExprMap, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( methodParamClass.replaceAll(\"[.]\", \"\") )", "Method class name error!")
+			.testField("methodParamIndex", sysBeanHelpExprMap, "methodParamIndex < 0", "Method parameter index error!");
+		}
+		checkHandler.throwMessage();
 	}
 	
 	private void save(DefaultControllerJsonResultObj<SysBeanHelpVO> result, SysBeanHelpVO sysBeanHelp, String systemOid) throws AuthorityException, ControllerException, ServiceException, Exception {
@@ -337,6 +414,25 @@ public class SystemBeanSupportAction extends BaseController {
 		}
 		result.setMessage( dResult.getSystemMessage().getValue() );			
 	}
+	
+	private void saveExpressionMap(DefaultControllerJsonResultObj<SysBeanHelpExprMapVO> result, SysBeanHelpExprMapVO sysBeanHelpExprMap, String sysBeanHelpExprOid) throws AuthorityException, ControllerException, ServiceException, Exception {
+		this.checkFieldsForExpressionMap(result, sysBeanHelpExprMap, sysBeanHelpExprOid);
+		DefaultResult<SysBeanHelpExprMapVO> cResult = this.systemBeanHelpLogicService.createExprMap(sysBeanHelpExprMap, sysBeanHelpExprOid);
+		if ( cResult.getValue() != null ) {
+			result.setValue( cResult.getValue() );
+			result.setSuccess( YES );
+		}
+		result.setMessage( cResult.getSystemMessage().getValue() );			
+	}	
+	
+	private void deleteExpressionMap(DefaultControllerJsonResultObj<Boolean> result, SysBeanHelpExprMapVO sysBeanHelpExprMap) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> dResult = this.systemBeanHelpLogicService.deleteExprMap(sysBeanHelpExprMap);
+		if ( dResult.getValue() != null && dResult.getValue() ) {
+			result.setValue( dResult.getValue() );
+			result.setSuccess( YES );
+		}
+		result.setMessage( dResult.getSystemMessage().getValue() );			
+	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003A")
 	@RequestMapping(value = "/core.sysBeanSupportSaveJson.do", produces = "application/json")		
@@ -422,5 +518,39 @@ public class SystemBeanSupportAction extends BaseController {
 		}
 		return result;
 	}		
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003S02A")
+	@RequestMapping(value = "/core.sysBeanSupportExpressionParamSaveJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<SysBeanHelpExprMapVO> doSaveExpressionMap(SysBeanHelpExprMapVO sysBeanHelpExprMap, @RequestParam("sysBeanHelpExprOid") String sysBeanHelpExprOid) {
+		DefaultControllerJsonResultObj<SysBeanHelpExprMapVO> result = this.getDefaultJsonResult("CORE_PROG003D0003S02A");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.saveExpressionMap(result, sysBeanHelpExprMap, sysBeanHelpExprOid);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			this.exceptionResult(result, e);
+		}
+		return result;
+	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG003D0003S02D")
+	@RequestMapping(value = "/core.sysBeanSupportExpressionParamDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDeleteExpressionMap(SysBeanHelpExprMapVO sysBeanHelpExprMap) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG003D0003S02D");
+		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
+			return result;
+		}
+		try {
+			this.deleteExpressionMap(result, sysBeanHelpExprMap);
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			result.setMessage( e.getMessage().toString() );			
+		} catch (Exception e) {
+			this.exceptionResult(result, e);
+		}
+		return result;
+	}
 	
 }

@@ -27,35 +27,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 $( document ).ready(function() {
 	
+	$("#methodParamIndex").ForceNumericOnly();
 	queryGrid();
 	
 });
 
 function getQueryGridFormatter(value) {
 	var str = '';
-	str += '<img alt="mapper" title="Variable mapper" src="./images/alert.png" onclick="editVarMapperPage(\'' + value + '\');"/>';	
-	str += '&nbsp;&nbsp;';		
 	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
 	return str;
 }
 function getQueryGridHeader() {
 	return [
 		{ name: "#", 				field: "oid", 	formatter: getQueryGridFormatter },
-		{ name: "Expression Id",	field: "exprId"			},
-		{ name: "Seq", 				field: "exprSeq"		},
-		{ name: "Process type",		field: "runType"		}
+		{ name: "Variable",	field: "varName"			},
+		{ name: "Method result", 				field: "methodResultFlag"		},
+		{ name: "Method param class",		field: "methodParamClass"		},
+		{ name: "Method param index",		field: "methodParamIndex"		}
 	];
 }
 
 var msgFields = new Object();
-msgFields['expressionOid'] 		= 'expressionOid';
-msgFields['exprSeq'] 			= 'exprSeq';
-msgFields['runType'] 			= 'runType';
+msgFields['varName'] 		= 'varName';
+msgFields['methodParamClass'] 			= 'methodParamClass';
+msgFields['methodParamIndex'] 			= 'methodParamIndex';
 
 var formGroups = new Object();
-formGroups['expressionOid'] 	= 'form-group1';
-formGroups['exprSeq'] 			= 'form-group1';
-formGroups['runType'] 			= 'form-group1';
+formGroups['varName'] 	= 'form-group1';
+formGroups['methodParamClass'] 			= 'form-group2';
+formGroups['methodParamIndex'] 			= 'form-group2';
 
 function saveSuccess(data) {
 	clearWarningMessageField(formGroups, msgFields);
@@ -70,14 +70,11 @@ function saveSuccess(data) {
 }
 
 function clearSave() {
-	$("#expressionOid").val( _qifu_please_select_id );
-	$("#runType").val( _qifu_please_select_id );
-	$("#exprSeq").val('');
+	$("#varName").val('');
+	$("#methodResultFlag").prop('checked', false);
+	$("#methodParamClass").val('');
+	$("#methodParamIndex").val('');
 	clearQueryGridTable();
-}
-
-function editVarMapperPage(oid) {
-	parent.addTab('CORE_PROG003D0003S02Q', parent.getProgUrlForOid('CORE_PROG003D0003S02Q', oid) );
 }
 
 function deleteRecord(oid) {
@@ -88,7 +85,7 @@ function deleteRecord(oid) {
 					return;
 				}
 				xhrSendParameter(
-						'./core.sysBeanSupportExpressionDeleteJson.do', 
+						'./core.sysBeanSupportExpressionParamDeleteJson.do', 
 						{ 'oid' : oid }, 
 						function(data) {
 							if ( _qifu_success_flag != data.success ) {
@@ -113,42 +110,48 @@ function deleteRecord(oid) {
 <body>
 
 <q:toolBar 
-	id="CORE_PROG003D0003S01Q_toolbar" 
+	id="CORE_PROG003D0003S02Q_toolbar" 
 	refreshEnable="Y"
-	refreshJsMethod="window.location=parent.getProgUrlForOid('CORE_PROG003D0003S01Q', '${sysBeanHelp.oid}');" 
+	refreshJsMethod="window.location=parent.getProgUrlForOid('CORE_PROG003D0003S02Q', '${sysBeanHelpExpr.oid}');" 
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="Y" 
 	saveJsMethod="btnSave();" 	
 	cancelEnable="Y" 
-	cancelJsMethod="parent.closeTab('CORE_PROG003D0003S01Q');" >
+	cancelJsMethod="parent.closeTab('CORE_PROG003D0003S02Q');" >
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
 <div class="form-group" id="form-group1">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			System&nbsp;:&nbsp;${sysBeanHelp.system}
+			Expresion Id&nbsp;/&nbsp;SEQ&nbsp;/&nbsp;Type
 			<br>
-			Bean Id&nbsp;:&nbsp;${sysBeanHelp.beanId}&nbsp;&nbsp;/&nbsp;&nbsp;Method&nbsp;:&nbsp;${sysBeanHelp.method}
+			${sysBeanHelpExpr.exprId}&nbsp;/&nbsp;${sysBeanHelpExpr.exprSeq}&nbsp;/&nbsp;${sysBeanHelpExpr.runType}
 		</div>
 	</div>			
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="expressionMap" name="expressionOid" id="expressionOid" value="" requiredFlag="Y" label="Expression"></q:select>
+			<q:textbox name="varName" id="varName" value="" maxlength="255" label="Variable" requiredFlag="Y"></q:textbox>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:textbox name="exprSeq" id="exprSeq" value="" maxlength="10" requiredFlag="Y" label="Seq" placeholder="Enter process order seq"></q:textbox>
+			<q:checkbox name="methodResultFlag" id="methodResultFlag" label="Method result"></q:checkbox>
 		</div>
 	</div>
+</div>
+<div class="form-group" id="form-group2">	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<q:select dataSource="runTypeMap" name="runType" id="runType" value="" requiredFlag="Y" label="Process type"></q:select>
+			<q:textbox name="methodParamClass" id="methodParamClass" value="" maxlength="255" label="Method parameter class" requiredFlag="Y"></q:textbox>
 		</div>
 	</div>	
-	
+	<div class="row">
+		<div class="col-xs-6 col-md-6 col-lg-6">
+			<q:textbox name="methodParamIndex" id="methodParamIndex" value="" maxlength="2" label="Method parameter index" requiredFlag="Y"></q:textbox>
+		</div>
+	</div>		
 </div>
 
 <br>
@@ -158,13 +161,14 @@ function deleteRecord(oid) {
 		<button type="button" class="btn btn-primary" id="btnQuery" onclick="queryGrid();">Query</button>
 		&nbsp;	
 		<q:button id="btnSave" label="Save"
-			xhrUrl="./core.sysBeanSupportExpressionSaveJson.do"
+			xhrUrl="./core.sysBeanSupportExpressionParamSaveJson.do"
 			xhrParameter="	
 			{
-				'sysBeanHelpOid'	:	'${sysBeanHelp.oid}',
-				'expressionOid'		:	$('#expressionOid').val(),
-				'exprSeq'			:	$('#exprSeq').val(),
-				'runType'			:	$('#runType').val()
+				'sysBeanHelpExprOid'	:	'${sysBeanHelpExpr.oid}',
+				'varName'			:	$('#varName').val(),
+				'methodResultFlag'			:	( $('#methodResultFlag').is(':checked') ? 'Y' : 'N' ),
+				'methodParamClass'			:	$('#methodParamClass').val(),
+				'methodParamIndex'			:	( isNaN(parseInt( $('#methodParamIndex').val() )) ? -1 : parseInt( $('#methodParamIndex').val() ) )
 			}
 			"
 			onclick="btnSave();"
@@ -181,13 +185,13 @@ function deleteRecord(oid) {
 <q:grid gridFieldStructure="getQueryGridHeader()" 
 	xhrParameter="
 	{
-		'parameter[helpOid]'		: '${sysBeanHelp.oid}',
+		'parameter[helpExprOid]'		: '${sysBeanHelpExpr.oid}',
 		'select'					: getQueryGridSelect(),
 		'showRow'					: getQueryGridShowRow()	
 	}
 	"
-	xhrUrl="./core.sysBeanSupportExpressionQueryGridJson.do" 
-	id="CORE_PROG003D0003S01Q_grid"
+	xhrUrl="./core.sysBeanSupportExpressionParamQueryGridJson.do" 
+	id="CORE_PROG003D0003S02Q_grid"
 	queryFunction="queryGrid()"
 	clearFunction="clearQueryGridTable()">
 </q:grid>
