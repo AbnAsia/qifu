@@ -151,6 +151,8 @@ function updateMenuRoleEnable() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

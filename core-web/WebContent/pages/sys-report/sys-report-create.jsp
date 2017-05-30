@@ -73,6 +73,8 @@ function uploadModal() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

@@ -145,6 +145,8 @@ function updateMenu() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

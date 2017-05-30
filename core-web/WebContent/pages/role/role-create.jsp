@@ -55,6 +55,8 @@ function clearSave() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

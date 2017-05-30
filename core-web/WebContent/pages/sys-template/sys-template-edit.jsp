@@ -67,6 +67,8 @@ function updateSave() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

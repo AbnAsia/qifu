@@ -86,6 +86,8 @@ function deleteRecord(oid) {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

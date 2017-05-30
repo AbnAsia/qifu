@@ -42,6 +42,8 @@ function previewReport() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

@@ -57,6 +57,8 @@ function clearUpdate() {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 

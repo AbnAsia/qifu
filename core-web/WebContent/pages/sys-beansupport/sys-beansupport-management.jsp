@@ -104,6 +104,8 @@ function stopOrReloadSuccess(data) {
 
 </script>
 
+</head>
+
 <body>
 
 <q:toolBar 
