@@ -401,3 +401,8 @@ content-storage-api-6.0.0.jar
 content-storage-fs-6.0.0.jar
 editor-image-generator-6.0.0.jar
 
+
+Juel
+===============================================
+juel-impl-2.2.7.jar ( require start Activiti with spring )
+
