@@ -35,6 +35,8 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelp.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelpExpr.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelpExprMap.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysBpmnResource.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysBpmnResourceRole.xml" />
     
     
     <!-- common util -->

@@ -57,6 +57,8 @@
                 <value>classpath*:mappers/TbSysBeanHelp.xml</value>
                 <value>classpath*:mappers/TbSysBeanHelpExpr.xml</value>
                 <value>classpath*:mappers/TbSysBeanHelpExprMap.xml</value>
+                <value>classpath*:mappers/TbSysBpmnResource.xml</value>
+                <value>classpath*:mappers/TbSysBpmnResourceRole.xml</value>
                 
                 
             </list>
