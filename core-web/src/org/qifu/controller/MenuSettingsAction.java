@@ -91,12 +91,11 @@ public class MenuSettingsAction extends BaseController {
 			this.init(request, mv);
 			viewName = "menu-settings/menu-settings-management";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;		

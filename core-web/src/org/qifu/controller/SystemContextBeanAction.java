@@ -129,12 +129,11 @@ public class SystemContextBeanAction extends BaseController {
 			this.init("queryPage", request, mv);
 			viewName = "sys-ctxbean/sys-ctxbean-management";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -167,12 +166,11 @@ public class SystemContextBeanAction extends BaseController {
 			this.init("createPage", request, mv);
 			viewName = "sys-ctxbean/sys-ctxbean-create";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -188,12 +186,11 @@ public class SystemContextBeanAction extends BaseController {
 			this.fetchData(sysCtxbean, mv);
 			viewName = "sys-ctxbean/sys-ctxbean-edit";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;

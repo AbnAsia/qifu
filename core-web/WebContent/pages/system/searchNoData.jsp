@@ -42,7 +42,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td width="48" bgcolor="#F4F4F4"><img src="./images/warning.png" width="48" height="48" border="0"/></td>
     <td valign="top" bgcolor="#F4F4F4">
-	<font color="#000000" size="4">Data may have been deleted, <BR/>please close the page.</font>     
+	<font color="#000000" size="4">Data may have been deleted, <BR/>please close the page.</font>
+	<br>  
+	<br>Page message:<br>
+	<font color="#666666" size="4">${pageMessage}</font>   
     </td>
   </tr>
   <tr>

@@ -105,12 +105,11 @@ public class SystemSiteAction extends BaseController {
 			// do some...
 			viewName = "sys-site/sys-site-management";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -151,12 +150,11 @@ public class SystemSiteAction extends BaseController {
 			mv.addObject("firstIconKey", firstIconKey);
 			viewName = "sys-site/sys-site-create";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -188,12 +186,11 @@ public class SystemSiteAction extends BaseController {
 			mv.addObject("sys", sys);
 			viewName = "sys-site/sys-site-edit";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;

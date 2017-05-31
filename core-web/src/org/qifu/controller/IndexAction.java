@@ -51,9 +51,7 @@ public class IndexAction extends BaseController {
 			mv.addObject("modalHtmlData",  menuResult.getModalHtmlData());
 			viewName = "index";
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
-			this.setPageErrorContact(request);
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;

@@ -187,12 +187,11 @@ public class SystemBeanSupportAction extends BaseController {
 			this.init("queryPage", request, mv);
 			viewName = "sys-beansupport/sys-beansupport-management";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -225,12 +224,11 @@ public class SystemBeanSupportAction extends BaseController {
 			this.init("createPage", request, mv);
 			viewName = "sys-beansupport/sys-beansupport-create";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -246,12 +244,11 @@ public class SystemBeanSupportAction extends BaseController {
 			this.fetchData(sysBeanHelp, mv);
 			viewName = "sys-beansupport/sys-beansupport-edit";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -267,12 +264,11 @@ public class SystemBeanSupportAction extends BaseController {
 			this.fetchData(sysBeanHelp, mv);
 			viewName = "sys-beansupport/sys-beansupport-expr";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -306,12 +302,11 @@ public class SystemBeanSupportAction extends BaseController {
 			this.fetchExprData(sysBeanHelpExpr, mv);
 			viewName = "sys-beansupport/sys-beansupport-expr-map";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;

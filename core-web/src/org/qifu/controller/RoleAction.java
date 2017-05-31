@@ -103,12 +103,11 @@ public class RoleAction extends BaseController {
 			this.init("queryPage", request, mv);
 			viewName = "role/role-management";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;		
@@ -188,12 +187,11 @@ public class RoleAction extends BaseController {
 			this.init("createPage", request, mv);
 			viewName = "role/role-create";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -211,12 +209,11 @@ public class RoleAction extends BaseController {
 			this.fetchData(role, mv);
 			viewName = "role/role-edit";
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;
@@ -239,12 +236,11 @@ public class RoleAction extends BaseController {
 				this.setPageMessage(mv, "Super/Admin cannot copy as new!");
 			}			
 		} catch (AuthorityException e) {
-			viewName = PAGE_SYS_NO_AUTH;
+			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			this.getExceptionPage(e, request);
 		}
 		mv.setViewName(viewName);
 		return mv;

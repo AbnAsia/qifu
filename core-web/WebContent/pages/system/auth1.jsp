@@ -42,7 +42,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td width="48" bgcolor="#E9D8D8"><img src="./images/warning.png" width="48" height="48" border="0"/></td>
     <td valign="top" bgcolor="#E9D8D8">
-	<font color="#666666" size="4">You do not have permission to use this feature, <BR/>if you want to use this feature, set the permissions.</font>     
+	<font color="#666666" size="4">You do not have permission to use this feature, <BR/>if you want to use this feature, set the permissions.</font>
+	<br>
+	<br>Page message:<br>
+	<font color="#666666" size="4">${pageMessage}</font>     
     </td>
   </tr>
   <tr>

@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.qifu.base.Constants;
+import org.qifu.base.exception.BaseSysException;
 import org.qifu.base.model.CheckControllerFieldHandler;
 import org.qifu.base.model.DefaultControllerJsonResultObj;
 import org.qifu.base.model.PageOf;
@@ -278,6 +279,52 @@ public abstract class BaseController {
 		e.printStackTrace();
 		result.setMessage( e.getMessage().toString() );
 		result.setSuccess( EXCEPTION );
+	}
+	
+	protected String getExceptionMessage(Exception e) {
+		String str = "";
+		if (e != null && e.getMessage() != null) {
+			str = e.getMessage();
+		}
+		if (e != null && e.getMessage() == null) {
+			str = e.toString();
+		}
+		if (e == null) {
+			str = "null undefined";
+		}
+		return str;
+	}
+	
+	protected String getAuthorityExceptionPage(BaseSysException e, HttpServletRequest request) {
+		this.setPageMessage(request, this.getExceptionMessage(e));
+		return PAGE_SYS_NO_AUTH;
+	}
+	
+	protected String getAuthorityExceptionPage(BaseSysException e, ModelAndView mv) {
+		this.setPageMessage(mv, this.getExceptionMessage(e));
+		return PAGE_SYS_NO_AUTH;
+	}	
+	
+	protected String getServiceOrControllerExceptionPage(BaseSysException e, HttpServletRequest request) {
+		this.setPageMessage(request, this.getExceptionMessage(e));
+		return PAGE_SYS_SEARCH_NO_DATA;
+	}
+		
+	protected String getServiceOrControllerExceptionPage(BaseSysException e, ModelAndView mv) {
+		this.setPageMessage(mv, this.getExceptionMessage(e));
+		return PAGE_SYS_SEARCH_NO_DATA;
+	}	
+	
+	protected String getExceptionPage(Exception e, HttpServletRequest request) {
+		e.printStackTrace();
+		this.setPageMessage(request, this.getExceptionMessage(e));
+		return PAGE_SYS_ERROR;
+	}
+	
+	protected String getExceptionPage(Exception e, ModelAndView mv) {
+		e.printStackTrace();
+		this.setPageMessage(mv, this.getExceptionMessage(e));
+		return PAGE_SYS_ERROR;
 	}
 	
 	protected void fillObjectFromRequest(HttpServletRequest request, Object root) {

@@ -52,13 +52,12 @@ public class CommonJasperReportAction extends BaseController {
 					jreportId, 
 					JReportUtils.getParameter(jreportId, request), 
 					response);
-		} catch (AuthorityException | ServiceException | ControllerException e) {
-			viewName = PAGE_SYS_SEARCH_NO_DATA;
-			e.printStackTrace();
+		} catch (AuthorityException e) {
+			viewName = this.getAuthorityExceptionPage(e, request);
+		} catch (ServiceException | ControllerException e) {
+			viewName = this.getServiceOrControllerExceptionPage(e, request);
 		} catch (Exception e) {
-			viewName = PAGE_SYS_ERROR;
-			e.printStackTrace();
-			this.setPageMessage(request, e.getMessage().toString());
+			viewName = this.getExceptionPage(e, request);
 		}
 		if (!StringUtils.isBlank(viewName)) {
 			return viewName;
