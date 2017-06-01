@@ -45,13 +45,10 @@ import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
 import org.qifu.model.UploadTypes;
-import org.qifu.po.TbRole;
 import org.qifu.po.TbSysBpmnResource;
-import org.qifu.service.IRoleService;
 import org.qifu.service.ISysBpmnResourceService;
 import org.qifu.util.BusinessProcessManagementUtils;
 import org.qifu.util.UploadSupportUtils;
-import org.qifu.vo.RoleVO;
 import org.qifu.vo.SysBpmnResourceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -68,7 +65,6 @@ public class SystemBpmResourceAction extends BaseController {
 	
 	private static final int MAX_DESCRIPTION_LENGTH = 500;
 	private ISysBpmnResourceService<SysBpmnResourceVO, TbSysBpmnResource, String> sysBpmnResourceService;
-	private IRoleService<RoleVO, TbRole, String> roleService;
 	
 	public ISysBpmnResourceService<SysBpmnResourceVO, TbSysBpmnResource, String> getSysBpmnResourceService() {
 		return sysBpmnResourceService;
@@ -79,17 +75,6 @@ public class SystemBpmResourceAction extends BaseController {
 	@Required	
 	public void setSysBpmnResourceService(ISysBpmnResourceService<SysBpmnResourceVO, TbSysBpmnResource, String> sysBpmnResourceService) {
 		this.sysBpmnResourceService = sysBpmnResourceService;
-	}
-	
-	public IRoleService<RoleVO, TbRole, String> getRoleService() {
-		return roleService;
-	}
-	
-	@Autowired
-	@Resource(name="core.service.RoleService")
-	@Required	
-	public void setRoleService(IRoleService<RoleVO, TbRole, String> roleService) {
-		this.roleService = roleService;
 	}
 	
 	private void init(String type, HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {

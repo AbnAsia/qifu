@@ -64,8 +64,8 @@ function loadDiagram(type, objId) {
 	refreshJsMethod="window.location=parent.getProgUrlForOid('CORE_PROG003D0004S01Q', '${sysBpmnResource.oid}');" 
 	createNewEnable="N"
 	createNewJsMethod=""
-	saveEnabel="Y" 
-	saveJsMethod="btnUpdate();" 	
+	saveEnabel="N" 
+	saveJsMethod="" 	
 	cancelEnable="Y" 
 	cancelJsMethod="parent.closeTab('CORE_PROG003D0004S01Q');" >
 </q:toolBar>
