@@ -207,7 +207,7 @@ function commonDownloadFile(uploadOid) {
 					alert( data.message );
 					return;
 				}
-				$("#commonDownloadFile").attr('src', '<%=mainBasePath%>/core.commonDownloadFileJson.do?oid=' + uploadOid);
+				$("#commonDownloadFile").attr('src', '<%=mainBasePath%>/core.commonDownloadFile.do?oid=' + uploadOid);
 			}, 
 			function(jqXHR, textStatus, errorThrown) {
 				

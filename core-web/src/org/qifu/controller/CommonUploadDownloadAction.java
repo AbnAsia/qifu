@@ -42,6 +42,7 @@ import org.qifu.base.model.DefaultResult;
 import org.qifu.model.UploadTypes;
 import org.qifu.po.TbSysUpload;
 import org.qifu.service.ISysUploadService;
+import org.qifu.util.FSUtils;
 import org.qifu.util.UploadSupportUtils;
 import org.qifu.vo.SysUploadVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +101,7 @@ public class CommonUploadDownloadAction extends BaseController {
 	}
 
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
-	@RequestMapping(value = "/core.commonDownloadFileJson.do")
+	@RequestMapping(value = "/core.commonDownloadFile.do")
 	public void downloadFile(HttpServletResponse response, @RequestParam("oid") String oid) throws UnsupportedEncodingException, IOException {
 		TbSysUpload uploadData = new TbSysUpload();
 		uploadData.setOid(oid);
@@ -132,6 +133,46 @@ public class CommonUploadDownloadAction extends BaseController {
 		response.setContentLength( content.length );
 		FileCopyUtils.copy(content, response.getOutputStream());
 	}
+	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
+	@RequestMapping(value = "/core.commonViewFile.do")
+	public void viewFile(HttpServletResponse response, @RequestParam("oid") String oid) throws UnsupportedEncodingException, IOException {
+		TbSysUpload uploadData = new TbSysUpload();
+		uploadData.setOid(oid);
+		String fileName = "";
+		String mimeType = "";
+		byte[] content = null;		
+		try {
+			DefaultResult<TbSysUpload> result = sysUploadService.findEntityByOid(uploadData);
+			if (result.getValue() != null) {
+				uploadData = result.getValue();
+				//fileName = UploadSupportUtils.generateRealFileName( uploadData.getShowName() );
+				fileName = uploadData.getShowName();
+				content = uploadData.getContent();
+				if (content == null && YES.equals(uploadData.getIsFile())) { // 檔案模式, 所以沒有byte content
+					content = UploadSupportUtils.getDataBytes(oid);
+				}
+				mimeType = FSUtils.getMimeType(fileName);
+			}
+		} catch (AuthorityException | ServiceException | ControllerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if ( content == null ) { // 沒有資料
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write( SysMessageUtil.get(SysMsgConstants.DATA_NO_EXIST).getBytes(Constants.BASE_ENCODING) );
+            outputStream.close();
+            return;				
+		}
+		if (StringUtils.isBlank(mimeType)) {
+			mimeType = "application/octet-stream";
+		}
+		response.setContentType( mimeType );
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + fileName + "\""));
+		response.setContentLength( content.length );
+		FileCopyUtils.copy(content, response.getOutputStream());
+	}	
 	
 	@ControllerMethodAuthority(check = true, programId = "CORE_PROGCOMM0003Q")
 	@RequestMapping(value = "/core.commonUploadFileJson.do", method = { RequestMethod.POST }, headers = "content-type=multipart/*" )		

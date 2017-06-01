@@ -85,4 +85,9 @@ public class CheckControllerFieldHandler<T> {
 		}
 	}
 	
+	public void throwMessage(String id, String message) throws ControllerException {
+		this.result.getCheckFields().put(id, message);
+		this.throwMessage();
+	}
+	
 }

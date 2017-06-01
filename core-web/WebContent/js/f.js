@@ -301,3 +301,8 @@ function commonOpenJasperReport(jreportId, paramData) {
 	}
 	window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=970, height=700, top=10, left=10");
 }
+
+function commonViewUploadFile(oid) {
+	var url = "./core.commonViewFile.do" + "?oid=" + oid;
+	window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=970, height=700, top=10, left=10");	
+}
