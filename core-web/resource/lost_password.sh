@@ -1,2 +1,2 @@
 #!/bin/sh
-java -classpath "../lib/*" com.netsteadfast.greenstep.tools.LostPasswordTools $1 $2 $3
+java -classpath "../lib/*" org.qifu.tools.LostPasswordTools $1 $2 $3

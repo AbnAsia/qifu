@@ -1,2 +1,2 @@
 #!/bin/sh
-java -classpath "../lib/*" com.netsteadfast.greenstep.tools.BusinessProcessManagementDeleteTools $1 $2
+java -classpath "../lib/*" org.qifu.tools.BusinessProcessManagementDeleteTools $1 $2
