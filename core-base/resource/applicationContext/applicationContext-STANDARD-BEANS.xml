@@ -42,24 +42,7 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysMailHelper.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysQfieldLog.xml" />
     
-    
-    <!-- common util -->
-    <!--  
-    <import resource="classpath*:applicationContext/standard/applicationContext-common.xml" />
-    -->
-    
     <!-- Dozer -->
     <import resource="classpath*:applicationContext/standard/applicationContext-dozer.xml" />
-    
-    <!-- Quartz -->
-    <!--  
-    <import resource="classpath*:applicationContext/standard/applicationContext-QUARTZ.xml" />
-    <import resource="classpath*:applicationContext/standard/applicationContext-QUARTZ-JOB.xml" />
-    -->
-    
-    <!-- TEST -->
-    <!--  
-    <import resource="classpath*:applicationContext/standard/applicationContext-test.xml" />
-    -->
             
 </beans>    

@@ -49,9 +49,8 @@
     
                 
     <!-- another lib -->
-    <!-- 
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-EXPAND-BEANS.xml" />     
-    -->
+                
                 
     <!-- WEB -->
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-WEB.xml" />
@@ -62,10 +61,10 @@
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-JMS.xml" />
     -->
     
-    <!-- Quartz -->
-    <!--    
+    
+    <!-- Quartz -->  
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-QUARTZ-JOB.xml" />
-    <import resource="classpath*:applicationContext/applicationContext-STANDARD-QUARTZ.xml" />      
-	-->
+    <import resource="classpath*:applicationContext/applicationContext-STANDARD-QUARTZ.xml" />
+
 
 </beans>

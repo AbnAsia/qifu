@@ -23,6 +23,7 @@ package org.qifu.service.logic;
 
 import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.DefaultResult;
+import org.qifu.vo.SysExprJobVO;
 import org.qifu.vo.SysExpressionVO;
 
 public interface ISystemExpressionLogicService {
@@ -33,12 +34,10 @@ public interface ISystemExpressionLogicService {
 	
 	public DefaultResult<Boolean> delete(SysExpressionVO expression) throws ServiceException, Exception;
 	
-	/*
 	public DefaultResult<SysExprJobVO> createJob(SysExprJobVO exprJob, String systemOid, String expressionOid) throws ServiceException, Exception;
 	
 	public DefaultResult<SysExprJobVO> updateJob(SysExprJobVO exprJob, String systemOid, String expressionOid) throws ServiceException, Exception;
 	
 	public DefaultResult<Boolean> deleteJob(SysExprJobVO exprJob) throws ServiceException, Exception;
-	*/
 	
 }

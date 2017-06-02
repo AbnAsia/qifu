@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.qifu.base.SysMessageUtil;
 import org.qifu.base.SysMsgConstants;
@@ -36,14 +37,18 @@ import org.qifu.base.model.ServiceAuthority;
 import org.qifu.base.model.ServiceMethodAuthority;
 import org.qifu.base.model.ServiceMethodType;
 import org.qifu.base.service.logic.BaseLogicService;
+import org.qifu.model.ExpressionJobConstants;
 import org.qifu.po.TbSys;
 import org.qifu.po.TbSysBeanHelpExpr;
+import org.qifu.po.TbSysExprJob;
 import org.qifu.po.TbSysExpression;
 import org.qifu.service.ISysBeanHelpExprService;
+import org.qifu.service.ISysExprJobService;
 import org.qifu.service.ISysExpressionService;
 import org.qifu.service.ISysService;
 import org.qifu.service.logic.ISystemExpressionLogicService;
 import org.qifu.vo.SysBeanHelpExprVO;
+import org.qifu.vo.SysExprJobVO;
 import org.qifu.vo.SysExpressionVO;
 import org.qifu.vo.SysVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +66,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	private static final int MAX_DESCRIPTION_LENGTH = 500;
 	private ISysExpressionService<SysExpressionVO, TbSysExpression, String> sysExpressionService;
 	private ISysBeanHelpExprService<SysBeanHelpExprVO, TbSysBeanHelpExpr, String> sysBeanHelpExprService;
-	//private ISysExprJobService<SysExprJobVO, TbSysExprJob, String> sysExprJobService;
+	private ISysExprJobService<SysExprJobVO, TbSysExprJob, String> sysExprJobService;
 	private ISysService<SysVO, TbSys, String> sysService;
 	
 	public SystemExpressionLogicServiceImpl() {
@@ -90,8 +95,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	public void setSysBeanHelpExprService(ISysBeanHelpExprService<SysBeanHelpExprVO, TbSysBeanHelpExpr, String> sysBeanHelpExprService) {
 		this.sysBeanHelpExprService = sysBeanHelpExprService;
 	}
-
-	/*
+	
 	public ISysExprJobService<SysExprJobVO, TbSysExprJob, String> getSysExprJobService() {
 		return sysExprJobService;
 	}
@@ -102,7 +106,6 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	public void setSysExprJobService(ISysExprJobService<SysExprJobVO, TbSysExprJob, String> sysExprJobService) {
 		this.sysExprJobService = sysExprJobService;
 	}
-	*/
 	
 	public ISysService<SysVO, TbSys, String> getSysService() {
 		return sysService;
@@ -177,17 +180,12 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 		if ( this.sysBeanHelpExprService.countByParams(params) > 0) {
 			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_CANNOT_DELETE));
 		}
-		/*
-		 * FIXME : 之後要開啟
-		 * 
 		if ( this.sysExprJobService.countByParams(params) > 0 ) {
-			throw new ServiceException(SysMessageUtil.get(GreenStepSysMsgConstants.DATA_CANNOT_DELETE));
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.DATA_CANNOT_DELETE));
 		}
-		*/
 		return this.sysExpressionService.deleteObject(expression);
 	}
 	
-	/*
 	@ServiceMethodAuthority(type={ServiceMethodType.INSERT})
 	@Transactional(
 			propagation=Propagation.REQUIRED, 
@@ -196,7 +194,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	@Override
 	public DefaultResult<SysExprJobVO> createJob(SysExprJobVO exprJob, String systemOid, String expressionOid) throws ServiceException, Exception {
 		if (exprJob==null || super.isBlank(systemOid) || super.isBlank(expressionOid)) {
-			throw new ServiceException(SysMessageUtil.get(GreenStepSysMsgConstants.PARAMS_BLANK));
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.PARAMS_BLANK));
 		}	
 		SysVO sys = new SysVO();
 		sys.setOid(systemOid);
@@ -227,7 +225,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	@Override
 	public DefaultResult<SysExprJobVO> updateJob(SysExprJobVO exprJob, String systemOid, String expressionOid) throws ServiceException, Exception {
 		if ( null == exprJob || StringUtils.isBlank(exprJob.getOid()) || StringUtils.isBlank(systemOid) || StringUtils.isBlank(expressionOid) ) {
-			throw new ServiceException(SysMessageUtil.get(GreenStepSysMsgConstants.PARAMS_BLANK));
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.PARAMS_BLANK));
 		}
 		SysVO sys = new SysVO();
 		sys.setOid(systemOid);
@@ -267,7 +265,7 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 	@Override
 	public DefaultResult<Boolean> deleteJob(SysExprJobVO exprJob) throws ServiceException, Exception {
 		if ( null == exprJob || StringUtils.isBlank(exprJob.getOid()) ) {
-			throw new ServiceException(SysMessageUtil.get(GreenStepSysMsgConstants.PARAMS_BLANK));
+			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.PARAMS_BLANK));
 		}
 		DefaultResult<SysExprJobVO> oldResult = this.sysExprJobService.findObjectByOid(exprJob);
 		if (oldResult.getValue() == null) {
@@ -276,6 +274,5 @@ public class SystemExpressionLogicServiceImpl extends BaseLogicService implement
 		exprJob = oldResult.getValue();
 		return this.sysExprJobService.deleteObject( exprJob );
 	}
-	*/
 	
 }
