@@ -33,7 +33,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 $( document ).ready(function() {
 	
-	$('#message').froalaEditor();
+	$('#message').froalaEditor({
+		height: 250
+	});
 	
 });
 
