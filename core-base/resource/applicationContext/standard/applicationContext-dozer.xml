@@ -46,6 +46,11 @@
 				<value>classpath*:dozer/dozerBeanMapping-sysBeanHelpExprMap.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysBpmnResource.xml</value>
 				<value>classpath*:dozer/dozerBeanMapping-sysBpmnResourceRole.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysExprJob.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysExprJobLog.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysMailHelper.xml</value>
+				<value>classpath*:dozer/dozerBeanMapping-sysQfieldLog.xml</value>
+				
 				
 			</list> 
 		</property> 

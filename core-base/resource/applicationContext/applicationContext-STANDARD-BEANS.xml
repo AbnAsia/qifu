@@ -37,6 +37,10 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysBeanHelpExprMap.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysBpmnResource.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysBpmnResourceRole.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysExprJob.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysExprJobLog.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysMailHelper.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysQfieldLog.xml" />
     
     
     <!-- common util -->
