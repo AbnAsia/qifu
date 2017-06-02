@@ -12,14 +12,14 @@
     <!--     
     #################################################################################
     Config settings need log page query field and field-value
-    the map key = SYSTEM-Id # PROGRAM-ID # struts2-action-method
+    the map key = SYSTEM-Id # PROGRAM-ID # controller method
     the map value = view-page query field name
     
     Example:
     
     <entry 
-    	key="BSC#BSC_PROG002D0004Q#execute"	
-    	value="searchValue.parameter.visionOid, searchValue.parameter.perspectiveOid, searchValue.parameter.objectiveOid, searchValue.parameter.id, searchValue.parameter.name" 
+    	key="CORE#CORE_PROG001D0002Q#queryGrid"
+    	value="parameter[progId], parameter[name]"
     />
     
     #################################################################################     
@@ -28,8 +28,8 @@
 	<bean id="app.config.queryParamInspectSettings" class="java.util.HashMap" scope="singleton" >
 		<constructor-arg>
 			<map>
-				<!--  
-				<entry key="BSC#BSC_PROG002D0004Q#execute"	value="searchValue.parameter.visionOid, searchValue.parameter.perspectiveOid, searchValue.parameter.objectiveOid, searchValue.parameter.id, searchValue.parameter.name" />
+				<!--   
+				<entry key="CORE#CORE_PROG001D0002Q#queryGrid"	value="parameter[progId], parameter[name]" />
 				-->
 			</map>
 		</constructor-arg>				
