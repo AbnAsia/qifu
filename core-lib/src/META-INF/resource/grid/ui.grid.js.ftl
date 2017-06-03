@@ -150,6 +150,7 @@ function ${queryFunction}() {
 				$("#rowCount").html( data.pageOfCountSize );
 				$("#sizeShow").html( data.pageOfSize );
 				$("#pageSize").val( data.pageOfSize );
+				$("#select").val( data.pageOfSelect );
 				_before_select_page = data.pageOfSelect;
 				
 				showQueryGridToolBarTable();
