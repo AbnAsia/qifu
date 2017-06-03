@@ -1,5 +1,5 @@
 /* 
- * Copyright 2012-2016 bambooCORE, greenstep of copyright Chen Xin Nien
+ * Copyright 2012-2017 qifu of copyright Chen Xin Nien
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,14 +27,11 @@ import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.service.IBaseService;
-import org.qifu.po.TbSysExprJobLog;
+import org.qifu.base.service.ISimpleService;
+import org.qifu.po.TbSysEventLog;
 
-public interface ISysExprJobLogService<T extends java.io.Serializable, E extends java.io.Serializable, PK extends java.io.Serializable> extends IBaseService<T, E, PK> {
+public interface ISysEventLogService<T extends java.io.Serializable, PK extends java.io.Serializable> extends ISimpleService<T, PK> {
 	
-	public static String MAPPER_ID_PO2VO="sysExprJobLog.po2vo";
-	public static String MAPPER_ID_VO2PO="sysExprJobLog.vo2po";
-	
-	public QueryResult<List<TbSysExprJobLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception;
-	
+	public QueryResult<List<TbSysEventLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception;
+
 }

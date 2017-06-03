@@ -41,6 +41,9 @@
     <import resource="classpath*:applicationContext/standard/applicationContext-sysExprJobLog.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysMailHelper.xml" />
     <import resource="classpath*:applicationContext/standard/applicationContext-sysQfieldLog.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysEventLog.xml" />
+    <import resource="classpath*:applicationContext/standard/applicationContext-sysLoginLog.xml" />
+    
     
     <!-- Dozer -->
     <import resource="classpath*:applicationContext/standard/applicationContext-dozer.xml" />

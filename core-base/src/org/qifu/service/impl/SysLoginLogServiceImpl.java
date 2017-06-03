@@ -1,5 +1,5 @@
 /* 
- * Copyright 2012-2016 bambooCORE, greenstep of copyright Chen Xin Nien
+ * Copyright 2012-2017 qifu of copyright Chen Xin Nien
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,69 +34,56 @@ import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.base.service.BaseService;
-import org.qifu.dao.ISysExprJobLogDAO;
-import org.qifu.po.TbSysExprJobLog;
-import org.qifu.service.ISysExprJobLogService;
-import org.qifu.vo.SysExprJobLogVO;
+import org.qifu.base.service.SimpleService;
+import org.qifu.dao.ISysLoginLogDAO;
+import org.qifu.po.TbSysLoginLog;
+import org.qifu.service.ISysLoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("core.service.SysExprJobLogService")
-@Scope("prototype")
+@Service("core.service.SysLoginLogService")
 @Transactional(propagation=Propagation.REQUIRED, readOnly=true)
-public class SysExprJobLogServiceImpl extends BaseService<SysExprJobLogVO, TbSysExprJobLog, String> implements ISysExprJobLogService<SysExprJobLogVO, TbSysExprJobLog, String> {
-	protected Logger logger=Logger.getLogger(SysExprJobLogServiceImpl.class);
-	private ISysExprJobLogDAO<TbSysExprJobLog, String> sysExprJobLogDAO;
+public class SysLoginLogServiceImpl extends SimpleService<TbSysLoginLog, String> implements ISysLoginLogService<TbSysLoginLog, String> {
+	protected Logger logger=Logger.getLogger(SysLoginLogServiceImpl.class);
+	private ISysLoginLogDAO<TbSysLoginLog, String> sysLoginLogDAO;
 	
-	public SysExprJobLogServiceImpl() {
+	public SysLoginLogServiceImpl() {
 		super();
 	}
 
-	public ISysExprJobLogDAO<TbSysExprJobLog, String> getSysExprJobLogDAO() {
-		return sysExprJobLogDAO;
+	@Override
+	protected IBaseDAO<TbSysLoginLog, String> getBaseDataAccessObject() {
+		return this.sysLoginLogDAO;
+	}
+
+	public ISysLoginLogDAO<TbSysLoginLog, String> getSysLoginLogDAO() {
+		return sysLoginLogDAO;
 	}
 
 	@Autowired
-	@Resource(name="core.dao.SysExprJobLogDAO")
-	@Required		
-	public void setSysExprJobLogDAO(ISysExprJobLogDAO<TbSysExprJobLog, String> sysExprJobLogDAO) {
-		this.sysExprJobLogDAO = sysExprJobLogDAO;
-	}
-
-	@Override
-	protected IBaseDAO<TbSysExprJobLog, String> getBaseDataAccessObject() {
-		return sysExprJobLogDAO;
-	}
-
-	@Override
-	public String getMapperIdPo2Vo() {		
-		return MAPPER_ID_PO2VO;
-	}
-
-	@Override
-	public String getMapperIdVo2Po() {
-		return MAPPER_ID_VO2PO;
+	@Resource(name="core.dao.SysLoginLogDAO")
+	@Required	
+	public void setSysLoginLogDAO(ISysLoginLogDAO<TbSysLoginLog, String> sysLoginLogDAO) {
+		this.sysLoginLogDAO = sysLoginLogDAO;
 	}
 	
 	private Map<String, Object> getQueryGridParameter(SearchValue searchValue) throws Exception {
-		return super.getQueryParamHandler(searchValue).fullEquals4TextField("id").getValue();
-	}		
+		return super.getQueryParamHandler(searchValue).fullEquals4TextField("user").getValue();
+	}	
 
 	@Override
-	public QueryResult<List<TbSysExprJobLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception {
+	public QueryResult<List<TbSysLoginLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception {
 		if (searchValue==null || pageOf==null) {
 			throw new ServiceException(SysMessageUtil.get(SysMsgConstants.SEARCH_NO_DATA));
 		}
 		Map<String, Object> params=this.getQueryGridParameter(searchValue);	
 		int limit=Integer.parseInt(pageOf.getShowRow());
 		int offset=(Integer.parseInt(pageOf.getSelect())-1)*limit;	
-		QueryResult<List<TbSysExprJobLog>> result=this.sysExprJobLogDAO.findPageQueryResultByQueryName(
-				"findSysExprJobLogPageGrid", params, offset, limit);
+		QueryResult<List<TbSysLoginLog>> result=this.sysLoginLogDAO.findPageQueryResultByQueryName(
+				"findSysLoginLogPageGrid", params, offset, limit);
 		pageOf.setCountSize(String.valueOf(result.getRowCount()));
 		pageOf.toCalculateSize();
 		return result;

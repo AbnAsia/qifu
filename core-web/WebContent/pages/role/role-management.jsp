@@ -31,7 +31,7 @@ function getQueryGridFormatter(value) {
 	str += '&nbsp;&nbsp;';
 	str += '<img alt="edit permission" title="Edit permission" src="./images/alert.png" onclick="editPermitted(\'' + value + '\');"/>';
 	str += '&nbsp;&nbsp;';	
-	str += '<img alt="copy role" title="Copy role" src="./images/alert.png" onclick="copyRole(\'' + value + '\');"/>';
+	str += '<img alt="copy role" title="Copy role" src="./images/service.png" onclick="copyRole(\'' + value + '\');"/>';
 	str += '&nbsp;&nbsp;';		
 	str += '<img alt="delete" title="Delete" src="./images/delete.png" onclick="deleteRecord(\'' + value + '\');"/>';
 	return str;
