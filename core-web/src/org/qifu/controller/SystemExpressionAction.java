@@ -170,7 +170,7 @@ public class SystemExpressionAction extends BaseController {
 	
 	private void checkFields(DefaultControllerJsonResultObj<SysExpressionVO> result, SysExpressionVO sysExpression) throws ControllerException, Exception {
 		this.getCheckControllerFieldHandler(result)
-		.testField("exprId", sysExpression, "@org.apache.commons.lang3.StringUtils@isBlank( exprId )", "Id is blank!")
+		.testField("exprId", sysExpression, "@org.apache.commons.lang3.StringUtils@isBlank( exprId )", "Id is required!")
 		.testField("exprId", sysExpression, "!@org.qifu.util.SimpleUtils@checkBeTrueOf_azAZ09( exprId.replaceAll(\"-\", \"\").replaceAll(\"_\", \"\") )", "Id only normal character!")
 		.testField("exprId", this.noSelect(sysExpression.getExprId()), "Please change Id value!") // Id 不能使用 all
 		.testField("name", sysExpression, "@org.apache.commons.lang3.StringUtils@isBlank( name )", "Name is required!")
