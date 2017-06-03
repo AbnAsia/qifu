@@ -21,6 +21,7 @@
  */
 package org.qifu.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,8 @@ import org.qifu.base.exception.ServiceException;
 import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
+import org.qifu.base.model.ServiceMethodAuthority;
+import org.qifu.base.model.ServiceMethodType;
 import org.qifu.base.service.SimpleService;
 import org.qifu.dao.ISysEventLogDAO;
 import org.qifu.po.TbSysEventLog;
@@ -90,6 +93,16 @@ public class SysEventLogServiceImpl extends SimpleService<TbSysEventLog, String>
 		pageOf.setCountSize(String.valueOf(result.getRowCount()));
 		pageOf.toCalculateSize();
 		return result;
+	}
+
+	@ServiceMethodAuthority(type={ServiceMethodType.DELETE})
+	@Transactional(
+			propagation=Propagation.REQUIRED, 
+			readOnly=false,
+			rollbackFor={RuntimeException.class, IOException.class, Exception.class} )	
+	@Override
+	public int deleteAll() throws ServiceException, Exception {
+		return this.sysEventLogDAO.deleteAll();
 	}
 
 }

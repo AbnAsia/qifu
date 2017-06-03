@@ -94,14 +94,6 @@ function deleteRecord(oid) {
 	);	
 }
 
-function stopOrReloadSuccess(data) {
-	if ( _qifu_success_flag != data.success ) {
-		parent.toastrWarning( data.message );
-		return;
-	}
-	parent.toastrInfo( data.message );	
-}
-
 </script>
 
 </head>

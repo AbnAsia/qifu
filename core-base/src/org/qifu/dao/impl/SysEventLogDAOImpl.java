@@ -33,4 +33,9 @@ public class SysEventLogDAOImpl extends BaseDAO<TbSysEventLog, String> implement
 		super();
 	}
 
+	@Override
+	public int deleteAll() throws Exception {
+		return this.getCurrentSession().createQuery("delete from TbSysEventLog").executeUpdate();
+	}
+
 }

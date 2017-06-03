@@ -33,5 +33,7 @@ import org.qifu.po.TbSysEventLog;
 public interface ISysEventLogService<T extends java.io.Serializable, PK extends java.io.Serializable> extends ISimpleService<T, PK> {
 	
 	public QueryResult<List<TbSysEventLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception;
+	
+	public int deleteAll() throws ServiceException, Exception;
 
 }

@@ -25,5 +25,7 @@ import org.qifu.base.dao.IBaseDAO;
 import org.qifu.po.TbSysEventLog;
 
 public interface ISysEventLogDAO<T extends java.io.Serializable, PK extends java.io.Serializable> extends IBaseDAO<TbSysEventLog, String> {
+	
+	public int deleteAll() throws Exception;
 
 }
