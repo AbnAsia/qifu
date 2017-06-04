@@ -23,6 +23,7 @@ package org.qifu.base.interceptor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.qifu.base.AppContext;
 import org.qifu.base.Constants;
 import org.qifu.base.model.ControllerMethodAuthority;
 import org.qifu.base.model.YesNo;
@@ -42,6 +44,33 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 	protected static Logger logger = Logger.getLogger(ControllerAuthorityCheckInterceptor.class);
 	private static final String NO_AUTH_PAGE = "./pages/system/auth1.jsp";
+	private static Map<String, String> excludeLogUrlMap = null;
+	
+	@SuppressWarnings("unchecked")
+	private void initExcludeLogUrlMap() throws Exception {
+		if (null != excludeLogUrlMap) {
+			return;
+		}
+		excludeLogUrlMap = (Map<String, String>) AppContext.getBean("app.config.excludeLogControllerUrlSettings");
+	}
+	
+	private void log(String userId, String sysId, String url, boolean permit) throws Exception {
+		this.initExcludeLogUrlMap();
+		boolean log = true;
+		for (Map.Entry<String, String> entry : excludeLogUrlMap.entrySet()) {
+			String excludeLogUrls[] = entry.getValue().split(",");
+			for (int i = 0; log && excludeLogUrls != null && i < excludeLogUrls.length; i++) {
+				if ( url.indexOf(excludeLogUrls[i].replaceAll(" ", "")) > -1 ) {
+					log = false;
+				}
+			}
+		}
+		if (!log) {
+			logger.info("exclude log url: " + url);
+			return;
+		}
+		SysEventLogSupport.log(userId, sysId, url, permit);
+	}
 	
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
@@ -59,24 +88,24 @@ public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 		Subject subject = SecurityUtils.getSubject();
 		
 		if (subject.hasRole(Constants.SUPER_ROLE_ALL) || subject.hasRole(Constants.SUPER_ROLE_ADMIN)) {
-			SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, true );
+			this.log( (String)subject.getPrincipal(), Constants.getSystem(), url, true );
 			return true;
 		}		
 		Method method = ((HandlerMethod) handler).getMethod();
 		Annotation[] actionMethodAnnotations = method.getAnnotations();
 		
 		if (this.isControllerAuthority(actionMethodAnnotations, subject)) {
-			SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, true );
+			this.log( (String)subject.getPrincipal(), Constants.getSystem(), url, true );
 			return true;
 		}		
 		if (subject.isPermitted(url) || subject.isPermitted("/"+url)) {
-			SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, true );
+			this.log( (String)subject.getPrincipal(), Constants.getSystem(), url, true );
 			return true;
 		}
 		logger.warn("[decline] user=" + subject.getPrincipal() + " url=" + url);
 		String isQifuPageChange = request.getParameter(Constants.QIFU_PAGE_IN_TAB_IFRAME);
 		if (YesNo.YES.equals(isQifuPageChange)) { // dojox.layout.ContentPane 它的 X-Requested-With 是 XMLHttpRequest
-			SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
+			this.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
 			response.sendRedirect( NO_AUTH_PAGE );
 			return false;
 		}
@@ -85,10 +114,10 @@ public class ControllerAuthorityCheckInterceptor implements HandlerInterceptor {
 			response.getWriter().print(Constants.NO_AUTHZ_JSON_DATA);
 			response.getWriter().flush();
 			response.getWriter().close();
-            SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
+            this.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
 			return false;
 		}
-		SysEventLogSupport.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
+		this.log( (String)subject.getPrincipal(), Constants.getSystem(), url, false );
 		response.sendRedirect( NO_AUTH_PAGE );
 		return false;
 	}
