@@ -38,17 +38,13 @@ function getQueryGridFormatter(value) {
 function getQueryGridHeader() {
 	return [
 		{ name: "#", 			field: "oid", 	formatter: getQueryGridFormatter },
-		{ name: "System",		field: "sysId"			},
 		{ name: "User", 		field: "user"			},
-		{ name: "Event", 		field: "executeEvent"	},
-		{ name: "Permit", 		field: "isPermit"		},
 		{ name: "Date time", 	field: "cdate"			}
 	];
 }
 
 function queryClear() {
 	$("#user").val('');
-	$("#sysId").val('');
 	
 	clearQueryGridTable();
 	
@@ -62,7 +58,7 @@ function deleteRecord(oid) {
 					return;
 				}
 				xhrSendParameter(
-						'./core.sysEventLogDeleteJson.do', 
+						'./core.sysLoginLogDeleteJson.do', 
 						{ 'oid' : oid }, 
 						function(data) {
 							if ( _qifu_success_flag != data.success ) {
@@ -89,25 +85,22 @@ function deleteRecord(oid) {
 <body>
 
 <q:toolBar 
-	id="CORE_PROG004D0001Q_toolbar" 
+	id="CORE_PROG004D0002Q_toolbar" 
 	refreshEnable="Y"
-	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG004D0001Q');" 
+	refreshJsMethod="window.location=parent.getProgUrl('CORE_PROG004D0002Q');" 
 	createNewEnable="N"
 	createNewJsMethod=""
 	saveEnabel="N" 
 	saveJsMethod="" 	
 	cancelEnable="Y" 
-	cancelJsMethod="parent.closeTab('CORE_PROG004D0001Q');" >
+	cancelJsMethod="parent.closeTab('CORE_PROG004D0002Q');" >
 </q:toolBar>
 <jsp:include page="../common-f-head.jsp"></jsp:include>
 
       <div class="row">     
         <div class="col-xs-6 col-md-6 col-lg-6">
         	<q:textbox name="user" value="" id="user" label="Account" placeholder="Enter account" maxlength="24"></q:textbox>
-        </div>
-        <div class="col-xs-6 col-md-6 col-lg-6">
-        	<q:textbox name="sysId" value="" id="sysId" label="System Id" placeholder="Enter system id" maxlength="10"></q:textbox>
-        </div>       
+        </div>    
       </div>
       
 <br>
@@ -127,8 +120,8 @@ function deleteRecord(oid) {
 		'showRow'				: getQueryGridShowRow()	
 	}
 	"
-	xhrUrl="./core.sysEventLogQueryGridJson.do" 
-	id="CORE_PROG004D0001Q_grid"
+	xhrUrl="./core.sysLoginLogQueryGridJson.do" 
+	id="CORE_PROG004D0002Q_grid"
 	queryFunction="queryGrid()"
 	clearFunction="clearQueryGridTable()">
 </q:grid>
@@ -137,7 +130,7 @@ function deleteRecord(oid) {
 <br>
 
 <q:button id="btnDeleteAll" label="Clear log"
-	xhrUrl="./core.sysEventLogDeleteAllJson.do"
+	xhrUrl="./core.sysLoginLogDeleteAllJson.do"
 	xhrParameter="{	}"
 	onclick="btnDeleteAll();"
 	loadFunction="queryGrid();"

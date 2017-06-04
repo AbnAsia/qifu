@@ -33,5 +33,7 @@ import org.qifu.po.TbSysLoginLog;
 public interface ISysLoginLogService<T extends java.io.Serializable, PK extends java.io.Serializable> extends ISimpleService<T, PK> {
 	
 	public QueryResult<List<TbSysLoginLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception;
+	
+	public int deleteAll() throws ServiceException, Exception;
 
 }

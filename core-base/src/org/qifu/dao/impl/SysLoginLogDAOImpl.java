@@ -33,4 +33,9 @@ public class SysLoginLogDAOImpl extends BaseDAO<TbSysLoginLog, String> implement
 		super();
 	}
 
+	@Override
+	public int deleteAll() throws Exception {
+		return this.getCurrentSession().createQuery("delete from TbSysLoginLog").executeUpdate();
+	}
+
 }

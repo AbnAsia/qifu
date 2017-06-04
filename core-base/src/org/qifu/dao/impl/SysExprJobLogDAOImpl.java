@@ -34,5 +34,10 @@ public class SysExprJobLogDAOImpl extends BaseDAO<TbSysExprJobLog, String> imple
 	public SysExprJobLogDAOImpl() {
 		super();
 	}
+
+	@Override
+	public int deleteAll() throws Exception {
+		return this.getCurrentSession().createQuery("delete from TbSysExprJobLog").executeUpdate();
+	}
 	
 }

@@ -37,4 +37,6 @@ public interface ISysExprJobLogService<T extends java.io.Serializable, E extends
 	
 	public QueryResult<List<TbSysExprJobLog>> findGridResult(SearchValue searchValue, PageOf pageOf) throws ServiceException, Exception;
 	
+	public int deleteAll() throws ServiceException, Exception;
+	
 }

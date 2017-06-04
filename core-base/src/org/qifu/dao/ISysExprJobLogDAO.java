@@ -26,4 +26,6 @@ import org.qifu.po.TbSysExprJobLog;
 
 public interface ISysExprJobLogDAO<T extends java.io.Serializable, PK extends java.io.Serializable> extends IBaseDAO<TbSysExprJobLog, String> {
 	
+	public int deleteAll() throws Exception;
+	
 }
