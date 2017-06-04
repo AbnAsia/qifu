@@ -39,8 +39,9 @@ import org.qifu.base.model.PageOf;
 import org.qifu.base.model.QueryControllerJsonResultObj;
 import org.qifu.base.model.QueryResult;
 import org.qifu.base.model.SearchValue;
-import org.qifu.po.TbSysLoginLog;
-import org.qifu.service.ISysLoginLogService;
+import org.qifu.po.TbSysExprJobLog;
+import org.qifu.service.ISysExprJobLogService;
+import org.qifu.vo.SysExprJobLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -51,33 +52,33 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @Controller
-public class SystemLoginLogViewAction extends BaseController {
+public class SystemExpressionJobLogViewAction extends BaseController {
 	
-	private ISysLoginLogService<TbSysLoginLog, String> sysLoginLogService;
+	private ISysExprJobLogService<SysExprJobLogVO, TbSysExprJobLog, String> sysExprJobLogService;
 
-	public ISysLoginLogService<TbSysLoginLog, String> getSysLoginLogService() {
-		return sysLoginLogService;
+	public ISysExprJobLogService<SysExprJobLogVO, TbSysExprJobLog, String> getSysExprJobLogService() {
+		return sysExprJobLogService;
 	}
 
 	@Autowired
-	@Resource(name="core.service.SysLoginLogService")
+	@Resource(name="core.service.SysExprJobLogService")
 	@Required	
-	public void setSysLoginLogService(ISysLoginLogService<TbSysLoginLog, String> sysLoginLogService) {
-		this.sysLoginLogService = sysLoginLogService;
+	public void setSysExprJobLogService(ISysExprJobLogService<SysExprJobLogVO, TbSysExprJobLog, String> sysExprJobLogService) {
+		this.sysExprJobLogService = sysExprJobLogService;
 	}
 	
 	private void init(String type, HttpServletRequest request, ModelAndView mv) throws ServiceException, ControllerException, Exception {
 		
 	}
 	
-	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0002Q")
-	@RequestMapping(value = "/core.sysLoginLogManagement.do")	
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0003Q")
+	@RequestMapping(value = "/core.sysExpressionJobLogManagement.do")	
 	public ModelAndView queryPage(HttpServletRequest request) {
 		String viewName = PAGE_SYS_ERROR;
-		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG004D0002Q");
+		ModelAndView mv = this.getDefaultModelAndView("CORE_PROG004D0003Q");
 		try {
 			this.init("queryPage", request, mv);
-			viewName = "sys-login-log/sys-login-log-management";
+			viewName = "sys-exprjob-log/sys-exprjob-log-management";
 		} catch (AuthorityException e) {
 			viewName = this.getAuthorityExceptionPage(e, request);
 		} catch (ServiceException | ControllerException e) {
@@ -89,15 +90,15 @@ public class SystemLoginLogViewAction extends BaseController {
 		return mv;
 	}	
 	
-	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0002Q")
-	@RequestMapping(value = "/core.sysLoginLogQueryGridJson.do", produces = "application/json")	
-	public @ResponseBody QueryControllerJsonResultObj< List<TbSysLoginLog> > queryGrid(SearchValue searchValue, PageOf pageOf) {
-		QueryControllerJsonResultObj< List<TbSysLoginLog> > result = this.getQueryJsonResult("CORE_PROG004D0002Q");
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0003Q")
+	@RequestMapping(value = "/core.sysExpressionJobLogQueryGridJson.do", produces = "application/json")	
+	public @ResponseBody QueryControllerJsonResultObj< List<TbSysExprJobLog> > queryGrid(SearchValue searchValue, PageOf pageOf) {
+		QueryControllerJsonResultObj< List<TbSysExprJobLog> > result = this.getQueryJsonResult("CORE_PROG004D0003Q");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
 		try {
-			QueryResult< List<TbSysLoginLog> > queryResult = this.sysLoginLogService.findGridResult(searchValue, pageOf);
+			QueryResult< List<TbSysExprJobLog> > queryResult = this.sysExprJobLogService.findGridResult(searchValue, pageOf);
 			this.setQueryGridJsonResult(result, queryResult, pageOf);
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );
@@ -107,8 +108,8 @@ public class SystemLoginLogViewAction extends BaseController {
 		return result;
 	}	
 	
-	private void delete(DefaultControllerJsonResultObj<Boolean> result, TbSysLoginLog sysLoginLog) throws AuthorityException, ControllerException, ServiceException, Exception {
-		DefaultResult<Boolean> dResult = this.sysLoginLogService.deleteEntity(sysLoginLog);
+	private void delete(DefaultControllerJsonResultObj<Boolean> result, TbSysExprJobLog sysExprJobLog) throws AuthorityException, ControllerException, ServiceException, Exception {
+		DefaultResult<Boolean> dResult = this.sysExprJobLogService.deleteEntity(sysExprJobLog);
 		if ( dResult.getValue() != null && dResult.getValue() ) {
 			result.setValue( dResult.getValue() );
 			result.setSuccess( YES );
@@ -117,21 +118,21 @@ public class SystemLoginLogViewAction extends BaseController {
 	}
 	
 	private void deleteAll(DefaultControllerJsonResultObj<Boolean> result) throws AuthorityException, ControllerException, ServiceException, Exception {
-		this.sysLoginLogService.deleteAll();
+		this.sysExprJobLogService.deleteAll();
 		result.setSuccess( YES );
 		result.setValue( true );
 		result.setMessage( SysMessageUtil.get(SysMsgConstants.DELETE_SUCCESS) );
 	}	
 	
-	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0002D")
-	@RequestMapping(value = "/core.sysLoginLogDeleteJson.do", produces = "application/json")		
-	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(TbSysLoginLog sysLoginLog) {
-		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG004D0002D");
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0003D")
+	@RequestMapping(value = "/core.sysExpressionJobLogDeleteJson.do", produces = "application/json")		
+	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDelete(TbSysExprJobLog sysExprJobLog) {
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG004D0003D");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
 		try {
-			this.delete(result, sysLoginLog);
+			this.delete(result, sysExprJobLog);
 		} catch (AuthorityException | ServiceException | ControllerException e) {
 			result.setMessage( e.getMessage().toString() );			
 		} catch (Exception e) {
@@ -140,10 +141,10 @@ public class SystemLoginLogViewAction extends BaseController {
 		return result;
 	}	
 	
-	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0002D")
-	@RequestMapping(value = "/core.sysLoginLogDeleteAllJson.do", produces = "application/json")		
+	@ControllerMethodAuthority(check = true, programId = "CORE_PROG004D0003D")
+	@RequestMapping(value = "/core.sysExpressionJobLogDeleteAllJson.do", produces = "application/json")		
 	public @ResponseBody DefaultControllerJsonResultObj<Boolean> doDeleteAll() {
-		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG004D0002D");
+		DefaultControllerJsonResultObj<Boolean> result = this.getDefaultJsonResult("CORE_PROG004D0003D");
 		if (!this.isAuthorizeAndLoginFromControllerJsonResult(result)) {
 			return result;
 		}
@@ -155,6 +156,6 @@ public class SystemLoginLogViewAction extends BaseController {
 			this.exceptionResult(result, e);
 		}
 		return result;
-	}	
-
+	}
+	
 }
