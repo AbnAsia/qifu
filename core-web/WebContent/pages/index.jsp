@@ -15,21 +15,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="./tether/tether.min.css" crossorigin="anonymous">
-<script type="text/javascript" src="./tether/tether.min.js"></script>
-<script type="text/javascript" src="./jquery/jquery-3.1.1.min.js"></script>
-<link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css" crossorigin="anonymous">
-<link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js" crossorigin="anonymous"></script>
-<script src="./bootbox/bootbox.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./tether/tether.min.css?ver=${jsVerBuild}" crossorigin="anonymous">
+<script type="text/javascript" src="./tether/tether.min.js?ver=${jsVerBuild}"></script>
+<script type="text/javascript" src="./jquery/jquery-3.1.1.min.js?ver=${jsVerBuild}"></script>
+<link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css?ver=${jsVerBuild}" crossorigin="anonymous">
+<link href="./font-awesome/css/font-awesome.min.css?ver=${jsVerBuild}" rel="stylesheet" type="text/css" />
+<script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js?ver=${jsVerBuild}" crossorigin="anonymous"></script>
+<script src="./bootbox/bootbox.js?ver=${jsVerBuild}" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="./toastr/toastr.min.css" crossorigin="anonymous">
-<script src="./toastr/toastr.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./toastr/toastr.min.css?ver=${jsVerBuild}" crossorigin="anonymous">
+<script src="./toastr/toastr.min.js?ver=${jsVerBuild}" crossorigin="anonymous"></script>
 
 <c:if test="${ \"Y\" == scrollingTabsEnable }">
 <!-- 預設沒有開啟 -->  
-<link rel="stylesheet" href="./jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css" crossorigin="anonymous">
-<script src="./jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css?ver=${jsVerBuild}" crossorigin="anonymous">
+<script src="./jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js?ver=${jsVerBuild}" crossorigin="anonymous"></script>
 </c:if>
 
 <link rel="stylesheet" href="./css/m.css?ver=${jsVerBuild}" crossorigin="anonymous">
