@@ -219,7 +219,8 @@ if ("Y".equals(leftMenuEnable)) { // 有啟動左邊的選單
 <%
 } else { // 沒有啟動左邊的選單
 %>      
-
+		<main class="pt-3">
+		
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 
 			</ul>
@@ -229,7 +230,8 @@ if ("Y".equals(leftMenuEnable)) { // 有啟動左邊的選單
 				
 
 			</div>
-
+			
+		</main>
 <%
 }
 %>
