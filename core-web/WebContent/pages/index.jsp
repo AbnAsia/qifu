@@ -166,7 +166,7 @@ ${modalHtmlData}
 			</div>
 		  </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="addTab('CORE_PROG999', null);"><b>About</b></a>
+            <a class="nav-link" href="#" onclick="addTab('CORE_PROG999D9999Q', null);"><b>About</b></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="logoutEvent();"><b>Logout</b></a>
