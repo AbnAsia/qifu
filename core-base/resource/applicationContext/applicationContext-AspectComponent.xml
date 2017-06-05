@@ -13,11 +13,11 @@
     <!-- OLD remark -->
     <!-- 不用打開這兩個beanId, 如果打要後等於有雙倍的ASPECT beanId被啟用了 -->
     <!-- 
-    <bean id="core.aspect.ServiceAuthorityCheckAspect" class="org.qifu.service.aspect.ServiceAuthorityCheckAspect"></bean>
-    <bean id="core.aspect.ServiceScriptExpressionProcessAspect" class="org.qifu.service.aspect.ServiceScriptExpressionProcessAspect"></bean>
+    <bean id="core.aspect.ServiceAuthorityCheckAspect" class="org.qifu.base.aspect.ServiceAuthorityCheckAspect"></bean>
+    <bean id="core.aspect.ServiceScriptExpressionProcessAspect" class="org.qifu.base.aspect.ServiceScriptExpressionProcessAspect"></bean>
     -->	
     <!-- 
-	<context:component-scan base-package="org.qifu.service, org.qifu.bsc.service"/>
+	<context:component-scan base-package="org.qifu.service, org.qifu.common.service"/>
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	-->
 	
@@ -25,10 +25,10 @@
 	
     <!-- 不用打開這兩個beanId, 如果打要後等於有雙倍的ASPECT beanId被啟用了 -->
     <!-- 
-    <bean id="core.aspect.ServiceAuthorityCheckAspect" class="org.qifu.aspect.ServiceAuthorityCheckAspect"></bean>
-    <bean id="core.aspect.ServiceScriptExpressionProcessAspect" class="org.qifu.aspect.ServiceScriptExpressionProcessAspect"></bean>
+    <bean id="core.aspect.ServiceAuthorityCheckAspect" class="org.qifu.base.aspect.ServiceAuthorityCheckAspect"></bean>
+    <bean id="core.aspect.ServiceScriptExpressionProcessAspect" class="org.qifu.base.aspect.ServiceScriptExpressionProcessAspect"></bean>
     -->	    
-	<context:component-scan base-package="org.qifu.aspect"/>
+	<context:component-scan base-package="org.qifu.base.aspect"/>
 	<aop:aspectj-autoproxy proxy-target-class="true"/>	
             
 </beans>    
