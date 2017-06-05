@@ -37,12 +37,12 @@ function getQueryGridFormatter(value) {
 }
 function getQueryGridHeader() {
 	return [
-		{ name: "#", 						field: "oid", 	formatter: getQueryGridFormatter },
-		{ name: "Id", 						field: "id"						},
-		{ name: "Status", 				field: "logStatus"			},
-		{ name: "Begin", 					field: "beginDatetime"	},
-		{ name: "End", 					field: "endDatetime"		},
-		{ name: "Fault message", 	field: "faultMsg"			}
+		{ name: "#", 				field: "oid", 	formatter: getQueryGridFormatter },
+		{ name: "Id", 				field: "id"						},
+		{ name: "Status", 			field: "logStatus"				},
+		{ name: "Begin", 			field: "beginDatetimeString"	},
+		{ name: "End", 				field: "endDatetimeString"		},
+		{ name: "Fault message", 	field: "faultMsg"				}
 	];
 }
 

@@ -28,6 +28,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,6 +71,7 @@ public class SimpleUtils {
 	private final static Random rnd=new Random();		
 	private final static String sourceStr="abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private final static char sourceStrArray[]=sourceStr.toCharArray();
+	private static DateFormat dateFormat_yyyyMMdd_HHmmss = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static boolean checkBeTrueOf_azAZ09(
 			final int minLength, final int maxLength, final String sourceValue) {
@@ -614,4 +617,12 @@ public class SimpleUtils {
 		}		
 		return processors;
 	}
+	
+	public static String getDateFormat_yyyyMMddHHmmss(Date date) {
+		if (null == date) {
+			return "";
+		}
+		return dateFormat_yyyyMMdd_HHmmss.format(date);
+	}
+	
 }

@@ -42,7 +42,7 @@ function getQueryGridHeader() {
 		{ name: "User", 		field: "user"			},
 		{ name: "Event", 		field: "executeEvent"	},
 		{ name: "Permit", 		field: "isPermit"		},
-		{ name: "Date time", 	field: "cdate"			}
+		{ name: "Date time", 	field: "cdateString"	}
 	];
 }
 

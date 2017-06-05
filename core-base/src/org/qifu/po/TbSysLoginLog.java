@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.qifu.base.model.BaseEntity;
 import org.qifu.base.model.EntityPK;
+import org.qifu.util.SimpleUtils;
 
 @Entity
 @Table(name="tb_sys_login_log")
@@ -20,6 +22,11 @@ public class TbSysLoginLog extends BaseEntity<String> implements java.io.Seriali
 	private Date cdate;
 	private String uuserid;
 	private Date udate;	
+	
+	@Transient
+	public String getCdateString() {
+		return SimpleUtils.getDateFormat_yyyyMMddHHmmss(this.cdate);
+	}	
 	
 	@Override
 	@Id

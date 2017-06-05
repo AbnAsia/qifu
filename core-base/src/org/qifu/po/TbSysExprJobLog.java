@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.qifu.base.model.BaseEntity;
 import org.qifu.base.model.EntityPK;
+import org.qifu.util.SimpleUtils;
 
 @Entity
 @Table(name="tb_sys_expr_job_log")
@@ -24,6 +26,16 @@ public class TbSysExprJobLog extends BaseEntity<String> implements java.io.Seria
 	private Date cdate;
 	private String uuserid;
 	private Date udate;
+	
+	@Transient
+	public String getBeginDatetimeString() {
+		return SimpleUtils.getDateFormat_yyyyMMddHHmmss(this.beginDatetime);
+	}		
+	
+	@Transient
+	public String getEndDatetimeString() {
+		return SimpleUtils.getDateFormat_yyyyMMddHHmmss(this.endDatetime);
+	}
 	
 	@Override
 	@Id
