@@ -41,6 +41,12 @@ String leftMenuEnable = SystemSettingConfigureUtils.getLeftAccordionContainerEna
 
 <style type="text/css">
 
+.scrollable-menu {
+    height: auto;
+    max-height: 600px;
+    overflow-x: hidden;
+}
+
 </style>
 
 
@@ -148,7 +154,7 @@ ${modalHtmlData}
       <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-	  <a class="navbar-brand" href="#"><img alt="祈-qífú" src="./images/logo3.png" border="0"></a>
+	  <a class="navbar-brand" href="./index.do"><img alt="祈-qífú" src="./images/logo3.png" border="0"></a>
       
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -157,7 +163,7 @@ ${modalHtmlData}
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			  <b>Application</b>
 			</a>
-			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			<div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdownMenuLink">
 			  
 			  ${dropdownHtmlData}
 			  
