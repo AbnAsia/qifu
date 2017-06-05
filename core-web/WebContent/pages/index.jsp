@@ -1,3 +1,4 @@
+<%@page import="org.qifu.util.SystemSettingConfigureUtils"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -5,6 +6,8 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+String leftMenuEnable = SystemSettingConfigureUtils.getLeftAccordionContainerEnableValue();
 
 %>
 
@@ -163,9 +166,6 @@ ${modalHtmlData}
 			</div>
 		  </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="addTab('CORE_PROG001', null);"><b>Settings</b></a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#" onclick="addTab('CORE_PROG999', null);"><b>About</b></a>
           </li>
           <li class="nav-item">
@@ -179,13 +179,18 @@ ${modalHtmlData}
       </div>
     </nav>
 
+
+<%
+if ("Y".equals(leftMenuEnable)) { // 有啟動左邊的選單
+%> 
     <div class="container-fluid">
       <div class="row">
+           
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
 		
 			${navItemHtmlData}
 		  
-        </nav>
+        </nav>              
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
 		
@@ -203,6 +208,23 @@ ${modalHtmlData}
         </main>
       </div>
     </div>
+<%
+} else { // 沒有啟動左邊的選單
+%>      
+
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content" id="myTabContent">
+				
+
+			</div>
+
+<%
+}
+%>
 
 </body>
   

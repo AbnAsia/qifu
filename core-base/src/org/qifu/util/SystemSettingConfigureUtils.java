@@ -35,7 +35,7 @@ public class SystemSettingConfigureUtils {
 	private static final String _MAIL_DEFAULT_FROM_MAIL_CODE = "CNF_CONF001";
 	private static final String _MAIL_ENABLE_CODE = "CNF_CONF002";
 	private static final String _FIRST_LOAD_JAVASCRIPT_CODE = "CNF_CONF003";
-	private static final String _SYS_FORM_TEMPLATE_FILE_REWRITE_CODE = "CNF_CONF004";
+	//private static final String _SYS_FORM_TEMPLATE_FILE_REWRITE_CODE = "CNF_CONF004";
 	private static final String _LEFT_AccordionContainer_ENABLE_CODE = "CNF_CONF005";
 	private static ISysCodeService<SysCodeVO, TbSysCode, String> sysCodeService;	
 	
@@ -111,6 +111,7 @@ public class SystemSettingConfigureUtils {
 		return StringUtils.defaultString( sysCode.getParam1() );
 	}
 	
+	/*
 	public static SysCodeVO getSysFormTemplateFileRewrite() {
 		return getCode(_SYS_FORM_TEMPLATE_FILE_REWRITE_CODE);
 	}
@@ -123,6 +124,7 @@ public class SystemSettingConfigureUtils {
 	public static void updateSysFormTemplateFileRewriteValue(String value) throws ServiceException, Exception {
 		updateParam1(_SYS_FORM_TEMPLATE_FILE_REWRITE_CODE, value);
 	}
+	*/
 	
 	public static SysCodeVO getLeftAccordionContainerEnable() {
 		return getCode(_LEFT_AccordionContainer_ENABLE_CODE);
