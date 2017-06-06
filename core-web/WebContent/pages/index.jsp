@@ -41,11 +41,6 @@ String leftMenuEnable = SystemSettingConfigureUtils.getLeftAccordionContainerEna
 
 <style type="text/css">
 
-.scrollable-menu {
-    height: auto;
-    max-height: 600px;
-    overflow-x: hidden;
-}
 
 </style>
 
