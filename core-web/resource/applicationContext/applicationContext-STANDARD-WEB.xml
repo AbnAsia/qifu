@@ -15,8 +15,7 @@
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-CXF.xml" />
         
     <!-- apache camel -->
-    <!--  
     <import resource="classpath*:applicationContext/applicationContext-STANDARD-ESB.xml" />
-    -->
+    
             
 </beans>
