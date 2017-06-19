@@ -3,6 +3,9 @@
 	<name>common-web</name>
 	<comment></comment>
 	<projects>
+		<project>core-lib</project>
+		<project>common-standard</project>
+		<project>core-base</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
