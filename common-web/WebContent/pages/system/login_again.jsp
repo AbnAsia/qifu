@@ -1,9 +1,16 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="org.qifu.base.Constants"%>
+<%@page import="org.qifu.util.ApplicationSiteUtils"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+String mainBasePath = basePath;
+if (!Constants.getMainSystem().equals( Constants.getSystem() ) ) {
+	mainBasePath = ApplicationSiteUtils.getBasePath(Constants.getMainSystem(), request);
+}
 
 %>
 
@@ -21,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   </head>
   
-  <link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css">
+  <link rel="stylesheet" href="<%=mainBasePath%>/bootstrap-4/css/bootstrap.css">
   
   <body leftmargin="0" topmargin="0" >
   <table width="100%" border="0" cellpadding="0" cellspacing="0">

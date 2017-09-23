@@ -1,9 +1,16 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="org.qifu.base.Constants"%>
+<%@page import="org.qifu.util.ApplicationSiteUtils"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+String mainBasePath = basePath;
+if (!Constants.getMainSystem().equals( Constants.getSystem() ) ) {
+	mainBasePath = ApplicationSiteUtils.getBasePath(Constants.getMainSystem(), request);
+}
 
 %>
 
@@ -14,11 +21,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="./tether/tether.min.css" crossorigin="anonymous">
-<script type="text/javascript" src="./tether/tether.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>/jquery/jquery-3.1.1.min.js"></script>
-<link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css" crossorigin="anonymous">
-<script src="./bootstrap-4.0.0-alpha.6/js/bootstrap.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="<%=mainBasePath%>/tether/tether.min.css" crossorigin="anonymous">
+<script type="text/javascript" src="<%=mainBasePath%>/tether/tether.min.js"></script>
+<script type="text/javascript" src="<%=mainBasePath%>/jquery/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" href="<%=mainBasePath%>/bootstrap-4/css/bootstrap.css" crossorigin="anonymous">
+<script src="<%=mainBasePath%>/bootstrap-4/js/bootstrap.js" crossorigin="anonymous"></script>
 
 
 <style type="text/css">

@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   </head>
   
-  <link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6/css/bootstrap.css">
+  <link rel="stylesheet" href="<%=basePath%>/bootstrap-4/css/bootstrap.css">
   
   <body leftmargin="0" topmargin="0" >
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
