@@ -408,7 +408,7 @@ juel-impl-2.2.7.jar ( require start Activiti with spring )
 
 
 Apache Camel
--------------------------
+===============================================
 camel-core-2.19.0.jar
 camel-cxf-2.19.0.jar
 camel-cxf-transport-2.19.0.jar
@@ -421,4 +421,10 @@ camel-servlet-2.19.0.jar
 camel-spring-2.19.0.jar
 camel-ssh-2.19.0.jar
 camel-stream-2.19.0.jar
+
+
+cassandra driver core
+https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
+===============================================
+cassandra-driver-core-3.3.0.jar
 
