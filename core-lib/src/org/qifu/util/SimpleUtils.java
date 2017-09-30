@@ -387,6 +387,10 @@ public class SimpleUtils {
 		return com.datastax.driver.core.utils.UUIDs.timeBased().toString();
 	}
 	
+	public static String getRandomUUIDStr() {
+		return com.datastax.driver.core.utils.UUIDs.random().toString();
+	}	
+	
 	public static byte[] toMD5(final String sourceValue) {
 		return org.apache.commons.codec.digest.DigestUtils.md5(SimpleUtils.getStr(sourceValue, "") );
 	}
