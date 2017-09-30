@@ -428,3 +428,9 @@ https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
 ===============================================
 cassandra-driver-core-3.3.0.jar
 
+
+Guava: Google Core Libraries For Java
+https://mvnrepository.com/artifact/com.google.guava/guava
+===============================================
+guava-23.0.jar
+
