@@ -117,6 +117,7 @@ commons-logging-1.1.3.jar
 commons-io-2.4.jar
 commons-fileupload-1.3.2.jar
 commons-digester-2.1.jar
+commons-text-1.1.jar
 
 
 JAF & JavaMail
