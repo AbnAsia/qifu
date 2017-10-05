@@ -234,8 +234,8 @@ public class SystemProgramAction extends BaseController {
 		.testField("url", ( (MenuItemType.ITEM.equals(sysProg.getItemType()) && StringUtils.isBlank(sysProg.getUrl())) ), "URL is blank!")
 		.testField("itemType", ( this.noSelect(sysProg.getItemType()) ), "Please select item-type!")
 		.testField("iconOid", ( this.noSelect(iconOid) ), "Please select icon!")
-		.testField("dialogWidth", ( (YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(w)) ), "Please input dialog width!")
-		.testField("dialogHeight", ( (YES.equals(sysProg.getIsDialog()) && !NumberUtils.isNumber(h)) ), "Please input dialog height!")
+		.testField("dialogWidth", ( (YES.equals(sysProg.getIsDialog()) && !NumberUtils.isCreatable(w)) ), "Please input dialog width!")
+		.testField("dialogHeight", ( (YES.equals(sysProg.getIsDialog()) && !NumberUtils.isCreatable(h)) ), "Please input dialog height!")
 		.throwMessage();		
 	}
 	
