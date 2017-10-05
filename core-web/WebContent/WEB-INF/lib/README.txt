@@ -98,7 +98,7 @@ Apache - common
 ===============================================
 commons-codec-1.10.jar
 commons-email-1.4.jar
-commons-lang3-3.4.jar
+commons-lang3-3.6.jar
 commons-beanutils-1.9.3.jar
 commons-beanutils-core-1.8.3.jar
 commons-beanutils-bean-collections-1.8.3.jar
