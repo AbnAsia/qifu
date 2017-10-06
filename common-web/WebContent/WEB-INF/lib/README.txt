@@ -24,7 +24,7 @@ spring-websocket-4.3.9.RELEASE.jar
 Ognl & freemarker
 ===============================================
 freemarker-2.3.23.jar
-ognl-3.1.12.jar
+ognl-3.1.15.jar
 
 
 AOP
