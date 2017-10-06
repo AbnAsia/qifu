@@ -147,7 +147,7 @@ HikariCP-2.5.1.jar
 
 Groovy
 ===============================================
-groovy-all-2.4.10-indy.jar
+groovy-all-2.4.12-indy.jar
 
 
 dozer
