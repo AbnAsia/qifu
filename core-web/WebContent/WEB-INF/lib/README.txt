@@ -192,7 +192,7 @@ joda-time-2.7.jar
 
 Apache Shiro
 ===============================================
-shiro-all-1.3.2.jar
+shiro-all-1.4.0.jar
 
 
 https://code.google.com/p/kaptcha/
