@@ -59,9 +59,8 @@ public class StopOrReloadCXFServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = StringEscapeUtils.escapeJavaScript( e.getMessage() );
-		} finally {
-			response.getWriter().println("{\"success\" : \"" + success + "\", \"message\" : \"" + message + "\"}");
 		}
+		response.getWriter().println("{\"success\" : \"" + success + "\", \"message\" : \"" + message + "\"}");
 	}
 	
 	@Override
