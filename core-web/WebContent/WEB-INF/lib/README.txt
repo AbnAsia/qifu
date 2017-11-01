@@ -40,7 +40,7 @@ aspectjweaver-1.8.9.jar
 
 CGLIB
 ===============================================
-cglib-2.2.3.jar
+cglib-3.2.5.jar
 
 
 json
@@ -271,6 +271,13 @@ JFreeChart
 ===============================================
 jcommon-1.0.23.jar
 jfreechart-1.0.19.jar
+
+
+ASM	*** Must be compatible with the version of Apache-CXF & CGLIB ***	
+===============================================
+asm-5.2.jar
+asm-commons-5.2.jar
+asm-tree-5.2.jar
 
 
 Apache CXF with require	
