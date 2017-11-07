@@ -37,6 +37,9 @@ public class LoginAction extends BaseController {
 	
 	private void fillErrorMessage(HttpServletRequest request, HttpServletResponse response) {
 		Object errObj = request.getAttribute(org.apache.shiro.web.filter.authc.FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+		if ("org.qifu.sys.InvalidAccountException".equals(errObj)) {
+			request.setAttribute(Constants.PAGE_MESSAGE, "Invalid account.");
+		}		
 		if ("org.qifu.sys.IncorrectCaptchaException".equals(errObj)) {
 			request.setAttribute(Constants.PAGE_MESSAGE, "Captcha code incorrect.");
 		}		
