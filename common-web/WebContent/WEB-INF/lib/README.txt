@@ -440,3 +440,45 @@ https://mvnrepository.com/artifact/com.google.guava/guava
 ===============================================
 guava-23.0.jar
 
+
+openNLP
+https://opennlp.apache.org/download.html
+===============================================
+aopalliance-repackaged-2.5.0-b30.jar		(目前與aopalliance.jar有一些重復)
+grizzly-framework-2.3.28.jar
+grizzly-http-2.3.28.jar
+grizzly-http-server-2.3.28.jar
+hk2-api-2.5.0-b30.jar
+hk2-locator-2.5.0-b30.jar
+hk2-utils-2.5.0-b30.jar
+hppc-0.7.1.jar
+jackson-annotations-2.8.4.jar				(已經有了)
+jackson-core-2.8.4.jar						(已經有了)
+jackson-databind-2.8.4.jar					(已經有了)
+jackson-jaxrs-base-2.8.4.jar				(已經有了)
+jackson-jaxrs-json-provider-2.8.4.jar		(已經有了)
+jackson-module-jaxb-annotations-2.8.4.jar	(已經有了)
+javassist-3.20.0-GA.jar						(已經有了)
+javax.annotation-api-1.2.jar
+javax.inject-2.5.0-b30.jar
+javax.ws.rs-api-2.0.1.jar					(已經有了javax.ws.rs-api-2.1.jar)
+jcommander-1.48.jar
+jersey-client-2.25.jar
+jersey-common-2.25.jar
+jersey-container-grizzly2-http-2.25.jar
+jersey-entity-filtering-2.25.jar
+jersey-guava-2.25.jar
+jersey-media-jaxb-2.25.jar
+jersey-media-json-jackson-2.25.jar
+jersey-server-2.25.jar
+morfologik-fsa-2.1.3.jar
+morfologik-fsa-builders-2.1.3.jar
+morfologik-stemming-2.1.3.jar
+morfologik-tools-2.1.3.jar
+opennlp-brat-annotator-1.8.3.jar
+opennlp-morfologik-addon-1.8.3.jar
+opennlp-tools-1.8.3.jar
+opennlp-uima-1.8.3.jar
+osgi-resource-locator-1.0.1.jar
+validation-api-1.1.0.Final.jar
+
