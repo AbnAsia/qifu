@@ -143,7 +143,6 @@ function clearSave() {
 	</div>	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<br>
 			<q:checkbox name="editMode" id="editMode" label="Edit mode"></q:checkbox>
 		</div>
 	</div>
@@ -151,7 +150,6 @@ function clearSave() {
 <div class="form-group" id="form-group3">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<br>
 			<q:checkbox name="isDialog" id="isDialog" label="Dialog"></q:checkbox>			
 		</div>
 	</div>

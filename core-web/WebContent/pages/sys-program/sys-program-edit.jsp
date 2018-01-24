@@ -142,7 +142,6 @@ function clearUpdate() {
 	</div>	
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<br>
 			<q:checkbox name="editMode" id="editMode" label="Edit mode" checkedTest=" \"Y\" == sysProg.editMode "></q:checkbox>			
 		</div>
 	</div>
@@ -150,7 +149,6 @@ function clearUpdate() {
 <div class="form-group" id="form-group3">
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<br>
 			<q:checkbox name="isDialog" id="isDialog" label="Dialog" checkedTest=" \"Y\" == sysProg.isDialog "></q:checkbox>		
 		</div>
 	</div>

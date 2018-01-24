@@ -133,7 +133,6 @@ function clearUpdate() {
 	</div>
 	<div class="row">
 		<div class="col-xs-6 col-md-6 col-lg-6">
-			<br>
 			<q:checkbox name="local" id="local" label="Local" checkedTest=" \"Y\" == sys.isLocal "></q:checkbox>	
 		</div>
 	</div>
