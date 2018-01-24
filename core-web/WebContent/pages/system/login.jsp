@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="<%=basePath%>/tether/tether.min.css" crossorigin="anonymous">
 <script type="text/javascript" src="<%=basePath%>/tether/tether.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>/popper-js/umd/popper.min.js?ver=${jsVerBuild}"></script>
-<script type="text/javascript" src="<%=basePath%>/jquery/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>/jquery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="<%=basePath%>/bootstrap-4/css/bootstrap.css" crossorigin="anonymous">
 <script src="<%=basePath%>/bootstrap-4/js/bootstrap.js" crossorigin="anonymous"></script>
 

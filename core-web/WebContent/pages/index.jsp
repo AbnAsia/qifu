@@ -21,7 +21,7 @@ String leftMenuEnable = SystemSettingConfigureUtils.getLeftAccordionContainerEna
 <link rel="stylesheet" href="./tether/tether.min.css?ver=${jsVerBuild}" crossorigin="anonymous">
 <script type="text/javascript" src="./tether/tether.min.js?ver=${jsVerBuild}"></script>
 <script type="text/javascript" src="./popper-js/umd/popper.min.js?ver=${jsVerBuild}"></script>
-<script type="text/javascript" src="./jquery/jquery-3.1.1.min.js?ver=${jsVerBuild}"></script>
+<script type="text/javascript" src="./jquery/jquery-3.2.1.min.js?ver=${jsVerBuild}"></script>
 <link rel="stylesheet" href="./bootstrap-4/css/bootstrap.css?ver=${jsVerBuild}" crossorigin="anonymous">
 <link href="./font-awesome/css/font-awesome.min.css?ver=${jsVerBuild}" rel="stylesheet" type="text/css" />
 <script src="./bootstrap-4/js/bootstrap.js?ver=${jsVerBuild}" crossorigin="anonymous"></script>
@@ -195,9 +195,7 @@ if ("Y".equals(leftMenuEnable)) { // 有啟動左邊的選單
     <div class="container-fluid">
       <div class="row">
            
-        <nav class="col-sm-3 col-md-2 hidden-xs-down d-none d-sm-block bg-light">
-		
-		<br/>
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar"><!-- 2018-01-24 col-sm-3 col-md-2 hidden-xs-down d-none d-sm-block bg-light -->
 		
 			${navItemHtmlData}
 		  

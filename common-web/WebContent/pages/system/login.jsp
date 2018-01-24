@@ -23,7 +23,7 @@ if (!Constants.getMainSystem().equals( Constants.getSystem() ) ) {
 
 <link rel="stylesheet" href="<%=mainBasePath%>/tether/tether.min.css" crossorigin="anonymous">
 <script type="text/javascript" src="<%=mainBasePath%>/tether/tether.min.js"></script>
-<script type="text/javascript" src="<%=mainBasePath%>/jquery/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="<%=mainBasePath%>/jquery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="<%=mainBasePath%>/bootstrap-4/css/bootstrap.css" crossorigin="anonymous">
 <script src="<%=mainBasePath%>/bootstrap-4/js/bootstrap.js" crossorigin="anonymous"></script>
 
