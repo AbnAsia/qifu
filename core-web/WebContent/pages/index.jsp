@@ -146,18 +146,12 @@ ${modalHtmlData}
 <!-- ##################### Modal for Program ##################### -->
 
 
-    <nav class="navbar navbar-expand-md navbar-inverse fixed-top bg-dark">
-      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <!-- 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="./index.do"><img alt="祈-qífú" src="./images/logo3.png" border="0"></a>
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-        -->
-        <!-- 2017-09-23 change image , because update bootstrap 4 beta the navbar-toggler-icon no show icon  -->
-        <img alt="menu list" src="./images/view.png" border="0">
-        
       </button>
-	  <a class="navbar-brand" href="./index.do"><img alt="祈-qífú" src="./images/logo3.png" border="0"></a>
       
-
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
 		  <li class="nav-item dropdown active">
