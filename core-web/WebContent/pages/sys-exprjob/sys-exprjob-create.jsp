@@ -76,10 +76,10 @@ function clearSave() {
 	$("#contactMode").val( '0' );
 	$("#active").prop('checked', false);
 	$("#checkFault").prop('checked', false);
-	$("#id").val( '*' );
-	$("#name").val( '*' );
-	$("#contact").val( '*' );
-	$("#description").val( '*' );
+	$("#id").val( '' );
+	$("#name").val( '' );
+	$("#contact").val( '' );
+	$("#description").val( '' );
 }
 
 </script>
