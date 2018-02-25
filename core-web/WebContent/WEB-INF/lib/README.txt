@@ -23,7 +23,7 @@ spring-websocket-4.3.14.RELEASE.jar
 
 Ognl & freemarker
 ===============================================
-freemarker-2.3.23.jar
+freemarker-2.3.26-incubating.jar
 ognl-3.1.15.jar
 
 
@@ -50,7 +50,7 @@ json-lib-2.4-jdk15.jar
 
 MySQL
 ===============================================
-mysql-connector-java-5.1.44-bin.jar
+mysql-connector-java-5.1.45-bin.jar
 
 
 http://code.google.com/p/beanshell2/
@@ -142,12 +142,12 @@ hamcrest-core-1.3.jar
 HikariCP
 https://github.com/brettwooldridge/HikariCP
 ===============================================
-HikariCP-2.5.1.jar
+HikariCP-2.7.8.jar
 
 
 Groovy
 ===============================================
-groovy-all-2.4.12-indy.jar
+groovy-all-2.4.13-indy.jar
 
 
 dozer
