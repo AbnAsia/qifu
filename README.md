@@ -1,3 +1,6 @@
+# New version move : https://github.com/billchen198318/qifu2
+
+
 # qifu
 Backend Admin WEB base on JAVA & Spring / Spring MVC & hibernate & Bootstrap v4 & Jasperreport, WebService apahe cxf, Activiti BPM, MQ
 
